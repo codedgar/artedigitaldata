@@ -1,0 +1,6 @@
+user jpupper@jeyder.com.ar
+Sarosa2025
+cd /
+put quienessomos.html
+put manifiesto.html
+quit
