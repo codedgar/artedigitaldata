@@ -50,8 +50,12 @@ try:
     
     print('\n--- Uploading to /artedigitaldata/ ---')
     for local_path in files_to_upload:
-        filename = os.path.basename(local_path)
-        remote_path = f'artedigitaldata/{filename}'
+        # Mantener la estructura de carpetas relativa
+        if local_path.startswith('public/'):
+            relative_path = local_path[7:]  # Quitar 'public/'
+        else:
+            relative_path = local_path
+        remote_path = f'artedigitaldata/{relative_path}'
         upload_file(ftp, local_path, remote_path)
     
     ftp.quit()
