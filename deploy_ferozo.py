@@ -1,18 +1,11 @@
 import ftplib
 import io
 import os
+import sys
 
 FTP_HOST = 'c1700065.ferozo.com'
 FTP_USER = 'jpupper@jeyder.com.ar'
 FTP_PASS = 'Sarosa2025'
-
-local_base = '/tmp/ferozo_upload'
-files_to_upload = [
-    ('js/forms.js', 'artedigitaldata/js/forms.js', 'js/forms.js'),
-    ('js/create.js', 'artedigitaldata/js/create.js', 'js/create.js'),
-    ('js/edit-logic.js', 'artedigitaldata/js/edit-logic.js', 'js/edit-logic.js'),
-    ('evento.html', 'artedigitaldata/evento.html', 'evento.html'),
-]
 
 def ensure_dir(ftp, path):
     parts = path.strip('/').split('/')
@@ -42,6 +35,12 @@ def upload_file(ftp, local_path, remote_path):
     except Exception as e:
         print(f'  {remote_path}: {len(data)} bytes (size check: {e})')
 
+if len(sys.argv) < 2:
+    print("Usage: python deploy_ferozo.py <file1> [file2] ...")
+    sys.exit(1)
+
+files_to_upload = sys.argv[1:]
+
 print("Connecting to Ferozo FTP...")
 try:
     ftp = ftplib.FTP_TLS(FTP_HOST)
@@ -49,18 +48,11 @@ try:
     ftp.prot_p()
     print("Connected!")
     
-    # List directories
-    print("\nRoot listing:", ftp.nlst()[:20])
-    
-    # Upload to /artedigitaldata/
     print('\n--- Uploading to /artedigitaldata/ ---')
-    for local_rel, remote1, remote2 in files_to_upload:
-        upload_file(ftp, os.path.join(local_base, local_rel), remote1)
-    
-    # Also upload to root for artedigitaldata.com  
-    print('\n--- Uploading to / (root) ---')
-    for local_rel, remote1, remote2 in files_to_upload:
-        upload_file(ftp, os.path.join(local_base, local_rel), remote2)
+    for local_path in files_to_upload:
+        filename = os.path.basename(local_path)
+        remote_path = f'artedigitaldata/{filename}'
+        upload_file(ftp, local_path, remote_path)
     
     ftp.quit()
     print("\nAll files uploaded successfully!")
