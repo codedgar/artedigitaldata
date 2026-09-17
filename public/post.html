@@ -7,21 +7,28 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen scrollbar-hide">
   <div id="p5-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></div>
   <div id="app-header"></div>
 
   <main class="relative z-10 pt-24 pb-12 max-w-4xl mx-auto px-4">
-    <div id="post-detail-container">
-      <div class="text-center py-20">
-        <i class="fas fa-spinner fa-spin text-4xl text-[var(--color-cyan)] mb-4"></i>
-        <p class="text-gray-400">Cargando detalles de la obra...</p>
-      </div>
-    </div>
+    <div id="post-detail-container"></div>
+    <script>document.getElementById('post-detail-container').innerHTML = UI.PageLoader({ message: 'Cargando detalles de la obra...', accent: 'brand', tone: 'soft' });</script>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script src="js/tagging.js"></script>
@@ -48,9 +55,7 @@
       }
       return users.map(u => `
         <a href="${CONFIG.BASE}/profile.html?user=${encodeURIComponent(u.username)}" class="flex items-center gap-2.5 p-1.5 rounded-xl hover:bg-white/5 transition-colors group">
-          <div class="w-7 h-7 rounded-full overflow-hidden bg-cyan-500 text-black flex items-center justify-center text-xs font-bold shrink-0">
-            ${u.avatar ? `<img src="${sanitizeUrl(u.avatar)}" alt="${escapeHTML(u.username)}" class="w-full h-full object-cover">` : (u.username || '?')[0].toUpperCase()}
-          </div>
+          ${UI.Avatar({ name: u.username, src: u.avatar, alt: u.username, variant: 'author', size: 'md' })}
           <div class="min-w-0 flex-1">
             <p class="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
               ${escapeHTML(u.displayName || u.username)}
@@ -91,11 +96,7 @@
           <div class="rounded-3xl overflow-hidden border border-cyan-500/20 card-cyber">
             <div class="p-6 border-b border-white/5 flex items-center justify-between">
               <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center text-lg font-bold bg-cyan-500 text-black shrink-0">
-                  ${post.author?.avatar ? `
-                    <img src="${sanitizeUrl(post.author.avatar)}" alt="${escapeHTML(post.author.username)}" class="w-full h-full object-cover">
-                  ` : (post.author?.username || '?')[0].toUpperCase()}
-                </div>
+                ${UI.Avatar({ name: post.author?.username, src: post.author?.avatar, alt: post.author?.username, variant: 'author', size: '3xl' })}
                 <div>
                   <a href="${CONFIG.BASE}/profile.html?user=${encodeURIComponent(post.author?.username || '')}" class="text-lg font-bold text-cyan-400 group-hover:text-magenta-400 transition-colors">
                     ${escapeHTML(post.author?.username || 'Anónimo')}
@@ -133,18 +134,14 @@
             <div class="p-0">
               ${post.imageUrl ? `
                 <div class="w-full bg-black flex justify-center border-b border-white/5 relative aspect-video overflow-hidden" 
-                     ${extractYouTubeId(post) ? `onmouseenter="playVideo(this, '${extractYouTubeId(post)}')" onmouseleave="stopVideo(this)"` : ''}>
+                     ${UI.videoHover(extractYouTubeId(post))}>
                   <img src="${sanitizeUrl(post.imageUrl)}" alt="${escapeHTML(post.title)}" class="max-w-full max-h-[70vh] object-contain transition-transform duration-700">
-                  ${extractYouTubeId(post) ? `
-                    <div class="video-overlay absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none bg-black">
-                      <iframe class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                  ` : ''}
+                  ${extractYouTubeId(post) ? UI.VideoOverlay() : ''}
                 </div>
               ` : ''}
               <div class="p-8">
                 <div class="flex items-center justify-between gap-4 mb-4">
-                  <h1 class="text-3xl font-black text-white">
+                  <h1 class="ui-title ui-title--page-sm">
                     ${escapeHTML(post.title)}
                   </h1>
                   ${post.youtube_video ? `
@@ -162,7 +159,7 @@
 
                 <!-- Comments Section -->
                 <div class="border-t border-white/10 pt-8 mt-8">
-                  <h3 class="text-xl font-bold text-white mb-6">
+                  <h3 class="ui-title ui-title--section mb-6">
                     <i class="fas fa-comments text-magenta-500 mr-2"></i>Comentarios (${post.comments?.length || 0})
                   </h3>
                   
@@ -174,9 +171,9 @@
                         </div>
                         <div class="flex-1">
                           <textarea id="comment-text" required placeholder="Escribe un comentario..." 
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-white placeholder-gray-500 focus:border-magenta-500 focus:outline-none transition-all resize-none h-24"></textarea>
+                            class="ui-textarea ui-textarea--comment"></textarea>
                           <div class="flex justify-end mt-2">
-                            <button type="submit" class="btn-primary px-6 py-2 rounded-xl text-sm transition-all hover:scale-105">
+                            <button type="submit" class="btn-primary ui-btn ui-btn--primary-sm">
                               Publicar Comentario
                             </button>
                           </div>
@@ -185,7 +182,7 @@
                     </form>
                   ` : `
                     <div class="bg-white/5 border border-white/5 rounded-2xl p-6 text-center mb-8">
-                      <p class="text-gray-500 text-sm">Debes <button onclick="showLogin()" class="text-cyan-400 hover:underline">iniciar sesión</button> para comentar.</p>
+                      <p class="text-gray-500 text-sm">Debes <button onclick="showLogin()" class="ui-btn ui-btn--link">iniciar sesión</button> para comentar.</p>
                     </div>
                   `}
 
@@ -194,13 +191,7 @@
                       const isCommentOwner = isLoggedIn() && (getUserId() === c.user?._id || isAdmin());
                       return `
                       <div class="flex gap-4">
-                        <div class="w-10 h-10 rounded-full overflow-hidden shrink-0 border border-white/10">
-                          ${c.user?.avatar ? `<img src="${sanitizeUrl(c.user.avatar)}" class="w-full h-full object-cover">` : `
-                            <div class="w-full h-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
-                              <i class="fas fa-user text-xs"></i>
-                            </div>
-                          `}
-                        </div>
+                        ${UI.Avatar({ src: c.user?.avatar, icon: 'fas fa-user', variant: 'commenter', size: '2xl' })}
                         <div class="flex-1">
                           <div class="bg-white/5 rounded-2xl px-4 py-3">
                             <div class="flex justify-between items-center mb-1">
@@ -208,7 +199,7 @@
                               <div class="flex items-center gap-2">
                                 <span class="text-[10px] text-gray-500">${new Date(c.createdAt).toLocaleDateString()}</span>
                                 ${isCommentOwner ? `
-                                  <button onclick="deleteComment('${c._id}', '${post._id}')" class="text-gray-600 hover:text-red-500 transition-colors text-xs" title="Borrar comentario">
+                                  <button onclick="deleteComment('${c._id}', '${post._id}')" class="ui-btn ui-btn--comment-delete" title="Borrar comentario">
                                     <i class="fas fa-trash"></i>
                                   </button>
                                 ` : ''}
@@ -218,11 +209,7 @@
                           </div>
                         </div>
                       </div>
-                    `;}).reverse().join('') : `
-                      <div class="text-center py-10 text-gray-600 italic">
-                        No hay comentarios aún. ¡Sé el primero!
-                      </div>
-                    `}
+                    `;}).reverse().join('') : UI.StatusText({ variant: 'comments', message: 'No hay comentarios aún. ¡Sé el primero!' })}
                   </div>
                 </div>
               </div>
@@ -236,7 +223,7 @@
         }
 
       } catch (err) {
-        container.innerHTML = `<div class="text-center py-20">Obra no encontrada</div>`;
+        container.innerHTML = UI.StatusText({ variant: 'notice', message: 'Obra no encontrada' });
       }
     }
 
@@ -305,14 +292,7 @@
     }
   </script>
   <!-- Global Edit Modal -->
-  <div id="global-edit-modal" class="hidden fixed inset-0 z-[100] flex items-start justify-center bg-black/80 px-4 py-8 backdrop-blur-md overflow-y-auto">
-    <div class="w-full max-w-3xl rounded-3xl border border-white/10 card-cyber bg-[#0d0d12] p-8 relative my-auto">
-      <button onclick="closeGlobalEdit()" class="absolute top-4 right-4 text-gray-400 hover:text-white z-10 bg-black/50 w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-all">
-        <i class="fas fa-times"></i>
-      </button>
-      <div id="edit-modal-content" class="max-h-[70vh] overflow-y-auto pr-2 scrollbar-hide"></div>
-    </div>
-  </div>
+  <script>document.currentScript.outerHTML = UI.EditModal();</script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
   <script src="js/ascii-shader-bg.js"></script>

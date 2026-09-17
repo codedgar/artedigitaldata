@@ -9,13 +9,25 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/chat.css">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="app-header"></div>
 
   <main class="pt-20 pb-4 max-w-7xl mx-auto px-4 h-screen flex flex-col">
     <div class="flex items-center justify-between mb-4">
-      <h1 class="text-2xl font-black text-white">
+      <h1 class="ui-title ui-title--panel-strong">
         <i class="fas fa-comments text-[var(--color-magenta)] mr-2"></i>Chat en Vivo
       </h1>
       <div class="flex flex-wrap gap-2">
@@ -29,14 +41,12 @@
     </div>
 
     <div class="flex-1 flex gap-4 min-h-0 w-full overflow-hidden">
-      <div id="rooms-panel" class="w-full md:w-80 shrink-0 rounded-2xl border border-cyan-500/20 overflow-hidden flex flex-col card-cyber bg-[#0d0d12]">
-        <div class="flex border-b border-white/10">
-          <button onclick="setTab('rooms')" id="tab-rooms" class="flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-all border-b-2 border-cyan-500 text-cyan-500">
-            Salas
-          </button>
-          <button onclick="setTab('private')" id="tab-private" class="flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-all border-b-2 border-transparent text-gray-500 hover:text-white">
-            Mensajes
-          </button>
+      <div id="rooms-panel" class="w-full md:w-80 shrink-0 flex flex-col card-cyber ui-panel ui-panel--chat">
+        <div class="ui-tabs--underline">
+          <script>document.currentScript.outerHTML = UI.Tabs({ variant: 'split', onSelect: 'setTab', idPrefix: 'tab-', active: 'rooms', items: [
+            { key: 'rooms', label: 'Salas' },
+            { key: 'private', label: 'Mensajes' },
+          ] });</script>
         </div>
         
         <!-- Search User Area (shwon on private tab) -->
@@ -51,15 +61,14 @@
           </div>
         </div>
 
-        <div id="rooms-list" class="flex-1 overflow-y-auto p-2 space-y-1">
-          <div class="text-center text-gray-500 py-8 text-sm">Cargando salas...</div>
-        </div>
+        <div id="rooms-list" class="flex-1 overflow-y-auto p-2 space-y-1"></div>
+        <script>document.getElementById('rooms-list').innerHTML = UI.StatusText({ variant: 'sidebar', message: 'Cargando salas...' });</script>
       </div>
 
       <!-- Chat Area -->
-      <div id="chat-area" class="hidden md:flex flex-1 flex-col rounded-2xl border border-cyan-500/20 overflow-hidden card-cyber bg-[#0d0d12] min-w-0">
+      <div id="chat-area" class="hidden md:flex flex-1 flex-col min-w-0 card-cyber ui-panel ui-panel--chat">
         <div id="chat-header" class="p-4 border-b border-white/10 flex items-center gap-3">
-          <button onclick="backToRooms()" class="md:hidden text-gray-400 hover:text-white">
+          <button onclick="backToRooms()" class="md:hidden ui-btn ui-btn--dismiss">
             <i class="fas fa-arrow-left"></i>
           </button>
           <div>
@@ -86,14 +95,14 @@
     </div>
 
     <!-- Create Room Modal -->
-    <div id="create-room-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-      <div class="w-full max-w-md rounded-2xl p-6 border border-cyan-500/20 card-cyber">
+    <div id="create-room-modal" class="hidden flex ui-modal ui-modal--room">
+      <div class="card-cyber ui-modal__panel ui-modal__panel--room" role="dialog" aria-modal="true">
         <h3 class="text-lg font-bold text-[var(--color-cyan)] mb-4">Crear Nueva Sala</h3>
         <form id="create-room-form" class="space-y-4">
           <input type="text" id="room-name-input" placeholder="Nombre de la sala" required
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors">
+            class="ui-input ui-input--soft ui-input--focus-yellow">
           <textarea id="room-desc-input" placeholder="Descripción (opcional)" rows="2"
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors resize-none"></textarea>
+            class="ui-textarea ui-textarea--soft ui-textarea--focus-yellow ui-textarea--fixed"></textarea>
           <div class="flex gap-3">
             <button type="submit" class="btn-primary px-6 py-3 rounded-xl flex-1">Crear</button>
             <button type="button" onclick="hideCreateRoom()" class="px-6 py-3 rounded-xl border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all">Cancelar</button>
@@ -103,14 +112,14 @@
     </div>
 
     <!-- Users Directory Modal -->
-    <div id="users-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4 backdrop-blur-sm">
-      <div class="w-full max-w-2xl rounded-3xl border border-white/10 card-cyber bg-[#0d0d12] flex flex-col max-h-[80vh]">
+    <div id="users-modal" class="hidden flex ui-modal ui-modal--directory">
+      <div class="card-cyber ui-modal__panel ui-modal__panel--directory" role="dialog" aria-modal="true">
         <div class="p-6 border-b border-white/5 flex items-center justify-between">
           <div>
             <h3 class="text-xl font-black text-white uppercase tracking-tighter">Directorio de <span class="text-cyan-400">Artistas</span></h3>
             <p class="text-xs text-gray-500">Conectá con otros miembros de la comunidad</p>
           </div>
-          <button onclick="hideUsersModal()" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:bg-white/5 transition-all">
+          <button onclick="hideUsersModal()" aria-label="Cerrar" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:bg-white/5 transition-all">
             <i class="fas fa-times"></i>
           </button>
         </div>
@@ -124,7 +133,6 @@
     </div>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script>
@@ -201,19 +209,13 @@
       const tabPrivate = document.getElementById('tab-private');
       const searchContainer = document.getElementById('search-container');
       
+      UI.setActiveTab([tabRooms, tabPrivate], tab === 'rooms' ? tabRooms : tabPrivate, 'split');
+
       if (tab === 'rooms') {
-        tabRooms.classList.add('border-cyan-500', 'text-cyan-500');
-        tabRooms.classList.remove('border-transparent', 'text-gray-500');
-        tabPrivate.classList.remove('border-cyan-500', 'text-cyan-500');
-        tabPrivate.classList.add('border-transparent', 'text-gray-500');
         searchContainer.classList.add('hidden');
         document.getElementById('new-room-btn').classList.remove('hidden');
         loadRooms();
       } else {
-        tabPrivate.classList.add('border-cyan-500', 'text-cyan-500');
-        tabPrivate.classList.remove('border-transparent', 'text-gray-500');
-        tabRooms.classList.remove('border-cyan-500', 'text-cyan-500');
-        tabRooms.classList.add('border-transparent', 'text-gray-500');
         searchContainer.classList.remove('hidden');
         document.getElementById('new-room-btn').classList.add('hidden');
         loadPrivateChats();
@@ -228,7 +230,7 @@
         const results = document.getElementById('search-results');
         
         if (!users.length) {
-          results.innerHTML = '<div class="p-4 text-center text-xs text-gray-400">No se encontraron usuarios</div>';
+          results.innerHTML = UI.StatusText({ variant: 'dropdown', message: 'No se encontraron usuarios' });
         } else {
           userSearchCache = {};
           users.forEach(u => { userSearchCache[u._id] = u; });
@@ -278,7 +280,7 @@
         const chats = await res.json();
 
         if (!chats.length) {
-          list.innerHTML = '<div class="text-center text-gray-500 py-8 text-sm">No tienes mensajes privados aún. ¡Busca a alguien para chatear!</div>';
+          list.innerHTML = UI.StatusText({ variant: 'sidebar', message: 'No tienes mensajes privados aún. ¡Busca a alguien para chatear!' });
           return;
         }
 
@@ -300,7 +302,7 @@
           `;
         }).join('');
       } catch (err) {
-        list.innerHTML = '<div class="text-center text-red-400 py-4 text-sm">Error cargando mensajes</div>';
+        list.innerHTML = UI.StatusText({ variant: 'sidebar-error', message: 'Error cargando mensajes' });
       }
     }
 
@@ -317,7 +319,7 @@
         const rooms = await res.json();
 
         if (!rooms.length) {
-          list.innerHTML = '<div class="text-center text-gray-500 py-8 text-sm">No hay salas aún. ¡Crea la primera!</div>';
+          list.innerHTML = UI.StatusText({ variant: 'sidebar', message: 'No hay salas aún. ¡Crea la primera!' });
           return;
         }
 
@@ -335,7 +337,7 @@
         `;
         }).join('');
       } catch {
-        list.innerHTML = '<div class="text-center text-red-400 py-4 text-sm">Error cargando salas</div>';
+        list.innerHTML = UI.StatusText({ variant: 'sidebar-error', message: 'Error cargando salas' });
       }
     }
 
@@ -361,12 +363,12 @@
       socket.emit('joinRoom', roomId);
 
       const container = document.getElementById('messages-container');
-      container.innerHTML = '<div class="text-center text-gray-500 py-4"><i class="fas fa-spinner fa-spin mr-2"></i>Cargando mensajes...</div>';
+      container.innerHTML = UI.StatusText({ variant: 'thread-loading', message: 'Cargando mensajes...' });
 
       try {
         const res = await apiRequest(`/chat/rooms/${roomId}/messages`);
         if (!res) {
-            container.innerHTML = '<div class="text-center text-red-400 py-4">Sesión expirada</div>';
+            container.innerHTML = UI.StatusText({ variant: 'thread-error', message: 'Sesión expirada' });
             return;
         }
         const messages = await res.json();
@@ -374,7 +376,7 @@
         messages.forEach(appendMessage);
         container.scrollTop = container.scrollHeight;
       } catch {
-        container.innerHTML = '<div class="text-center text-red-400 py-4">Error cargando mensajes</div>';
+        container.innerHTML = UI.StatusText({ variant: 'thread-error', message: 'Error cargando mensajes' });
       }
 
       if (currentTab === 'rooms') await loadRooms();
@@ -454,7 +456,7 @@
         `;
         }).join('');
       } catch (err) {
-        list.innerHTML = '<div class="col-span-full text-center text-red-500">Error al cargar artistas</div>';
+        list.innerHTML = UI.StatusText({ variant: 'grid-error', message: 'Error al cargar artistas' });
       }
     }
 

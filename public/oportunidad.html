@@ -7,6 +7,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="p5-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></div>
@@ -14,10 +26,7 @@
 
   <main class="relative z-10 pt-20 pb-10 max-w-5xl mx-auto px-4">
     <!-- Loading -->
-    <div id="loading" class="text-center py-20">
-      <i class="fas fa-spinner fa-spin text-4xl text-emerald-400 mb-4"></i>
-      <p class="text-gray-400">Cargando oportunidad...</p>
-    </div>
+    <script>document.currentScript.outerHTML = UI.PageLoader({ id: 'loading', message: 'Cargando oportunidad...', accent: 'emerald', tone: 'soft' });</script>
 
     <!-- Contenido -->
     <div id="oportunidad-content" class="hidden">
@@ -26,10 +35,10 @@
         <section class="mb-8">
           <div class="flex items-center justify-between gap-3 mb-4">
             <div class="flex items-center gap-3">
-              <a href="oportunidades.html" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-emerald-500/50 transition-all">
+              <a href="oportunidades.html" class="ui-btn ui-btn--back">
                 <i class="fas fa-arrow-left"></i>
               </a>
-              <span id="opo-tipo-badge" class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest"></span>
+              <span id="opo-tipo-badge" class="ui-badge ui-badge--type-lg"></span>
             </div>
             <div id="opo-edit-btn-container" class="hidden">
               <a id="btn-edit-opo" href="#" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 transition-all font-bold text-sm">
@@ -38,7 +47,7 @@
               </a>
             </div>
           </div>
-          <h1 id="opo-titulo" class="text-3xl md:text-4xl font-black text-white mb-4"></h1>
+          <h1 id="opo-titulo" class="ui-title ui-title--page mb-4"></h1>
           <div class="flex items-center gap-4 text-sm text-gray-400">
             <div class="flex items-center gap-2">
               <div id="opo-creador-avatar" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-xs font-bold"></div>
@@ -55,7 +64,7 @@
 
         <!-- Descripción -->
         <section class="mb-8">
-          <h2 class="text-xl font-bold text-white mb-3"><i class="fas fa-align-left text-emerald-400 mr-2"></i>Descripción</h2>
+          <h2 class="ui-title ui-title--section mb-3"><i class="fas fa-align-left text-emerald-400 mr-2"></i>Descripción</h2>
           <div id="opo-descripcion" class="text-gray-300 leading-relaxed whitespace-pre-wrap"></div>
         </section>
 
@@ -65,22 +74,22 @@
             <h2 class="text-xl font-bold text-cyan-400 mb-4"><i class="fas fa-palette mr-2"></i>Convocatoria de Obra</h2>
             
             <div id="opo-bases-section" class="hidden mb-6">
-              <h3 class="text-sm font-bold text-gray-300 mb-2"><i class="fas fa-file-contract mr-2"></i>Bases y Condiciones</h3>
+              <h3 class="ui-title ui-title--subsection mb-2"><i class="fas fa-file-contract mr-2"></i>Bases y Condiciones</h3>
               <div id="opo-basesCondiciones" class="text-gray-400 text-sm whitespace-pre-wrap"></div>
             </div>
 
             <div id="opo-lugar-section" class="hidden mb-6">
-              <h3 class="text-sm font-bold text-gray-300 mb-2"><i class="fas fa-map-marker-alt mr-2"></i>Lugar de Exposición</h3>
+              <h3 class="ui-title ui-title--subsection mb-2"><i class="fas fa-map-marker-alt mr-2"></i>Lugar de Exposición</h3>
               <p id="opo-lugarExposicion" class="text-gray-400 text-sm"></p>
             </div>
 
             <div id="opo-fechas-section" class="hidden mb-6">
-              <h3 class="text-sm font-bold text-gray-300 mb-2"><i class="fas fa-calendar-alt mr-2"></i>Fechas de Exposición</h3>
+              <h3 class="ui-title ui-title--subsection mb-2"><i class="fas fa-calendar-alt mr-2"></i>Fechas de Exposición</h3>
               <p id="opo-fechas" class="text-gray-400 text-sm"></p>
             </div>
 
             <div id="opo-parametros-section" class="hidden">
-              <h3 class="text-sm font-bold text-gray-300 mb-2"><i class="fas fa-clipboard-list mr-2"></i>Parámetros de Presentación</h3>
+              <h3 class="ui-title ui-title--subsection mb-2"><i class="fas fa-clipboard-list mr-2"></i>Parámetros de Presentación</h3>
               <div id="opo-parametros" class="flex flex-wrap gap-2"></div>
             </div>
           </div>
@@ -92,12 +101,12 @@
             <h2 class="text-xl font-bold text-orange-400 mb-4"><i class="fas fa-briefcase mr-2"></i>Oportunidad Laboral</h2>
             
             <div class="mb-4">
-              <h3 class="text-sm font-bold text-gray-300 mb-2"><i class="fas fa-user-tie mr-2"></i>Puesto</h3>
+              <h3 class="ui-title ui-title--subsection mb-2"><i class="fas fa-user-tie mr-2"></i>Puesto</h3>
               <p id="opo-nombrePuesto" class="text-gray-400 text-sm"></p>
             </div>
 
             <div>
-              <h3 class="text-sm font-bold text-gray-300 mb-2"><i class="fas fa-building mr-2"></i>Productora / Empresa</h3>
+              <h3 class="ui-title ui-title--subsection mb-2"><i class="fas fa-building mr-2"></i>Productora / Empresa</h3>
               <p id="opo-productoraEmpresa" class="text-gray-400 text-sm"></p>
             </div>
           </div>
@@ -109,12 +118,12 @@
             <h2 class="text-xl font-bold text-magenta-400 mb-4"><i class="fas fa-handshake mr-2"></i>Colaboración</h2>
             
             <div class="mb-4">
-              <h3 class="text-sm font-bold text-gray-300 mb-2"><i class="fas fa-project-diagram mr-2"></i>Proyecto</h3>
+              <h3 class="ui-title ui-title--subsection mb-2"><i class="fas fa-project-diagram mr-2"></i>Proyecto</h3>
               <p id="opo-nombreProyecto" class="text-gray-400 text-sm"></p>
             </div>
 
             <div>
-              <h3 class="text-sm font-bold text-gray-300 mb-2"><i class="fas fa-hands-helping mr-2"></i>Colaboración Pedida</h3>
+              <h3 class="ui-title ui-title--subsection mb-2"><i class="fas fa-hands-helping mr-2"></i>Colaboración Pedida</h3>
               <div id="opo-colaboracionPedida" class="text-gray-400 text-sm whitespace-pre-wrap"></div>
             </div>
           </div>
@@ -137,20 +146,20 @@
 
         <!-- Formulario de Inscripción -->
         <section id="inscripcion-form" class="hidden mb-8 bg-white/5 border border-white/10 rounded-2xl p-6">
-          <h3 class="text-lg font-bold text-white mb-4"><i class="fas fa-edit text-emerald-400 mr-2"></i>Formulario de Inscripción</h3>
+          <h3 class="ui-title ui-title--card mb-4"><i class="fas fa-edit text-emerald-400 mr-2"></i>Formulario de Inscripción</h3>
           
           <div id="inscripcion-campos-dinamicos" class="space-y-4 mb-6"></div>
 
           <div class="mb-4">
-            <label class="block text-sm font-bold text-gray-300 mb-2">Mensaje (opcional)</label>
-            <textarea id="insc-mensaje" rows="3" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-emerald-500/50 focus:outline-none transition-colors" placeholder="Escribí un mensaje para el creador de la oportunidad..."></textarea>
+            <label class="ui-label ui-label--field">Mensaje (opcional)</label>
+            <textarea id="insc-mensaje" rows="3" class="ui-textarea ui-textarea--soft ui-textarea--focus-emerald-soft" placeholder="Escribí un mensaje para el creador de la oportunidad..."></textarea>
           </div>
 
           <div class="flex gap-4">
             <button onclick="submitInscripcion()" class="flex-1 px-6 py-3 rounded-xl bg-emerald-500 text-white font-bold text-sm uppercase tracking-widest hover:bg-emerald-600 transition-all">
               <i class="fas fa-paper-plane mr-2"></i>Enviar Inscripción
             </button>
-            <button onclick="toggleInscripcionForm()" class="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 font-bold text-sm uppercase tracking-widest hover:bg-white/10 transition-all">
+            <button onclick="toggleInscripcionForm()" class="ui-btn ui-btn--secondary-caps">
               Cancelar
             </button>
           </div>
@@ -159,7 +168,7 @@
         <!-- Mensaje de éxito inscripción -->
         <section id="inscripcion-success" class="hidden mb-8 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-6 text-center">
           <i class="fas fa-check-circle text-4xl text-emerald-400 mb-3"></i>
-          <h3 class="text-lg font-bold text-white mb-1">¡Inscripción enviada!</h3>
+          <h3 class="ui-title ui-title--card mb-1">¡Inscripción enviada!</h3>
           <p class="text-sm text-gray-400">El creador de la oportunidad recibirá tu postulación.</p>
         </section>
 
@@ -167,7 +176,7 @@
         <section id="creador-panel" class="hidden">
           <div class="border-t border-white/10 pt-8 mt-8 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl p-6 text-center">
             <i class="fas fa-users text-4xl text-emerald-400 mb-3"></i>
-            <h2 class="text-xl font-bold text-white mb-2" id="panel-titulo">Sos el creador de esta oportunidad</h2>
+            <h2 class="ui-title ui-title--section mb-2" id="panel-titulo">Sos el creador de esta oportunidad</h2>
             <p class="text-sm text-gray-400 mb-6">Podés revisar y gestionar las postulaciones o editar la información de esta oportunidad.</p>
             <div class="flex flex-wrap items-center justify-center gap-4">
               <a id="btn-ver-postulantes" href="#" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 text-white font-bold text-sm uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)]">
@@ -192,7 +201,6 @@
     </div>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script src="js/tagging.js"></script>
@@ -287,7 +295,7 @@
 
       // Badge
       const badge = document.getElementById('opo-tipo-badge');
-      badge.className = `px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest bg-${color}-500/20 text-${color}-400 border border-${color}-500/30`;
+      badge.className = UI.badgeClass({ variant: 'type-lg', tone: color });
       badge.innerHTML = `<i class="${icon} mr-1"></i>${label}`;
 
       // Title
@@ -394,10 +402,10 @@
         oportunidadData.parametrosPresentacion.forEach(param => {
           const div = document.createElement('div');
           div.innerHTML = `
-            <label class="block text-sm font-bold text-gray-300 mb-2">${param.label}${param.required ? ' *' : ''}</label>
+            <label class="ui-label ui-label--field">${param.label}${param.required ? ' *' : ''}</label>
             ${param.type === 'textarea' 
-              ? `<textarea name="${param.key}" data-required="${param.required}" rows="3" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-emerald-500/50 focus:outline-none transition-colors" placeholder="${param.placeholder || ''}"></textarea>`
-              : `<input type="${param.type === 'url' ? 'url' : 'text'}" name="${param.key}" data-required="${param.required}" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-emerald-500/50 focus:outline-none transition-colors" placeholder="${param.placeholder || ''}">`
+              ? `<textarea name="${param.key}" data-required="${param.required}" rows="3" class="ui-textarea ui-textarea--soft ui-textarea--focus-emerald-soft" placeholder="${param.placeholder || ''}"></textarea>`
+              : `<input type="${param.type === 'url' ? 'url' : 'text'}" name="${param.key}" data-required="${param.required}" class="ui-input ui-input--soft ui-input--focus-emerald-soft" placeholder="${param.placeholder || ''}">`
             }
           `;
           container.appendChild(div);
@@ -405,27 +413,27 @@
       } else if (oportunidadData.tipo === 'oportunidad_laboral') {
         container.innerHTML = `
           <div>
-            <label class="block text-sm font-bold text-gray-300 mb-2">Tu nombre completo *</label>
-            <input type="text" name="nombre" data-required="true" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-emerald-500/50 focus:outline-none transition-colors" placeholder="Nombre completo">
+            <label class="ui-label ui-label--field">Tu nombre completo *</label>
+            <input type="text" name="nombre" data-required="true" class="ui-input ui-input--soft ui-input--focus-emerald-soft" placeholder="Nombre completo">
           </div>
           <div>
-            <label class="block text-sm font-bold text-gray-300 mb-2">Email *</label>
-            <input type="email" name="email" data-required="true" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-emerald-500/50 focus:outline-none transition-colors" placeholder="email@ejemplo.com">
+            <label class="ui-label ui-label--field">Email *</label>
+            <input type="email" name="email" data-required="true" class="ui-input ui-input--soft ui-input--focus-emerald-soft" placeholder="email@ejemplo.com">
           </div>
           <div>
-            <label class="block text-sm font-bold text-gray-300 mb-2">Portfolio / Reel (URL)</label>
-            <input type="url" name="portfolio" data-required="false" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-emerald-500/50 focus:outline-none transition-colors" placeholder="https://...">
+            <label class="ui-label ui-label--field">Portfolio / Reel (URL)</label>
+            <input type="url" name="portfolio" data-required="false" class="ui-input ui-input--soft ui-input--focus-emerald-soft" placeholder="https://...">
           </div>
         `;
       } else if (oportunidadData.tipo === 'colaboracion') {
         container.innerHTML = `
           <div>
-            <label class="block text-sm font-bold text-gray-300 mb-2">Tu nombre *</label>
-            <input type="text" name="nombre" data-required="true" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-emerald-500/50 focus:outline-none transition-colors" placeholder="Nombre">
+            <label class="ui-label ui-label--field">Tu nombre *</label>
+            <input type="text" name="nombre" data-required="true" class="ui-input ui-input--soft ui-input--focus-emerald-soft" placeholder="Nombre">
           </div>
           <div>
-            <label class="block text-sm font-bold text-gray-300 mb-2">¿Qué podés aportar? *</label>
-            <textarea name="aporte" data-required="true" rows="3" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-emerald-500/50 focus:outline-none transition-colors" placeholder="Contanos tus habilidades y qué podés aportar..."></textarea>
+            <label class="ui-label ui-label--field">¿Qué podés aportar? *</label>
+            <textarea name="aporte" data-required="true" rows="3" class="ui-textarea ui-textarea--soft ui-textarea--focus-emerald-soft" placeholder="Contanos tus habilidades y qué podés aportar..."></textarea>
           </div>
         `;
       }
@@ -486,7 +494,7 @@
       try {
         const res = await apiRequest(`/oportunidades/${oportunidadId}/inscripciones`);
         if (!res || !res.ok) {
-          container.innerHTML = '<p class="text-center text-gray-500">Error cargando inscripciones.</p>';
+          container.innerHTML = UI.StatusText({ variant: 'note', message: 'Error cargando inscripciones.' });
           return;
         }
 
@@ -521,15 +529,13 @@
             <div class="bg-white/5 border border-white/10 rounded-xl p-4">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-sm font-bold text-emerald-400">
-                    ${(user.username || '?')[0].toUpperCase()}
-                  </div>
+                  ${UI.Avatar({ name: user.username, variant: 'applicant', size: '2xl' })}
                   <div>
                     <a href="profile.html?user=${user.username}" class="text-sm font-bold text-white hover:text-emerald-400 transition-colors">@${user.username || 'usuario'}</a>
                     <p class="text-xs text-gray-500">${user.email || ''}</p>
                   </div>
                 </div>
-                <span class="px-2 py-1 rounded-lg text-[10px] font-bold bg-${estadoColor}-500/20 text-${estadoColor}-400 border border-${estadoColor}-500/30 uppercase">${insc.estado}</span>
+                ${UI.StatusBadge({ label: insc.estado, tone: estadoColor })}
               </div>
               
               ${insc.mensaje ? `<p class="mt-3 text-sm text-gray-400 italic">"${insc.mensaje}"</p>` : ''}
@@ -550,7 +556,7 @@
         }).join('');
       } catch (err) {
         console.error(err);
-        container.innerHTML = '<p class="text-center text-gray-500">Error cargando inscripciones.</p>';
+        container.innerHTML = UI.StatusText({ variant: 'note', message: 'Error cargando inscripciones.' });
       }
     }
 

@@ -1,0 +1,24 @@
+/* Tarjetas de contenido: obra, recurso, evento, oportunidad. Ver docs/componentes.md.
+ *
+ *   <div class="ui-card ui-card--tile ui-card--edge-cyan card-cyber group">
+ *
+ * Superficies que se repetían en varias tarjetas. `ui-card` no tiene estilos
+ * propios: marca la familia y va con una forma y un borde. `card-cyber`
+ * (style.css) y `group` quedan en el markup: no se pueden aplicar desde acá.
+ *
+ * El borde de color le gana a `card-cyber` igual que antes la utilidad, porque
+ * tailwind.css se carga después de style.css; en hover manda `.card-cyber:hover`.
+ */
+@layer components {
+  /* Tarjeta de galería de alto completo (obras, recursos, oportunidades). */
+  .ui-card--tile { @apply rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col h-full; }
+  /* Tarjeta con imagen a sangre, alto según contenido (obras del perfil). */
+  .ui-card--media { @apply rounded-2xl overflow-hidden border transition-all duration-300; }
+  /* Tarjeta con padding e imagen redondeada adentro (recursos, oportunidades y efectos del perfil). */
+  .ui-card--padded { @apply rounded-2xl p-5 border transition-all duration-300; }
+
+  /* Borde tenue del color del contenido. */
+  .ui-card--edge-cyan { @apply border-cyan-500/10; }
+  .ui-card--edge-orange { @apply border-orange-500/10; }
+  .ui-card--edge-emerald { @apply border-emerald-500/10; }
+}

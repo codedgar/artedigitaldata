@@ -7,6 +7,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="p5-global-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></div>
@@ -14,15 +26,12 @@
 
   <main class="relative z-10 pt-20 pb-10 max-w-5xl mx-auto px-4">
     <!-- Loading -->
-    <div id="loading" class="text-center py-20">
-      <i class="fas fa-spinner fa-spin text-4xl text-emerald-400 mb-4"></i>
-      <p class="text-gray-400">Verificando permisos y cargando postulantes...</p>
-    </div>
+    <script>document.currentScript.outerHTML = UI.PageLoader({ id: 'loading', message: 'Verificando permisos y cargando postulantes...', accent: 'emerald', tone: 'soft' });</script>
 
     <!-- Error / Acceso Denegado -->
     <div id="unauthorized-message" class="hidden text-center py-20 bg-white/5 border border-red-500/30 rounded-3xl p-8 max-w-xl mx-auto">
       <i class="fas fa-user-lock text-5xl text-red-400 mb-4"></i>
-      <h2 class="text-2xl font-bold text-white mb-2">Acceso Restringido</h2>
+      <h2 class="ui-title ui-title--panel mb-2">Acceso Restringido</h2>
       <p id="unauthorized-reason" class="text-gray-400 mb-6">Esta sección solo está disponible para el creador de la oportunidad.</p>
       <a href="oportunidades.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-sm uppercase tracking-widest hover:bg-emerald-500/20 transition-all">
         <i class="fas fa-arrow-left"></i> Volver a Oportunidades
@@ -34,12 +43,12 @@
       <!-- Header Convocatoria -->
       <section class="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8">
         <div class="flex items-center gap-3 mb-3">
-          <a id="btn-back-opo" href="oportunidad.html" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-emerald-500/50 transition-all">
+          <a id="btn-back-opo" href="oportunidad.html" class="ui-btn ui-btn--back">
             <i class="fas fa-arrow-left"></i>
           </a>
-          <span id="opo-tipo-badge" class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest"></span>
+          <span id="opo-tipo-badge" class="ui-badge ui-badge--type-lg"></span>
         </div>
-        <h1 id="opo-titulo" class="text-2xl md:text-3xl font-black text-white mb-2"></h1>
+        <h1 id="opo-titulo" class="ui-title ui-title--page-xs mb-2"></h1>
         <p class="text-sm text-gray-400 flex items-center gap-2">
           <i class="fas fa-users text-emerald-400"></i>
           <span>Gestión de postulaciones recibidas</span>
@@ -49,7 +58,7 @@
       <!-- Lista de Inscriptos -->
       <section>
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <h2 class="ui-title ui-title--section flex items-center gap-2">
             <i class="fas fa-clipboard-list text-emerald-400"></i> Postulaciones (<span id="total-count">0</span>)
           </h2>
         </div>
@@ -61,7 +70,6 @@
     </div>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
@@ -142,7 +150,7 @@
 
       const color = tipoColors[opo.tipo] || 'emerald';
       const badge = document.getElementById('opo-tipo-badge');
-      badge.className = `px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest bg-${color}-500/20 text-${color}-400 border border-${color}-500/30`;
+      badge.className = UI.badgeClass({ variant: 'type-lg', tone: color });
       badge.textContent = tipoLabels[opo.tipo] || 'Oportunidad';
     }
 
@@ -152,7 +160,7 @@
       try {
         const res = await apiRequest(`/oportunidades/${oportunidadId}/inscripciones`);
         if (!res || !res.ok) {
-          container.innerHTML = '<p class="text-center text-gray-500 py-10">Error al cargar las postulaciones.</p>';
+          container.innerHTML = UI.StatusText({ variant: 'note-spaced', message: 'Error al cargar las postulaciones.' });
           return;
         }
 
@@ -188,7 +196,7 @@
               }
               datosHtml += `
                 <div>
-                  <span class="text-xs font-bold text-gray-500 uppercase block mb-0.5">${escapeHTML(key)}</span>
+                  <span class="ui-eyebrow ui-eyebrow--field block mb-0.5">${escapeHTML(key)}</span>
                   <span class="text-sm text-gray-200">${valDisplay}</span>
                 </div>`;
             }
@@ -199,9 +207,7 @@
             <div class="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-6 transition-all hover:border-white/20">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="flex items-center gap-3">
-                  <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-lg font-bold text-emerald-400 shrink-0">
-                    ${(user.username || '?')[0].toUpperCase()}
-                  </div>
+                  ${UI.Avatar({ name: user.username, variant: 'applicant', size: '3xl' })}
                   <div>
                     <a href="profile.html?user=${user.username}" target="_blank" class="text-base font-bold text-white hover:text-emerald-400 transition-colors">@${escapeHTML(user.username || 'usuario')}</a>
                     <p class="text-xs text-gray-400">${escapeHTML(user.email || 'Sin email')}</p>
@@ -209,7 +215,7 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="px-3 py-1 rounded-xl text-xs font-bold bg-${estadoColor}-500/20 text-${estadoColor}-400 border border-${estadoColor}-500/30 uppercase tracking-wider">${insc.estado}</span>
+                  ${UI.StatusBadge({ label: insc.estado, tone: estadoColor, size: 'lg' })}
                 </div>
               </div>
               
@@ -235,7 +241,7 @@
         }).join('');
       } catch (err) {
         console.error(err);
-        container.innerHTML = '<p class="text-center text-gray-500 py-10">Error al cargar las postulaciones.</p>';
+        container.innerHTML = UI.StatusText({ variant: 'note-spaced', message: 'Error al cargar las postulaciones.' });
       }
     }
 

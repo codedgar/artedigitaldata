@@ -7,6 +7,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
   <link rel="stylesheet" href="css/formularioingreso.css">
   <link rel="stylesheet" href="css/tailwind.css">
 </head>
@@ -19,7 +30,7 @@
       <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface mb-4 border border-magenta-500/20">
         <i class="fas fa-edit text-2xl text-magenta icon-glow-magenta"></i>
       </div>
-      <h1 class="text-4xl md:text-5xl font-black gradient-text mb-3">
+      <h1 class="ui-title ui-title--hero gradient-text mb-3">
         Formulario de Ingreso
       </h1>
       <p class="text-gray-400 text-lg max-w-lg mx-auto">
@@ -28,7 +39,7 @@
     </div>
 
     <!-- Loading overlay -->
-    <div id="loading-overlay" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
+    <div id="loading-overlay" class="hidden flex ui-modal ui-modal--loading">
       <div class="text-center">
         <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-surface mb-4 border border-cyan-500/20">
           <i class="fas fa-spinner fa-spin text-3xl text-cyan icon-glow"></i>
@@ -45,7 +56,7 @@
 
           <!-- Avatar / Foto -->
           <div>
-            <label class="text-gray-300 text-sm font-semibold mb-3 block">
+            <label class="ui-label ui-label--signup mb-3">
               <i class="fas fa-camera text-cyan mr-1"></i> Foto de perfil (opcional)
             </label>
             <div class="flex items-center gap-4">
@@ -65,7 +76,7 @@
 
           <!-- Nombre de usuario -->
           <div>
-            <label class="text-gray-300 text-sm font-semibold mb-2 block">
+            <label class="ui-label ui-label--signup">
               <i class="fas fa-user text-cyan mr-1"></i> Nombre de usuario <span class="text-red-400">*</span>
             </label>
             <input type="text" id="username" class="input-field" placeholder="tu_nombre_artistico" required>
@@ -73,7 +84,7 @@
 
           <!-- Nombre a mostrar -->
           <div>
-            <label class="text-gray-300 text-sm font-semibold mb-2 block">
+            <label class="ui-label ui-label--signup">
               <i class="fas fa-tag text-cyan mr-1"></i> Nombre a mostrar (opcional)
             </label>
             <input type="text" id="displayName" class="input-field" placeholder="Cómo querés que te vean en la comunidad">
@@ -81,7 +92,7 @@
 
           <!-- Email -->
           <div>
-            <label class="text-gray-300 text-sm font-semibold mb-2 block">
+            <label class="ui-label ui-label--signup">
               <i class="fas fa-envelope text-cyan mr-1"></i> Email <span class="text-red-400">*</span>
             </label>
             <input type="email" id="email" class="input-field" placeholder="tu@email.com" required>
@@ -89,7 +100,7 @@
 
           <!-- Contraseña -->
           <div>
-            <label class="text-gray-300 text-sm font-semibold mb-2 block">
+            <label class="ui-label ui-label--signup">
               <i class="fas fa-lock text-cyan mr-1"></i> Contraseña <span class="text-red-400">*</span>
             </label>
             <input type="password" id="password" class="input-field" placeholder="Mínimo 6 caracteres" minlength="6" required>
@@ -97,7 +108,7 @@
 
           <!-- WhatsApp -->
           <div>
-            <label class="text-gray-300 text-sm font-semibold mb-2 block">
+            <label class="ui-label ui-label--signup">
               <i class="fab fa-whatsapp text-green-400 mr-1"></i> WhatsApp (opcional)
             </label>
             <input type="tel" id="social-whatsapp" class="input-field" placeholder="Ej: +54 11 1234 5678">
@@ -105,7 +116,7 @@
 
           <!-- Bio -->
           <div>
-            <label class="text-gray-300 text-sm font-semibold mb-2 block">
+            <label class="ui-label ui-label--signup">
               <i class="fas fa-quote-right text-cyan mr-1"></i> Pequeña bio (opcional)
             </label>
             <textarea id="bio" class="input-field" placeholder="Contanos brevemente quién sos, qué arte hacés, qué te gusta..."></textarea>
@@ -113,7 +124,7 @@
 
           <!-- Redes sociales -->
           <div>
-            <label class="text-gray-300 text-sm font-semibold mb-3 block">
+            <label class="ui-label ui-label--signup mb-3">
               <i class="fas fa-share-alt text-cyan mr-1"></i> Redes sociales (opcionales)
             </label>
             <div class="space-y-3">

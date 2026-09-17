@@ -1,0 +1,80 @@
+/* Modales y superficies: primitivas `ui-modal*` y `ui-panel*`. Ver docs/componentes.md.
+
+   Un modal es un overlay (`ui-modal` + variante) con un panel adentro
+   (`ui-modal__panel` + variante):
+
+     <div id="error-modal" class="hidden ui-modal ui-modal--alert">
+       <div class="ui-modal__panel ui-modal__panel--notice" role="dialog" aria-modal="true">…</div>
+     </div>
+
+   El `display` NUNCA va en la primitiva: `hidden` y `flex` quedan como
+   utilidades en el elemento porque son lo que el JS de cada página agrega y
+   quita para abrir y cerrar (`classList.remove('hidden')`, `add('flex')`). Si
+   `flex` estuviera acá, `closeX()` que sólo saca `flex` y pone `hidden` seguiría
+   funcionando, pero un modal que el JS abre sacando sólo `hidden` dependería
+   de dónde viva cada clase; dejándolas todas en el markup no hay dos casos.
+
+   Fase 1: cada variante reproduce exacto un juego de clases que existía, así
+   que hay overlays casi iguales que sólo cambian el z-index o la opacidad del
+   fondo (ver fase 2 en el doc). */
+@layer components {
+  /* ── Overlays ── */
+  .ui-modal { @apply fixed inset-0; }
+  /* Edición con scroll propio: el panel crece hacia abajo (evento, post,
+     profile, recurso) */
+  .ui-modal--sheet { @apply z-[100] items-start justify-center bg-black/80 px-4 py-8 backdrop-blur-md overflow-y-auto; }
+  .ui-modal--sheet-admin { @apply z-50 items-start justify-center bg-black/80 p-4 py-8 backdrop-blur-md overflow-y-auto; }
+  /* Diálogos del panel de entradas y del canje */
+  .ui-modal--dialog { @apply z-[100] items-center justify-center bg-black/90 p-4; }
+  /* Resultado del escaneo: se abre encima del escáner */
+  .ui-modal--dialog-stacked { @apply z-[101] items-center justify-center bg-black/90 p-4; }
+  .ui-modal--scanner { @apply z-[100] flex-col items-center justify-center bg-black/95 p-4; }
+  /* Progreso de subida/pago: por encima de todo lo demás */
+  .ui-modal--status { @apply z-[10000] items-center justify-center bg-black/90 backdrop-blur-md p-4; }
+  .ui-modal--confirm { @apply z-[10001] items-center justify-center bg-black/95 backdrop-blur-md p-4; }
+  .ui-modal--alert { @apply z-[10002] items-center justify-center bg-black/95 backdrop-blur-md p-4; }
+  .ui-modal--room { @apply z-50 items-center justify-center bg-black/70 px-4; }
+  .ui-modal--directory { @apply z-50 items-center justify-center bg-black/80 px-4 backdrop-blur-sm; }
+  .ui-modal--donation { @apply z-[100] items-center justify-center bg-black/90 px-4 backdrop-blur-md; }
+  .ui-modal--loading { @apply z-50 items-center justify-center bg-black/70; }
+
+  /* ── Paneles de modal ──
+     Los que llevan la clase legacy `card-cyber` la conservan en el markup:
+     pone el fondo y el borde tenue, y las utilidades de acá le ganan. */
+  .ui-modal__panel { @apply w-full; }
+  .ui-modal__panel--edit { @apply max-w-3xl rounded-3xl border border-white/10 bg-[#0d0d12] p-8 relative my-auto; }
+  .ui-modal__panel--edit-admin { @apply bg-[var(--bg-surface)] border border-white/10 rounded-3xl max-w-3xl overflow-hidden p-8 my-auto relative; }
+  .ui-modal__panel--form { @apply max-w-md rounded-3xl border border-white/10 bg-[#0d0d12] p-8; }
+  .ui-modal__panel--notice { @apply max-w-md rounded-3xl border border-white/10 bg-[#0d0d12] p-8 text-center relative overflow-hidden; }
+  .ui-modal__panel--result { @apply max-w-sm rounded-3xl border border-white/10 bg-[#0d0d12] p-8 text-center; }
+  /* Sin caja: sólo centra el spinner y el texto sobre el fondo */
+  .ui-modal__panel--status { @apply text-center max-w-sm; }
+  .ui-modal__panel--scanner { @apply max-w-lg; }
+  .ui-modal__panel--room { @apply max-w-md rounded-2xl p-6 border border-cyan-500/20; }
+  .ui-modal__panel--directory { @apply max-w-2xl rounded-3xl border border-white/10 bg-[#0d0d12] flex flex-col max-h-[80vh]; }
+  .ui-modal__panel--donation { @apply max-w-md rounded-[2.5rem] border border-yellow-500/30 bg-[#0d0d12] overflow-hidden shadow-[0_0_50px_rgba(234,179,8,0.1)]; }
+
+  /* ── Superficies de página ──
+     Contenedores que no son tarjetas de contenido. Ancho de columna, márgenes,
+     `flex`/`hidden` y demás layout quedan como utilidades en el elemento. */
+  .ui-panel--auth { @apply w-full max-w-md rounded-2xl p-8 border border-cyan-500/20; }
+  /* Ficha de detalle (evento, recurso, entrada) */
+  .ui-panel--detail { @apply rounded-3xl overflow-hidden border border-white/10 bg-black/40; }
+  .ui-panel--detail-padded { @apply rounded-3xl overflow-hidden border border-white/10 bg-black/40 p-8 md:p-12; }
+  .ui-panel--detail-form { @apply rounded-3xl border border-white/10 bg-black/40 p-8; }
+  /* Tablas del panel de admin, con borde del color de la sección. `magenta`
+     no existe en la paleta de Tailwind: `border-magenta-500/20` nunca generó
+     CSS y queda el borde de `card-cyber`, así que ese acento no aplica nada. */
+  .ui-panel--admin { @apply rounded-2xl border overflow-hidden; }
+  .ui-panel--accent-cyan { @apply border-cyan-500/20; }
+  .ui-panel--accent-emerald { @apply border-emerald-500/20; }
+  .ui-panel--accent-magenta { }
+  .ui-panel--table { @apply rounded-2xl border border-white/10 bg-black/40 overflow-hidden; }
+  .ui-panel--stat { @apply rounded-2xl border border-white/10 bg-black/40 p-6; }
+  .ui-panel--stat-soft { @apply p-6 rounded-2xl bg-white/5 border border-white/10; }
+  /* Fila de opción dentro de un formulario (visibilidad, etc.) */
+  .ui-panel--row { @apply p-4 rounded-xl bg-white/5 border border-white/10; }
+  .ui-panel--chat { @apply rounded-2xl border border-cyan-500/20 overflow-hidden bg-[#0d0d12]; }
+  /* Marco fino alrededor de un bloque con fondo propio (quienessomos) */
+  .ui-panel--frame { @apply rounded-2xl p-1; }
+}

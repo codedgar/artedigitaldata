@@ -199,6 +199,123 @@ como texto plano, así que no puede ver `` `text-${accentColor}-400` ``. Si
 agregás una clase dinámica de ese tipo, sumala al `safelist` de
 `tailwind.config.js` o no se va a generar.
 
+### Componentes de UI — `docs/componentes.md`
+
+Tipografía, botones, tarjetas, estados y modales salen de la librería:
+tokens en `src/styles/tokens.css`, primitivas `ui-*` en
+`src/styles/components/`, componentes `UI.X()` en `public/js/ui/`. Todo HTML
+armado en JS usa `UI.html` (escapa por defecto). Leer `docs/componentes.md`
+antes de crear markup nuevo.
+
+**Ojo:** la tabla "Frontend — archivos JS" de arriba está desactualizada: la
+lógica de casi todas las páginas vive en `<script>` inline del HTML, y 17
+archivos de `public/js/` no los carga ninguna página (lista en
+`docs/componentes.md`).
+
+#### Antes de escribir markup: buscar si ya existe
+
+El catálogo de `docs/componentes.md` lista todo lo que hay (tarjetas, modales,
+tabs, campos, botones, títulos, avatares, badges, estados). Si lo que necesitás
+está ahí, se usa; si es parecido pero no igual, se le agrega una **variante**
+al componente; sólo si no se parece a nada se escribe markup nuevo.
+
+**Nunca** copiar y pegar markup de otra página: eso es exactamente lo que se
+vino a eliminar.
+
+#### Cómo se escribe un componente nuevo
+
+Dos niveles, según lo que sea:
+
+| Qué es | Dónde va |
+|---|---|
+| Un elemento suelto con estilos (botón, input, badge, título) | clase CSS `ui-*` en `src/styles/components/<familia>.css`, con `@apply` dentro de `@layer components` |
+| Algo con estructura o que recibe datos (tarjeta, modal, estado) | función `UI.Nombre(props)` en `public/js/ui/<familia>.js`, que devuelve `UI.html` |
+
+Reglas (las largas están en `docs/componentes.md`):
+
+- **Función pura:** recibe props, devuelve markup. Sin `fetch`, sin `getUser()`
+  ni `isAdmin()`, sin tocar el DOM. Lo que depende de la sesión entra por props
+  (`canEdit`, `isLiked`), que calcula la página.
+- **Todo el HTML armado en JS pasa por `UI.html`**, que escapa por defecto.
+  `UI.raw()` sólo para HTML ya seguro (p. ej. `formatMentions`).
+- **Props con nombre de rol, no de estilo:** `variant: 'gallery'`,
+  `size: 'md'`, `accent: 'emerald'`. Nunca `padding: 'py-2'`.
+- **Clases completas en mapas**, nunca `text-${color}-400`: el scanner de
+  Tailwind lee texto plano y no ve la interpolación.
+- **`className` sólo para ubicar** el componente (margen, `col-span-*`,
+  ancho). Si hace falta otro color o tipografía, es una variante nueva.
+- **Comentario de cabecera** con ejemplos de uso, como en `js/ui/state.js`.
+- Si agregás una familia nueva, su `<script>` va en el `<head>` de **todas**
+  las páginas y su CSS se registra en `src/styles/components/index.css`.
+- Sumá el componente al catálogo de `docs/componentes.md` y un caso en
+  `tools/visual-harness/cases/`.
+
+#### Cómo se arma una página nueva
+
+Copiar el esqueleto de `public/obras.html`, que es la referencia:
+
+```html
+<head>
+  <!-- meta, title -->
+  <link rel="stylesheet" href="...font-awesome...">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- css/<pagina>.css va acá, si la página tiene estilos propios -->
+  <link rel="stylesheet" href="css/tailwind.css">   <!-- SIEMPRE último -->
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <!-- ...el resto de js/ui/*.js, igual que en las demás páginas -->
+</head>
+<body class="min-h-screen">
+  <div id="app-header"></div>          <!-- lo llena header.js -->
+
+  <main class="relative z-10 pt-20 pb-10 max-w-7xl mx-auto px-4">
+    <section id="page-header" class="mb-10"></section>
+    <script>document.getElementById('page-header').innerHTML = UI.PageHeader({
+      icon: 'fas fa-palette', title: 'Título', subtitle: 'Bajada.' });</script>
+
+    <div id="lista" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <script>document.getElementById('lista').innerHTML =
+      UI.LoadingState({ message: 'Cargando...' });</script>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/header.js"></script>
+  <script>
+    // Sólo datos y composición: nada de markup copiado.
+    document.addEventListener('DOMContentLoaded', cargar);
+    async function cargar() {
+      const cont = document.getElementById('lista');
+      try {
+        const res = await fetch(CONFIG.API_URL + '/posts');
+        const items = await res.json();
+        if (!items.length) {
+          cont.innerHTML = UI.EmptyState({ icon: 'fas fa-image', message: 'No hay nada todavía' });
+          return;
+        }
+        cont.innerHTML = items.map((p) => UI.PostCard({ post: p, variant: 'gallery' })).join('');
+      } catch {
+        cont.innerHTML = UI.ErrorState({ message: 'Error cargando' });
+      }
+    }
+  </script>
+</body>
+```
+
+Lo que tiene que cumplir sí o sí:
+
+1. El `<script>` inline de la página **sólo trae datos y compone componentes**.
+   Si te encontrás escribiendo `<div class="rounded-2xl border...">`, falta un
+   componente o una variante.
+2. Los tres estados (cargando, vacío, error) salen de `js/ui/state.js`.
+3. Links relativos y **sin `.html`** (`post?id=…`), por `npx serve`.
+4. **Nada de `<style>` en la página:** estilos propios a `css/<pagina>.css`,
+   con el `<link>` entre `style.css` y `tailwind.css`.
+5. Texto de usuario dentro de `UI.html`; nunca datos de usuario adentro de un
+   atributo `on*`.
+6. Si la página se agrega a `tools/visual-harness/pages.js`, queda cubierta por
+   el harness de ahí en adelante (hay que grabarla una vez con `--record`).
+7. `npm run build:css` y commitear `public/css/tailwind.css`.
+
 ### Harness visual — cambios que no deben alterar el front
 
 `tools/visual-harness/` compara el render de todas las páginas pixel a pixel

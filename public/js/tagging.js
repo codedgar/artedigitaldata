@@ -109,9 +109,7 @@ class TaggingSystem {
   async fetchSuggestions() {
     if (!this.active) return;
     
-    this.menu.innerHTML = `<div class="p-4 text-xs text-gray-400 flex items-center gap-2">
-      <i class="fas fa-spinner fa-spin text-cyan-500"></i> Buscando...
-    </div>`;
+    this.menu.innerHTML = UI.StatusText({ variant: 'dropdown-loading', message: 'Buscando...' });
 
     try {
       const res = await fetch(`${CONFIG.API_URL}/tagging?q=${encodeURIComponent(this.query)}`);

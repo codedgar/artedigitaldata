@@ -10,6 +10,18 @@
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
   <link rel="stylesheet" href="css/scan-redeem.css">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="app-header"></div>
@@ -18,7 +30,7 @@
     <!-- Scanner Mode -->
     <div id="scanner-section" class="hidden">
       <div class="text-center mb-8">
-        <h1 class="text-3xl font-black text-white mb-2">
+        <h1 class="ui-title ui-title--page-sm mb-2">
           <i class="fas fa-qrcode text-green-500 mr-2"></i>
           Escanear Entrada
         </h1>
@@ -31,7 +43,7 @@
         <div class="flex gap-2">
           <input type="text" id="manual-code-input" placeholder="O ingresá el código manualmente..." 
             class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-green-500 focus:outline-none uppercase">
-          <button onclick="loadTicketByCode()" class="px-6 py-3 rounded-xl bg-green-500 text-black font-bold hover:bg-green-400 transition-all">
+          <button onclick="loadTicketByCode()" class="ui-btn ui-btn--success">
             <i class="fas fa-search mr-2"></i>
             Buscar
           </button>
@@ -40,20 +52,17 @@
     </div>
 
     <!-- Loading -->
-    <div id="loading" class="hidden py-20 text-center">
-      <i class="fas fa-spinner fa-spin text-4xl text-magenta-500 mb-4"></i>
-      <p class="text-gray-500">Cargando entrada...</p>
-    </div>
+    <script>document.currentScript.outerHTML = UI.PageLoader({ id: 'loading', message: 'Cargando entrada...', className: 'hidden' });</script>
 
     <!-- Ticket Info & Redeem -->
     <div id="ticket-section" class="hidden">
       <!-- Access Denied -->
       <div id="access-denied" class="hidden py-12 text-center">
         <i class="fas fa-lock text-6xl text-red-500 mb-6"></i>
-        <h2 class="text-2xl font-bold text-white mb-2">Acceso Denegado</h2>
+        <h2 class="ui-title ui-title--panel mb-2">Acceso Denegado</h2>
         <p class="text-gray-500 mb-6">No tenés permisos para canjear esta entrada.</p>
         <p class="text-sm text-gray-600 mb-8">Solo el creador del evento, administradores o usuarios de puerta pueden canjear entradas.</p>
-        <button onclick="resetView()" class="btn-primary px-8 py-3 rounded-xl">
+        <button onclick="resetView()" class="btn-primary ui-btn ui-btn--primary-lg">
           <i class="fas fa-arrow-left mr-2"></i>
           Volver
         </button>
@@ -62,16 +71,16 @@
       <!-- Not Logged In -->
       <div id="not-logged-in" class="hidden py-12 text-center">
         <i class="fas fa-user-lock text-6xl text-yellow-500 mb-6"></i>
-        <h2 class="text-2xl font-bold text-white mb-2">Iniciá Sesión</h2>
+        <h2 class="ui-title ui-title--panel mb-2">Iniciá Sesión</h2>
         <p class="text-gray-500 mb-8">Necesitás estar logueado para canjear entradas.</p>
-        <button onclick="redirectToLogin()" class="btn-primary px-8 py-3 rounded-xl">
+        <button onclick="redirectToLogin()" class="btn-primary ui-btn ui-btn--primary-lg">
           <i class="fas fa-sign-in-alt mr-2"></i>
           Iniciar Sesión
         </button>
       </div>
 
       <!-- Ticket Card -->
-      <div id="ticket-card" class="hidden rounded-3xl border border-white/10 card-cyber bg-black/40 overflow-hidden">
+      <div id="ticket-card" class="hidden card-cyber ui-panel ui-panel--detail">
         <div class="bg-gradient-to-r from-magenta-500/20 to-fuchsia-500/20 p-6 border-b border-white/10">
           <div class="flex justify-between items-start">
             <div>
@@ -93,11 +102,11 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div class="rounded-xl bg-white/5 p-4">
-              <p class="text-xs text-gray-500 uppercase tracking-wider mb-1">Código</p>
+              <p class="ui-eyebrow ui-eyebrow--stat mb-1">Código</p>
               <p id="ticket-code" class="text-xl font-mono font-bold text-white tracking-wider"></p>
             </div>
             <div class="rounded-xl bg-white/5 p-4">
-              <p class="text-xs text-gray-500 uppercase tracking-wider mb-1">Fecha del Evento</p>
+              <p class="ui-eyebrow ui-eyebrow--stat mb-1">Fecha del Evento</p>
               <p id="event-date" class="text-white flex items-center gap-2">
                 <i class="fas fa-calendar text-magenta-500"></i>
                 <span><!-- Date --></span>
@@ -106,7 +115,7 @@
           </div>
 
           <div class="border-t border-white/10 pt-6 mb-6">
-            <p class="text-xs text-gray-500 uppercase tracking-wider mb-3">Datos del Asistente</p>
+            <p class="ui-eyebrow ui-eyebrow--stat mb-3">Datos del Asistente</p>
             <div id="owner-info" class="space-y-2 text-sm text-gray-400">
               <!-- Owner info -->
             </div>
@@ -162,31 +171,30 @@
     <!-- Error State -->
     <div id="error-section" class="hidden py-20 text-center">
       <i class="fas fa-exclamation-triangle text-6xl text-red-500 mb-6"></i>
-      <h2 class="text-2xl font-bold text-white mb-2">Entrada no encontrada</h2>
+      <h2 class="ui-title ui-title--panel mb-2">Entrada no encontrada</h2>
       <p class="text-gray-500 mb-2">El código de entrada no existe o ha sido eliminado.</p>
       <p id="error-code-display" class="text-magenta-400 font-mono text-lg mb-8"></p>
-      <button onclick="resetView()" class="btn-primary px-8 py-3 rounded-xl">
+      <button onclick="resetView()" class="btn-primary ui-btn ui-btn--primary-lg">
         <i class="fas fa-arrow-left mr-2"></i>
         Volver
       </button>
     </div>
 
     <!-- Result Modal -->
-    <div id="result-modal" class="hidden fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4">
-      <div class="w-full max-w-sm rounded-3xl border border-white/10 bg-[#0d0d12] p-8 text-center">
+    <div id="result-modal" class="hidden flex ui-modal ui-modal--dialog">
+      <div class="ui-modal__panel ui-modal__panel--result" role="dialog" aria-modal="true" aria-labelledby="result-title">
         <div id="result-icon" class="w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4">
           <!-- Icon -->
         </div>
         <h4 id="result-title" class="text-xl font-bold text-white mb-2"></h4>
         <p id="result-message" class="text-gray-400 mb-6"></p>
-        <button onclick="closeResultModal()" class="w-full btn-primary py-3 rounded-xl font-bold">
+        <button onclick="closeResultModal()" class="w-full btn-primary ui-btn ui-btn--primary-bold">
           CONTINUAR
         </button>
       </div>
     </div>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script>

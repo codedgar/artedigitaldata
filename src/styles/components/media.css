@@ -1,0 +1,4 @@
+/* Medios: imagen con fallback, preview de YouTube al hover. Ver docs/componentes.md.
+ * Por ahora sin primitivas: las clases de cada miniatura viven en js/ui/media.js. */
+@layer components {
+}

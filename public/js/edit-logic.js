@@ -87,11 +87,11 @@ async function loadItemToEdit(type, id, onComplete) {
               <img id="edit-cropper-img" src="">
             </div>
             <div class="flex justify-center gap-2 flex-wrap">
-              <button type="button" onclick="editCropper.rotate(-90)" class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-${c}-500/50 transition-all flex items-center justify-center"><i class="fas fa-undo"></i></button>
-              <button type="button" onclick="editCropper.rotate(90)" class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-${c}-500/50 transition-all flex items-center justify-center"><i class="fas fa-redo"></i></button>
-              <button type="button" onclick="editCropper.setAspectRatio(1)" class="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-${c}-500/50 transition-all text-[10px] font-bold uppercase">1:1</button>
-              <button type="button" onclick="editCropper.setAspectRatio(16/9)" class="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-${c}-500/50 transition-all text-[10px] font-bold uppercase">16:9</button>
-              <button type="button" onclick="editCropper.setAspectRatio(NaN)" class="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-${c}-500/50 transition-all text-[10px] font-bold uppercase">Libre</button>
+              <button type="button" onclick="editCropper.rotate(-90)" class="ui-btn ui-btn--tool-icon hover:border-${c}-500/50"><i class="fas fa-undo"></i></button>
+              <button type="button" onclick="editCropper.rotate(90)" class="ui-btn ui-btn--tool-icon hover:border-${c}-500/50"><i class="fas fa-redo"></i></button>
+              <button type="button" onclick="editCropper.setAspectRatio(1)" class="ui-btn ui-btn--tool-text hover:border-${c}-500/50">1:1</button>
+              <button type="button" onclick="editCropper.setAspectRatio(16/9)" class="ui-btn ui-btn--tool-text hover:border-${c}-500/50">16:9</button>
+              <button type="button" onclick="editCropper.setAspectRatio(NaN)" class="ui-btn ui-btn--tool-text hover:border-${c}-500/50">Libre</button>
             </div>
           </div>
 

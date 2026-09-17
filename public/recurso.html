@@ -7,6 +7,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="p5-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></div>
@@ -14,13 +26,13 @@
 
   <main class="relative z-10 pt-24 pb-12 max-w-4xl mx-auto px-4">
     <div id="resource-content" class="hidden">
-      <div class="rounded-3xl overflow-hidden border border-white/10 card-cyber bg-black/40 p-8 md:p-12">
+      <div class="card-cyber ui-panel ui-panel--detail-padded">
         <div class="flex items-center gap-6 mb-8">
           <div id="resource-type-icon" class="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl shrink-0">
             <!-- Icon will be injected here -->
           </div>
           <div class="flex-1 min-w-0">
-            <h1 id="resource-title" class="text-3xl md:text-5xl font-black text-white mb-2 truncate"></h1>
+            <h1 id="resource-title" class="ui-title ui-title--page-lg mb-2 truncate"></h1>
             <div class="flex items-center gap-4">
               <div class="flex items-center gap-2">
                 <div id="author-avatar" class="w-8 h-8 rounded-full overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold text-cyan-400">
@@ -42,7 +54,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
           <div class="md:col-span-2 prose prose-invert max-w-none">
-            <h3 class="text-xl font-bold text-white mb-4 border-l-4 border-cyan-500 pl-4">Descripción</h3>
+            <h3 class="ui-title ui-title--section mb-4 border-l-4 border-cyan-500 pl-4">Descripción</h3>
             <p id="resource-description" class="text-gray-300 leading-relaxed whitespace-pre-line"></p>
             
             <div id="resource-tags" class="flex flex-wrap gap-2 mt-6">
@@ -55,7 +67,7 @@
               ABRIR RECURSO
             </a>
             <div class="p-4 rounded-2xl bg-white/5 border border-white/5 text-center">
-              <h4 class="text-xs font-bold text-gray-500 uppercase mb-1">Tipo</h4>
+              <h4 class="ui-eyebrow ui-eyebrow--field mb-1">Tipo</h4>
               <p id="resource-type-text" class="text-white font-bold uppercase tracking-widest text-sm"></p>
             </div>
           </div>
@@ -63,7 +75,7 @@
 
         <!-- Comments Section -->
         <div class="border-t border-white/10 pt-8 mt-10">
-          <h3 class="text-xl font-bold text-white mb-6">
+          <h3 class="ui-title ui-title--section mb-6">
             <i class="fas fa-comments text-cyan-400 mr-2"></i>Comentarios (<span id="comment-count">0</span>)
           </h3>
           
@@ -79,20 +91,16 @@
     </div>
 
     <!-- Loading State -->
-    <div id="loading" class="py-20 text-center">
-      <i class="fas fa-spinner fa-spin text-4xl text-cyan-500 mb-4"></i>
-      <p class="text-gray-500">Cargando recurso...</p>
-    </div>
+    <script>document.currentScript.outerHTML = UI.PageLoader({ id: 'loading', message: 'Cargando recurso...', accent: 'cyan-deep' });</script>
 
     <!-- Error State -->
     <div id="error" class="hidden py-20 text-center">
       <i class="fas fa-exclamation-triangle text-6xl text-red-500 mb-6"></i>
-      <h2 class="text-2xl font-bold text-white mb-2">Recurso no encontrado</h2>
-      <a href="recursos.html" class="btn-primary px-8 py-3 rounded-xl mt-4 inline-block">Volver a Recursos</a>
+      <h2 class="ui-title ui-title--panel mb-2">Recurso no encontrado</h2>
+      <a href="recursos.html" class="btn-primary mt-4 inline-block ui-btn ui-btn--primary-lg">Volver a Recursos</a>
     </div>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script src="js/tagging.js"></script>
@@ -145,7 +153,7 @@
       authorLink.href = `profile.html?user=${encodeURIComponent(r.author?.username || '')}`;
 
       const avatarCont = document.getElementById('author-avatar');
-      avatarCont.innerHTML = r.author?.avatar ? `<img src="${sanitizeUrl(r.author.avatar)}" class="w-full h-full object-cover">` : escapeHTML((r.author?.username || '?')[0].toUpperCase());
+      avatarCont.innerHTML = UI.AvatarContent({ name: r.author?.username, src: r.author?.avatar });
 
       // Edit Button
       if (isAuthor) {
@@ -177,7 +185,7 @@
         if (youtubeId) {
           imgContainer.setAttribute('onmouseenter', `playVideo(this, '${youtubeId}')`);
           imgContainer.setAttribute('onmouseleave', 'stopVideo(this)');
-          imgContainer.innerHTML += `<div class="video-overlay absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none bg-black"><iframe class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+          imgContainer.innerHTML += UI.VideoOverlay();
         }
       } else {
         imgContainer.classList.add('hidden');
@@ -193,7 +201,7 @@
             document.getElementById('resource-description').after(badge);
         }
         badge.innerHTML = `
-          <a href="${sanitizeUrl(r.youtube_video)}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600/10 text-red-500 rounded-xl border border-red-500/20 text-sm font-black uppercase tracking-widest hover:bg-red-600/20 transition-all">
+          <a href="${sanitizeUrl(r.youtube_video)}" target="_blank" class="inline-flex items-center gap-2 ui-btn ui-btn--video">
             <i class="fab fa-youtube text-lg"></i> Ver Tutorial / Video
           </a>
         `;
@@ -230,9 +238,9 @@
               </div>
               <div class="flex-1">
                 <textarea id="comment-text" required placeholder="Duda, agradecimiento o comentario sobre este recurso..." 
-                  class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none transition-all resize-none h-24"></textarea>
+                  class="ui-textarea ui-textarea--comment ui-textarea--focus-cyan"></textarea>
                 <div class="flex justify-end mt-2">
-                  <button type="submit" class="btn-primary px-6 py-2 rounded-xl text-sm transition-all hover:scale-105">
+                  <button type="submit" class="btn-primary ui-btn ui-btn--primary-sm">
                     Comentar
                   </button>
                 </div>
@@ -241,7 +249,7 @@
           </form>`;
         document.getElementById('comment-form').addEventListener('submit', addComment);
       } else {
-        formContainer.innerHTML = `<div class="bg-white/5 border border-white/5 rounded-2xl p-6 text-center text-gray-500 text-sm">Debes <button onclick="showLogin()" class="text-cyan-400 hover:underline">iniciar sesión</button> para comentar.</div>`;
+        formContainer.innerHTML = `<div class="bg-white/5 border border-white/5 rounded-2xl p-6 text-center text-gray-500 text-sm">Debes <button onclick="showLogin()" class="ui-btn ui-btn--link">iniciar sesión</button> para comentar.</div>`;
       }
 
       const commentsList = document.getElementById('comments-list');
@@ -249,13 +257,7 @@
         const isCommentOwner = isLoggedIn() && (getUserId() === c.user?._id || isAdmin());
         return `
         <div class="flex gap-4">
-          <div class="w-10 h-10 rounded-full overflow-hidden shrink-0 border border-white/10">
-            ${c.user?.avatar ? `<img src="${sanitizeUrl(c.user.avatar)}" class="w-full h-full object-cover">` : `
-              <div class="w-full h-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
-                <i class="fas fa-user text-xs"></i>
-              </div>
-            `}
-          </div>
+          ${UI.Avatar({ src: c.user?.avatar, icon: 'fas fa-user', variant: 'commenter', size: '2xl' })}
           <div class="flex-1">
             <div class="bg-white/5 rounded-2xl px-4 py-3">
               <div class="flex justify-between items-center mb-1">
@@ -263,7 +265,7 @@
                 <div class="flex items-center gap-2">
                   <span class="text-[10px] text-gray-500">${new Date(c.createdAt).toLocaleDateString()}</span>
                   ${isCommentOwner ? `
-                    <button onclick="deleteComment('${c._id}')" class="text-gray-600 hover:text-red-500 transition-colors text-xs" title="Borrar comentario">
+                    <button onclick="deleteComment('${c._id}')" class="ui-btn ui-btn--comment-delete" title="Borrar comentario">
                       <i class="fas fa-trash"></i>
                     </button>
                   ` : ''}
@@ -273,7 +275,7 @@
             </div>
           </div>
         </div>
-      `;}).reverse().join('') || `<div class="text-center py-10 text-gray-600 italic">No hay comentarios aún.</div>`;
+      `;}).reverse().join('') || UI.StatusText({ variant: 'comments', message: 'No hay comentarios aún.' });
     }
 
     async function deleteComment(commentId) {
@@ -340,14 +342,7 @@
     }
   </script>
   <!-- Global Edit Modal -->
-  <div id="global-edit-modal" class="hidden fixed inset-0 z-[100] flex items-start justify-center bg-black/80 px-4 py-8 backdrop-blur-md overflow-y-auto">
-    <div class="w-full max-w-3xl rounded-3xl border border-white/10 card-cyber bg-[#0d0d12] p-8 relative my-auto">
-      <button onclick="closeGlobalEdit()" class="absolute top-4 right-4 text-gray-400 hover:text-white z-10 bg-black/50 w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-all">
-        <i class="fas fa-times"></i>
-      </button>
-      <div id="edit-modal-content" class="max-h-[70vh] overflow-y-auto pr-2 scrollbar-hide"></div>
-    </div>
-  </div>
+  <script>document.currentScript.outerHTML = UI.EditModal();</script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
   <script src="js/ascii-shader-bg.js"></script>

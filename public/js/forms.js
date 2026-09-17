@@ -16,92 +16,95 @@ window.formatDateForInput = (date) => {
 const FORM_TEMPLATES = {
   post: (prefix, item = {}) => `
     <div class="space-y-4">
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Título de la Obra</label>
-        <input type="text" id="${prefix}-title" name="title" value="${item.title || ''}" required placeholder="Ej: Paisaje Cyberpunk 2077"
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Etiquetas (separadas por coma)</label>
-        <input type="text" id="${prefix}-tags" name="tags" value="${(item.tags || []).join(', ')}" placeholder="3d, blender, neon..."
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Descripción</label>
-        <textarea id="${prefix}-desc" name="description" rows="4" placeholder="Contanos sobre tu proceso creativo..."
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors resize-none mb-1">${item.description || ''}</textarea>
-        <div id="${prefix}-desc-preview" class="px-2 text-[10px] text-gray-600 min-h-[1.5em] italic"></div>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2 text-red-400">Video de YouTube (Link)</label>
-        <div class="relative">
+      ${UI.Field({
+        label: 'Título de la Obra',
+        children: UI.html`<input type="text" id="${prefix}-title" name="title" value="${item.title || ''}" required placeholder="Ej: Paisaje Cyberpunk 2077"
+          class="ui-input ui-input--dark ui-input--focus-cyan ui-input--animated">`,
+      })}
+      ${UI.Field({
+        label: 'Etiquetas (separadas por coma)',
+        children: UI.html`<input type="text" id="${prefix}-tags" name="tags" value="${(item.tags || []).join(', ')}" placeholder="3d, blender, neon..."
+          class="ui-input ui-input--dark ui-input--focus-cyan ui-input--animated">`,
+      })}
+      ${UI.Field({
+        label: 'Descripción',
+        children: UI.html`<textarea id="${prefix}-desc" name="description" rows="4" placeholder="Contanos sobre tu proceso creativo..."
+          class="ui-textarea ui-textarea--dark ui-textarea--focus-cyan ui-textarea--animated ui-textarea--fixed mb-1">${item.description || ''}</textarea>
+        <div id="${prefix}-desc-preview" class="px-2 text-[10px] text-gray-600 min-h-[1.5em] italic"></div>`,
+      })}
+      ${UI.Field({
+        label: 'Video de YouTube (Link)',
+        variant: 'video',
+        hint: 'Se mostrará una vista previa al pasar el mouse.',
+        hintVariant: 'caps',
+        children: UI.html`<div class="relative">
           <i class="fab fa-youtube absolute left-4 top-1/2 -translate-y-1/2 text-red-500"></i>
           <input type="url" id="${prefix}-youtube" name="youtube_video" value="${item.youtube_video || ''}" placeholder="https://www.youtube.com/watch?v=..."
-            class="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-white focus:border-red-500 focus:outline-none transition-colors">
-        </div>
-        <p class="text-[9px] text-gray-600 mt-1 uppercase tracking-wider">Se mostrará una vista previa al pasar el mouse.</p>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">${item._id ? 'Cambiar Imagen (opcional)' : 'Imagen de la Obra'}</label>
-        <input type="file" id="${prefix}-file" name="file" accept="image/*" ${item._id ? '' : 'required'}
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-400 file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-cyan-500/20 file:text-cyan-400 file:cursor-pointer">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Visibilidad</label>
-        <select id="${prefix}-visibility" name="visibility" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors">
+            class="ui-input ui-input--dark ui-input--focus-red ui-input--animated pl-11">
+        </div>`,
+      })}
+      ${UI.Field({
+        label: item._id ? 'Cambiar Imagen (opcional)' : 'Imagen de la Obra',
+        children: UI.html`<input type="file" id="${prefix}-file" name="file" accept="image/*" ${item._id ? '' : 'required'}
+          class="ui-input ui-input--file ui-input--file-cyan">`,
+      })}
+      ${UI.Field({
+        label: 'Visibilidad',
+        children: UI.html`<select id="${prefix}-visibility" name="visibility" class="ui-select ui-select--dark ui-select--focus-cyan ui-select--animated">
           <option value="public" ${item.visibility === 'unlisted' ? '' : 'selected'}>Público (Listado)</option>
           <option value="unlisted" ${item.visibility === 'unlisted' ? 'selected' : ''}>No Listado</option>
-        </select>
-      </div>
+        </select>`,
+      })}
     </div>
   `,
 
   recurso: (prefix, item = {}) => `
     <div class="space-y-4">
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Título del Recurso</label>
-        <input type="text" id="${prefix}-title" name="title" value="${item.title || ''}" required placeholder="Ej: Pack de Brushes Sci-Fi"
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-orange-500 focus:outline-none">
-      </div>
+      ${UI.Field({
+        label: 'Título del Recurso',
+        children: UI.html`<input type="text" id="${prefix}-title" name="title" value="${item.title || ''}" required placeholder="Ej: Pack de Brushes Sci-Fi"
+          class="ui-input ui-input--dark ui-input--focus-orange">`,
+      })}
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Tipo de Recurso</label>
-          <select id="${prefix}-type" name="type" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-300 focus:border-orange-500 focus:outline-none">
+        ${UI.Field({
+          label: 'Tipo de Recurso',
+          children: UI.html`<select id="${prefix}-type" name="type" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-300 focus:border-orange-500 focus:outline-none">
             <option value="software" ${item.type === 'software' ? 'selected' : ''}>Software</option>
             <option value="github" ${item.type === 'github' ? 'selected' : ''}>GitHub / Código</option>
             <option value="drive" ${item.type === 'drive' ? 'selected' : ''}>Drive / Descarga</option>
             <option value="tutorial" ${item.type === 'tutorial' ? 'selected' : ''}>Tutorial / Guía</option>
             <option value="texto" ${item.type === 'texto' ? 'selected' : ''}>Texto / Artículo</option>
             <option value="other" ${item.type === 'other' ? 'selected' : ''}>Otro</option>
-          </select>
-        </div>
+          </select>`,
+        })}
         <div>
           <label class="block text-xs font-bold text-gray-500 uppercase mb-2 text-orange-400 font-black">Link de Descarga / Web</label>
-          <input type="url" id="${prefix}-url" name="url" value="${item.url || ''}" required placeholder="https://..."
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-orange-500 focus:outline-none">
+          <input type="url" id="${prefix}-url" name="url" value="${escapeHTML(item.url || '')}" required placeholder="https://..."
+            class="ui-input ui-input--dark ui-input--focus-orange">
         </div>
       </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Descripción</label>
-        <textarea id="${prefix}-desc" name="description" rows="3" placeholder="¿Para qué sirve este recurso?"
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-orange-500 focus:outline-none resize-none mb-1">${item.description || ''}</textarea>
-        <div id="${prefix}-desc-preview" class="px-2 text-[10px] text-gray-600 min-h-[1.5em] italic"></div>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2 text-red-400">Video de YouTube (Opcional)</label>
-        <input type="url" id="${prefix}-youtube" name="youtube_video" value="${item.youtube_video || ''}" placeholder="https://www.youtube.com/watch?v=..."
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500 focus:outline-none transition-colors">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Etiquetas</label>
-        <input type="text" id="${prefix}-tags" name="tags" value="${(item.tags || []).join(', ')}" placeholder="herramientas, free, assets..."
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-orange-500 focus:outline-none">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">${item._id ? 'Cambiar Imagen (opcional)' : 'Imagen de Previsualización'}</label>
-        <input type="file" id="${prefix}-file" name="file" accept="image/*"
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-400 file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-orange-500/20 file:text-orange-400 file:cursor-pointer">
-      </div>
+      ${UI.Field({
+        label: 'Descripción',
+        children: UI.html`<textarea id="${prefix}-desc" name="description" rows="3" placeholder="¿Para qué sirve este recurso?"
+          class="ui-textarea ui-textarea--dark ui-textarea--focus-orange ui-textarea--fixed mb-1">${item.description || ''}</textarea>
+        <div id="${prefix}-desc-preview" class="px-2 text-[10px] text-gray-600 min-h-[1.5em] italic"></div>`,
+      })}
+      ${UI.Field({
+        label: 'Video de YouTube (Opcional)',
+        variant: 'video',
+        children: UI.html`<input type="url" id="${prefix}-youtube" name="youtube_video" value="${item.youtube_video || ''}" placeholder="https://www.youtube.com/watch?v=..."
+          class="ui-input ui-input--dark ui-input--focus-red ui-input--animated">`,
+      })}
+      ${UI.Field({
+        label: 'Etiquetas',
+        children: UI.html`<input type="text" id="${prefix}-tags" name="tags" value="${(item.tags || []).join(', ')}" placeholder="herramientas, free, assets..."
+          class="ui-input ui-input--dark ui-input--focus-orange">`,
+      })}
+      ${UI.Field({
+        label: item._id ? 'Cambiar Imagen (opcional)' : 'Imagen de Previsualización',
+        children: UI.html`<input type="file" id="${prefix}-file" name="file" accept="image/*"
+          class="ui-input ui-input--file ui-input--file-orange">`,
+      })}
     </div>
   `,
 
@@ -111,13 +114,10 @@ const FORM_TEMPLATES = {
       const pid = p && p._id ? String(p._id) : (typeof p === 'string' ? p : '');
       const pname = (p && p.username) ? p.username : (pid || '?');
       const pavatar = p && p.avatar ? p.avatar : '';
-      const avatarHtml = pavatar
-        ? '<img src="' + pavatar + '" class="w-full h-full object-cover">'
-        : pname[0].toUpperCase();
       return '<div class="participant-chip flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-sm text-white" data-id="' + pid + '" data-username="' + pname + '">'
-        + '<div class="w-5 h-5 rounded-full bg-magenta-500/20 flex items-center justify-center text-[9px] font-bold text-magenta-400 overflow-hidden">' + avatarHtml + '</div>'
+        + UI.Avatar({ name: pname, src: pavatar, variant: 'participant', size: 'xs' })
         + '<span class="font-bold text-xs">' + pname + '</span>'
-        + '<button type="button" onclick="removeParticipantChip(this)" class="text-gray-500 hover:text-red-400 ml-1 transition-colors"><i class="fas fa-times text-[9px]"></i></button>'
+        + '<button type="button" onclick="removeParticipantChip(this)" class="ml-1 ui-btn ui-btn--chip-remove"><i class="fas fa-times text-[9px]"></i></button>'
         + '</div>';
     }).join('');
     
@@ -125,54 +125,56 @@ const FORM_TEMPLATES = {
     
     return `
     <div class="space-y-4">
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Nombre del Evento</label>
-        <input type="text" id="${prefix}-title" name="title" value="${item.title || ''}" required placeholder="Ej: Meetup Arte Digital BsAs"
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none transition-colors">
-      </div>
+      ${UI.Field({
+        label: 'Nombre del Evento',
+        children: UI.html`<input type="text" id="${prefix}-title" name="title" value="${item.title || ''}" required placeholder="Ej: Meetup Arte Digital BsAs"
+          class="ui-input ui-input--dark ui-input--animated">`,
+      })}
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Fecha y Hora</label>
-          <input type="date" id="${prefix}-date" name="date" value="${dateValue.split('T')[0] || ''}" required
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none">
+        ${UI.Field({
+          label: 'Fecha y Hora',
+          children: UI.html`<input type="date" id="${prefix}-date" name="date" value="${dateValue.split('T')[0] || ''}" required
+            class="ui-input ui-input--dark">
           <input type="time" id="${prefix}-time" name="time" value="${dateValue.split('T')[1] || '20:00'}"
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none mt-2">
-          <input type="hidden" id="${prefix}-date-combined" name="date-combined" value="${dateValue}">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Lugar / Enlace</label>
-          <input type="text" id="${prefix}-location" name="location" value="${item.location || ''}" placeholder="Club X o Link de Meet"
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none">
-        </div>
+            class="ui-input ui-input--dark mt-2">
+          <input type="hidden" id="${prefix}-date-combined" name="date-combined" value="${dateValue}">`,
+        })}
+        ${UI.Field({
+          label: 'Lugar / Enlace',
+          children: UI.html`<input type="text" id="${prefix}-location" name="location" value="${item.location || ''}" placeholder="Club X o Link de Meet"
+            class="ui-input ui-input--dark">`,
+        })}
       </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Descripción</label>
-        <textarea id="${prefix}-desc" name="description" rows="4" placeholder="¡No se lo pierdan! Estarán @tolch y @jp..."
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none resize-none mb-1">${item.description || ''}</textarea>
-        <div id="${prefix}-desc-preview" class="px-2 text-[10px] text-gray-600 min-h-[1.5em] italic"></div>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Etiquetas / Hashtags</label>
-        <input type="text" id="${prefix}-tags" name="tags" value="${(item.tags || []).join(', ')}" placeholder="vjing, shaders, livecoding, IA..."
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none transition-colors">
-        <p class="text-[9px] text-gray-600 mt-1 uppercase tracking-wider">Separadas por coma. Se mostrarán como hashtags del evento.</p>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2 text-red-400">Video de YouTube (Flyer animado)</label>
-        <input type="url" id="${prefix}-youtube" name="youtube_video" value="${item.youtube_video || ''}" placeholder="https://www.youtube.com/watch?v=..."
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-red-500 focus:outline-none transition-colors">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">${item._id ? 'Cambiar Imagen / Flyer' : 'Imagen / Flyer (File)'}</label>
-        <input type="file" id="${prefix}-file" name="file" accept="image/*"
-          class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-400 file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:bg-magenta-500/20 file:text-magenta-400 file:cursor-pointer w-full">
+      ${UI.Field({
+        label: 'Descripción',
+        children: UI.html`<textarea id="${prefix}-desc" name="description" rows="4" placeholder="¡No se lo pierdan! Estarán @tolch y @jp..."
+          class="ui-textarea ui-textarea--dark ui-textarea--fixed mb-1">${item.description || ''}</textarea>
+        <div id="${prefix}-desc-preview" class="px-2 text-[10px] text-gray-600 min-h-[1.5em] italic"></div>`,
+      })}
+      ${UI.Field({
+        label: 'Etiquetas / Hashtags',
+        hint: 'Separadas por coma. Se mostrarán como hashtags del evento.',
+        hintVariant: 'caps',
+        children: UI.html`<input type="text" id="${prefix}-tags" name="tags" value="${(item.tags || []).join(', ')}" placeholder="vjing, shaders, livecoding, IA..."
+          class="ui-input ui-input--dark ui-input--animated">`,
+      })}
+      ${UI.Field({
+        label: 'Video de YouTube (Flyer animado)',
+        variant: 'video',
+        children: UI.html`<input type="url" id="${prefix}-youtube" name="youtube_video" value="${item.youtube_video || ''}" placeholder="https://www.youtube.com/watch?v=..."
+          class="ui-input ui-input--dark ui-input--focus-red ui-input--animated">`,
+      })}
+      ${UI.Field({
+        label: item._id ? 'Cambiar Imagen / Flyer' : 'Imagen / Flyer (File)',
+        children: UI.html`<input type="file" id="${prefix}-file" name="file" accept="image/*"
+          class="ui-input ui-input--file">
         <input type="text" id="${prefix}-img-url" name="imageUrl" value="${item._id ? (item.imageUrl || '') : (item.imageUrl || '')}" placeholder="O pegá el enlace de la imagen..."
-          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none transition-colors mt-2">
-      </div>
+          class="ui-input ui-input--dark ui-input--animated mt-2">`,
+      })}
       
       <!-- Participants Section -->
       <div class="border-t border-white/10 pt-6 mt-6">
-        <h4 class="text-xs font-bold text-gray-500 uppercase mb-3 tracking-widest">
+        <h4 class="ui-eyebrow ui-eyebrow--field-wide mb-3">
           <i class="fas fa-users text-magenta-500 mr-2"></i>Participantes del Evento
         </h4>
         <p class="text-[10px] text-gray-500 mb-3">También se agregan automáticamente cuando etiquetás @usuarios en la descripción.</p>
@@ -195,7 +197,7 @@ const FORM_TEMPLATES = {
       <div class="border-t border-white/10 pt-6 mt-6">
         <div class="flex items-center gap-3 mb-4">
           <input type="checkbox" id="${prefix}-ticket-enabled" ${tc.enabled ? 'checked' : ''}
-            class="w-5 h-5 rounded border-white/20 bg-white/5 text-magenta-500 focus:ring-magenta-500 focus:ring-offset-0"
+            class="ui-checkbox ui-checkbox--md"
             onchange="toggleTicketConfig('${prefix}')">
           <label for="${prefix}-ticket-enabled" class="text-sm font-bold text-white cursor-pointer">
             <i class="fas fa-ticket-alt text-magenta-500 mr-2"></i>Activar sistema de entradas
@@ -204,61 +206,63 @@ const FORM_TEMPLATES = {
         
         <div id="${prefix}-ticket-config" class="space-y-4 ${tc.enabled ? '' : 'hidden'}">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Precio (ARS)</label>
-              <input type="number" id="${prefix}-ticket-price" value="${tc.price || 0}" min="0" placeholder="0"
-                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Cantidad máxima de entradas</label>
-              <input type="number" id="${prefix}-ticket-max" value="${tc.maxTickets || 100}" min="1"
-                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none">
-            </div>
+            ${UI.Field({
+              label: 'Precio (ARS)',
+              children: UI.html`<input type="number" id="${prefix}-ticket-price" value="${tc.price || 0}" min="0" placeholder="0"
+                class="ui-input ui-input--dark">`,
+            })}
+            ${UI.Field({
+              label: 'Cantidad máxima de entradas',
+              children: UI.html`<input type="number" id="${prefix}-ticket-max" value="${tc.maxTickets || 100}" min="1"
+                class="ui-input ui-input--dark">`,
+            })}
           </div>
           
-          <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Link de pago (MercadoPago)</label>
-            <input type="url" id="${prefix}-ticket-link" value="${tc.paymentLink || ''}" placeholder="https://mpago.la/..."
-              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none">
-          </div>
+          ${UI.Field({
+            label: 'Link de pago (MercadoPago)',
+            children: UI.html`<input type="url" id="${prefix}-ticket-link" value="${tc.paymentLink || ''}" placeholder="https://mpago.la/..."
+              class="ui-input ui-input--dark">`,
+          })}
 
-          <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Modo de cobro</label>
-            <div class="flex flex-wrap gap-3">
-              <label class="flex items-center gap-2 text-sm text-white/80 bg-white/5 border border-white/10 rounded-xl px-3 py-2 cursor-pointer">
-                <input type="radio" name="${prefix}-ticket-mode" value="auto" ${!tc.mode || tc.mode === 'auto' ? 'checked' : ''} class="w-4 h-4 text-magenta-500 bg-white/5 border-white/10 focus:ring-magenta-500" onchange="updateTicketMode('${prefix}')">
+          ${UI.Field({
+            label: 'Modo de cobro',
+            children: UI.html`<div class="flex flex-wrap gap-3">
+              <label class="ui-choice ui-choice--pill">
+                <input type="radio" name="${prefix}-ticket-mode" value="auto" ${!tc.mode || tc.mode === 'auto' ? 'checked' : ''} class="ui-radio" onchange="updateTicketMode('${prefix}')">
                 <span class="font-bold">Auto</span>
               </label>
-              <label class="flex items-center gap-2 text-sm text-white/80 bg-white/5 border border-white/10 rounded-xl px-3 py-2 cursor-pointer">
-                <input type="radio" name="${prefix}-ticket-mode" value="manual" ${tc.mode === 'manual' ? 'checked' : ''} class="w-4 h-4 text-magenta-500 bg-white/5 border-white/10 focus:ring-magenta-500" onchange="updateTicketMode('${prefix}')">
+              <label class="ui-choice ui-choice--pill">
+                <input type="radio" name="${prefix}-ticket-mode" value="manual" ${tc.mode === 'manual' ? 'checked' : ''} class="ui-radio" onchange="updateTicketMode('${prefix}')">
                 <span class="font-bold">Manual</span>
               </label>
             </div>
-            <p class="text-[10px] text-gray-500 mt-2">Auto = MercadoPago con alias de artedigitaldata. Manual = el comprador ve el CBU/alias en el mensaje de compra y el administrador envía la entrada.</p>
-          </div>
-          <div id="${prefix}-manual-payment-info-container" class="${tc.mode === 'manual' ? '' : 'hidden'}">
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">CBU / Alias de MercadoPago</label>
-            <input type="text" id="${prefix}-ticket-manual-info" value="${tc.manualPaymentInfo || ''}" placeholder="Ej: aliasmercadopago o 0001234500012345678901"
-              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none">
-            <p class="text-[10px] text-gray-500 mt-1">Esta información se mostrará en la página de compra cuando el modo manual esté activado.</p>
-          </div>
+            <p class="ui-hint mt-2">Auto = MercadoPago con alias de artedigitaldata. Manual = el comprador ve el CBU/alias en el mensaje de compra y el administrador envía la entrada.</p>`,
+          })}
+          ${UI.Field({
+            id: `${prefix}-manual-payment-info-container`,
+            className: tc.mode === 'manual' ? '' : 'hidden',
+            label: 'CBU / Alias de MercadoPago',
+            hint: 'Esta información se mostrará en la página de compra cuando el modo manual esté activado.',
+            children: UI.html`<input type="text" id="${prefix}-ticket-manual-info" value="${tc.manualPaymentInfo || ''}" placeholder="Ej: aliasmercadopago o 0001234500012345678901"
+              class="ui-input ui-input--dark">`,
+          })}
           
-          <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Mensaje en página de compra</label>
-            <textarea id="${prefix}-ticket-purchase-message" rows="2" placeholder="Ej: Todos los asistentes entran al sorteo de una tablet..."
-              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none resize-none">${tc.purchaseMessage || ''}</textarea>
-            <p class="text-[10px] text-gray-500 mt-1">Se muestra en la pantalla de compra. En modo manual pegá CBU o alias de MercadoPago y avisá al comprador que luego el administrador le enviará la entrada.</p>
-          </div>
+          ${UI.Field({
+            label: 'Mensaje en página de compra',
+            hint: 'Se muestra en la pantalla de compra. En modo manual pegá CBU o alias de MercadoPago y avisá al comprador que luego el administrador le enviará la entrada.',
+            children: UI.html`<textarea id="${prefix}-ticket-purchase-message" rows="2" placeholder="Ej: Todos los asistentes entran al sorteo de una tablet..."
+              class="ui-textarea ui-textarea--dark ui-textarea--fixed">${tc.purchaseMessage || ''}</textarea>`,
+          })}
 
-          <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Mensaje post-compra</label>
-            <textarea id="${prefix}-ticket-message" rows="2" placeholder="¡Gracias por tu compra! Presentá este QR en la entrada..."
-              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none resize-none">${tc.successMessage || ''}</textarea>
-          </div>
+          ${UI.Field({
+            label: 'Mensaje post-compra',
+            children: UI.html`<textarea id="${prefix}-ticket-message" rows="2" placeholder="¡Gracias por tu compra! Presentá este QR en la entrada..."
+              class="ui-textarea ui-textarea--dark ui-textarea--fixed">${tc.successMessage || ''}</textarea>`,
+          })}
           
           <div class="flex items-center gap-3">
             <input type="checkbox" id="${prefix}-ticket-contribution" ${tc.isContribution ? 'checked' : ''}
-              class="w-5 h-5 rounded border-white/20 bg-white/5 text-magenta-500 focus:ring-magenta-500 focus:ring-offset-0">
+              class="ui-checkbox ui-checkbox--md">
             <label for="${prefix}-ticket-contribution" class="text-sm text-gray-300 cursor-pointer">
               Evento con bono contribución (el usuario decide cuánto pagar)
             </label>
@@ -313,13 +317,10 @@ window.searchParticipants = async (prefix, query) => {
     suggestionsEl.classList.remove('hidden');
     suggestionsEl.innerHTML = users.map(u => {
       const uid = u._id || u.id || '';
-      const avatarInner = u.avatar
-        ? '<img src="' + u.avatar + '" class="w-full h-full object-cover">'
-        : (u.label || '?')[0].toUpperCase();
       return '<div class="suggestion-row flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-white/10 transition-colors"'
         + ' data-id="' + uid + '" data-username="' + u.label + '" data-avatar="' + (u.avatar || '') + '"'
         + ' onclick="selectParticipantSuggestion(\'' + prefix + '\', this)">' 
-        + '<div class="w-7 h-7 rounded-full bg-magenta-500/20 flex items-center justify-center text-xs font-bold text-magenta-400 overflow-hidden shrink-0">' + avatarInner + '</div>'
+        + UI.Avatar({ name: u.label, src: u.avatar, variant: 'participant', size: 'md' })
         + '<span class="text-sm text-white font-bold">@' + u.label + '</span>'
         + '</div>';
     }).join('');
@@ -369,11 +370,9 @@ window.addParticipantChip = (prefix, user) => {
   chip.dataset.id = user._id;
   chip.dataset.username = user.username;
   chip.innerHTML = `
-    <div class="w-5 h-5 rounded-full bg-magenta-500/20 flex items-center justify-center text-[9px] font-bold text-magenta-400 overflow-hidden">
-      ${user.avatar ? `<img src="${user.avatar}" class="w-full h-full object-cover">` : (user.username || '?')[0].toUpperCase()}
-    </div>
+    ${UI.Avatar({ name: user.username, src: user.avatar, variant: 'participant', size: 'xs' })}
     <span class="font-bold text-xs">${user.username}</span>
-    <button type="button" onclick="removeParticipantChip(this)" class="text-gray-500 hover:text-red-400 ml-1 transition-colors"><i class="fas fa-times text-[9px]"></i></button>
+    <button type="button" onclick="removeParticipantChip(this)" class="ml-1 ui-btn ui-btn--chip-remove"><i class="fas fa-times text-[9px]"></i></button>
   `;
   listEl.appendChild(chip);
 };

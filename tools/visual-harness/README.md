@@ -36,9 +36,13 @@ vivo y cambia entre corridas.
 | API, imágenes de usuarios, fuentes y CDNs | `netcache.js` graba las respuestas la primera vez y luego las reproduce byte a byte |
 | Render asíncrono que dispara el JS | Se espera a que el DOM deje de mutar (`MutationObserver`), no a un timeout fijo |
 | Animaciones CSS | Se pausan en el fotograma 0; no se desactivan, para que una clase `animate-*` faltante siga notándose |
+| Fondo ASCII / letras de p5 (física y azar) | Se ocultan `#p5-canvas`, `#p5-global-canvas`, `.p5Canvas` y `#ascii-bg-canvas` con `visibility: hidden` antes de capturar |
 | Redirección al SSO | Se pre-siembra el flag `fsc_sso_checked` en `sessionStorage` y las páginas renderizan en su sitio |
 | Otro dev server en `::1` | El servidor se ata a `127.0.0.1` con un puerto libre asignado por el SO |
 | Navegaciones intermitentes | Hasta 3 reintentos por página |
+
+`eventgallery` también se marca `nondeterministic`: su autoplay y scroll corren
+con `setInterval` y el frame capturado varía.
 
 `404.html` se marca como `nondeterministic` en `pages.js`: es un canvas
 generativo de p5.js y además no carga Tailwind, así que su ruido se informa
@@ -71,6 +75,20 @@ node tools/visual-harness/computed-styles.js /404 /tmp/antes.json
 node tools/visual-harness/computed-styles.js /404 /tmp/despues.json
 node tools/visual-harness/compare-styles.js /tmp/antes.json /tmp/despues.json
 ```
+
+## Corridas en paralelo
+
+Cada captura levanta un Chromium de varios GB. Con varias a la vez la máquina
+se quedaba sin memoria, así que `capture.js` toma un candado global (`snapshots/.lock`, ver `lock.js`) y esperan su turno. Un
+candado de un proceso muerto se libera solo.
+
+`HARNESS_PAGES=obras,recursos` limita captura y comparación a esas páginas.
+
+## Fragmentos
+
+`compare-fragments.js` compara HTML literal contra la salida de un componente
+(estados de carga, modales, hover, focus): píxeles y estilos computados. Los
+casos viven en `cases/`. Ver `docs/componentes.md`.
 
 ## Requisito
 

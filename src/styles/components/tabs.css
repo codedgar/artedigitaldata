@@ -1,0 +1,72 @@
+/* Tabs y barras de filtros. Ver docs/componentes.md.
+
+   Contenedores `ui-tabs--*` y variantes de ítem que no estaban en button.css
+   (`ui-btn--tab-underline`, `ui-btn--tab-pill` y `ui-btn--filter` viven allá).
+   El markup lo arma UI.Tabs / UI.ChoiceCards (js/ui/tabs.js).
+
+   Igual que en button.css: fondo, color y borde que cambia el JS al activar
+   un ítem NO van en la primitiva. Siguen como utilidades en el elemento y los
+   agrega o quita UI.setActiveTab; si estuvieran acá, las utilidades les
+   ganarían. El color de hover por tipo también queda en el elemento, porque
+   si no lo pisaría el color de borde/fondo del estado. */
+@layer components {
+  /* ── Contenedores ── */
+  .ui-tabs--underline { @apply flex border-b border-white/10; }
+  .ui-tabs--pill { @apply flex gap-2 bg-black/40 p-1 rounded-xl border border-white/5; }
+
+  /* ── Ítems ── */
+  /* Mitades iguales con subrayado propio (chat). */
+  .ui-btn--tab-split { @apply py-3 text-xs font-bold uppercase tracking-wider transition-all border-b-2; }
+  /* Filtros redondeados en mayúsculas (oportunidades). */
+  .ui-btn--filter-pill { @apply px-5 py-2 rounded-full border font-black text-xs uppercase tracking-widest transition-all; }
+  /* Tarjeta de opción de un paso "elegí el tipo" (crear-oportunidad). Lleva
+     la clase `group` en el elemento: Tailwind no deja aplicarla con @apply. */
+  .ui-btn--choice-card { @apply relative overflow-hidden rounded-2xl border p-6 text-center transition-all; }
+
+  /* ── Interruptores de tipo del feed (index.html, sobre el sistema solar).
+        CSS a mano, copiado tal cual (`!important` incluido) del <style> de la
+        página. Antes quedaba justo antes de `.moon-pill` en ese <style>; acá
+        sigue antes, así que `.moon-pill` le sigue ganando `transition` y
+        `backdrop-filter`. `.active` lo pone y lo saca js/index.js. ── */
+  .ui-filter-switch {
+    background: transparent !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 10;
+  }
+
+  .ui-filter-switch:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .ui-filter-switch--post.active {
+    background: rgba(34, 211, 238, 0.25) !important;
+    border-color: #22d3ee !important;
+    color: #22d3ee !important;
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+  }
+  .ui-filter-switch--recurso.active {
+    background: rgba(132, 204, 22, 0.25) !important;
+    border-color: #84cc16 !important;
+    color: #a3e635 !important;
+    box-shadow: 0 0 20px rgba(132, 204, 22, 0.3);
+  }
+  .ui-filter-switch--evento.active {
+    background: rgba(232, 121, 249, 0.25) !important;
+    border-color: #e879f9 !important;
+    color: #e879f9 !important;
+    box-shadow: 0 0 20px rgba(232, 121, 249, 0.3);
+  }
+  .ui-filter-switch--oportunidad.active {
+    background: rgba(234, 179, 8, 0.25) !important;
+    border-color: #eab308 !important;
+    color: #facc15 !important;
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
+  }
+}

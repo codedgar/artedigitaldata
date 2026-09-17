@@ -7,6 +7,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
   <script src="js/auth.js"></script>
   <link rel="stylesheet" href="css/tailwind.css">
 </head>
@@ -15,36 +26,36 @@
   <div id="app-header"></div>
 
   <main class="flex-1 flex items-center justify-center pt-20 pb-10 px-4">
-    <div class="w-full max-w-md rounded-2xl p-8 border border-cyan-500/20 card-cyber">
+    <div class="card-cyber ui-panel ui-panel--auth">
       <div class="text-center mb-8">
         <div class="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center font-black text-2xl mb-4">
           <img src="img/artedigital.png" alt="Logo" class="w-full h-full object-cover rounded-xl">
         </div>
-        <h1 class="text-2xl font-bold text-white">Crear Cuenta</h1>
+        <h1 class="ui-title ui-title--panel">Crear Cuenta</h1>
         <p class="text-gray-400 text-sm mt-2">Unite a la comunidad de Arte Digital</p>
       </div>
 
       <form id="register-form" class="space-y-5">
         <div>
-          <label class="block text-sm font-medium text-gray-400 mb-2">Username</label>
+          <label class="ui-label ui-label--account">Username</label>
           <input type="text" id="reg-username" required
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-[var(--color-cyan)] focus:outline-none transition-colors"
+            class="ui-input ui-input--soft ui-input--focus-brand"
             placeholder="tu_nombre_artístico">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+          <label class="ui-label ui-label--account">Email</label>
           <input type="email" id="reg-email" required
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-[var(--color-cyan)] focus:outline-none transition-colors"
+            class="ui-input ui-input--soft ui-input--focus-brand"
             placeholder="tu@email.com">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-400 mb-2">Contraseña</label>
+          <label class="ui-label ui-label--account">Contraseña</label>
           <input type="password" id="reg-pass" required minlength="6"
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-[var(--color-cyan)] focus:outline-none transition-colors"
+            class="ui-input ui-input--soft ui-input--focus-brand"
             placeholder="Mínimo 6 caracteres">
         </div>
         <div id="reg-error" class="hidden text-red-400 text-sm text-center bg-red-500/10 rounded-lg p-3"></div>
-        <button type="submit" class="btn-primary w-full py-3 rounded-xl transition-all hover:scale-[1.02]">
+        <button type="submit" class="btn-primary w-full ui-btn ui-btn--primary-block">
           <i class="fas fa-user-plus mr-2"></i>Crear Cuenta
         </button>
       </form>
@@ -56,7 +67,6 @@
     </div>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script>

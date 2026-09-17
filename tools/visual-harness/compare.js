@@ -6,7 +6,7 @@ const { PNG } = require('pngjs');
 const pixelmatch = require('pixelmatch');
 
 const SNAP = path.resolve(__dirname, 'snapshots');
-const PAGES = require('./pages');
+const PAGES = require('./pages').selected();
 
 // Páginas cuyo render es aleatorio por diseño: se informan aparte para que su
 // ruido no se confunda con una regresión.
@@ -24,7 +24,10 @@ function main() {
   fs.rmSync(diffDir, { recursive: true, force: true });
   fs.mkdirSync(diffDir, { recursive: true });
 
-  const files = fs.readdirSync(dirA).filter((f) => f.endsWith('.png')).sort();
+  const only = new Set(PAGES.map((p) => p.name));
+  const files = fs.readdirSync(dirA)
+    .filter((f) => f.endsWith('.png') && only.has(f.split('--')[0]))
+    .sort();
   const rows = [];
 
   for (const f of files) {

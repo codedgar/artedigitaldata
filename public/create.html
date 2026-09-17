@@ -8,6 +8,18 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/create.css">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="app-header"></div>
@@ -20,27 +32,27 @@
 
     <!-- Type Selection -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-      <button onclick="switchType('post')" id="btn-post" class="type-card active p-6 rounded-3xl border border-white/5 bg-black/40 text-center group">
+      <button onclick="switchType('post')" id="btn-post" class="type-card active group ui-btn ui-btn--type-card">
         <div class="w-16 h-16 mx-auto bg-cyan-500/10 rounded-2xl flex items-center justify-center mb-4 transition-colors">
           <i class="fas fa-palette text-2xl text-gray-400"></i>
         </div>
-        <h3 class="text-lg font-bold text-white mb-1">Obra Artística</h3>
+        <h3 class="ui-title ui-title--card mb-1">Obra Artística</h3>
         <p class="text-xs text-gray-500">Publicá tus creaciones y diseños</p>
       </button>
 
-      <button onclick="switchType('recurso')" id="btn-recurso" class="type-card p-6 rounded-3xl border border-white/5 bg-black/40 text-center group">
+      <button onclick="switchType('recurso')" id="btn-recurso" class="type-card group ui-btn ui-btn--type-card">
         <div class="w-16 h-16 mx-auto bg-orange-500/10 rounded-2xl flex items-center justify-center mb-4 transition-colors">
           <i class="fas fa-box-open text-2xl text-gray-400"></i>
         </div>
-        <h3 class="text-lg font-bold text-white mb-1">Recurso</h3>
+        <h3 class="ui-title ui-title--card mb-1">Recurso</h3>
         <p class="text-xs text-gray-500">Links, software o tutoriales</p>
       </button>
 
-      <button onclick="switchType('evento')" id="btn-evento" class="type-card p-6 rounded-3xl border border-white/5 bg-black/40 text-center group">
+      <button onclick="switchType('evento')" id="btn-evento" class="type-card group ui-btn ui-btn--type-card">
         <div class="w-16 h-16 mx-auto bg-fuchsia-500/10 rounded-2xl flex items-center justify-center mb-4 transition-colors">
           <i class="fas fa-calendar-alt text-2xl text-gray-400"></i>
         </div>
-        <h3 class="text-lg font-bold text-white mb-1">Evento</h3>
+        <h3 class="ui-title ui-title--card mb-1">Evento</h3>
         <p class="text-xs text-gray-500">Fechas, ferias o streamings</p>
       </button>
 
@@ -48,7 +60,7 @@
         <div class="w-16 h-16 mx-auto bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-4 transition-colors">
           <i class="fas fa-briefcase text-2xl text-gray-400"></i>
         </div>
-        <h3 class="text-lg font-bold text-white mb-1">Oportunidad</h3>
+        <h3 class="ui-title ui-title--card mb-1">Oportunidad</h3>
         <p class="text-xs text-gray-500">Convocatorias, trabajos, colaboraciones</p>
       </a>
     </div>
@@ -59,7 +71,7 @@
       <!-- Post Form -->
       <form id="post-form" class="space-y-6">
         <div id="post-fields-root"></div>
-        <div class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
+        <div class="flex items-center justify-between ui-panel ui-panel--row">
           <div class="flex items-center gap-3">
             <i class="fas fa-eye text-gray-400"></i>
             <div>
@@ -68,13 +80,13 @@
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <select id="post-visibility" class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:border-cyan-500/50 focus:outline-none">
+            <select id="post-visibility" class="ui-select ui-select--compact ui-select--focus-cyan-soft">
               <option value="public">🌍 Público (aparece en el feed)</option>
               <option value="unlisted">🔗 No listado (solo por link)</option>
             </select>
           </div>
         </div>
-        <button type="submit" class="w-full btn-primary py-4 rounded-2xl font-black text-lg shadow-xl shadow-cyan-500/10 hover:scale-[1.01] transition-transform">
+        <button type="submit" class="w-full btn-primary ui-btn ui-btn--primary-xl ui-btn--glow-cyan">
           <i class="fas fa-paper-plane mr-2"></i>PUBLICAR OBRA
         </button>
       </form>
@@ -82,7 +94,7 @@
       <!-- Recurso Form -->
       <form id="recurso-form" class="space-y-6 hidden">
         <div id="recurso-fields-root"></div>
-        <div class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
+        <div class="flex items-center justify-between ui-panel ui-panel--row">
           <div class="flex items-center gap-3">
             <i class="fas fa-eye text-gray-400"></i>
             <div>
@@ -91,13 +103,13 @@
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <select id="rec-visibility" class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:border-orange-500/50 focus:outline-none">
+            <select id="rec-visibility" class="ui-select ui-select--compact ui-select--focus-orange-soft">
               <option value="public">🌍 Público (aparece en el feed)</option>
               <option value="unlisted">🔗 No listado (solo por link)</option>
             </select>
           </div>
         </div>
-        <button type="submit" class="w-full btn-primary py-4 rounded-2xl font-black text-lg shadow-xl shadow-orange-500/10 hover:scale-[1.01] transition-transform" style="background: linear-gradient(135deg, #ff8c00, #ff4500); color: white !important;">
+        <button type="submit" class="w-full btn-primary ui-btn ui-btn--primary-xl ui-btn--glow-orange" style="background: linear-gradient(135deg, #ff8c00, #ff4500); color: white !important;">
           <i class="fas fa-upload mr-2"></i>SUBIR RECURSO
         </button>
       </form>
@@ -105,7 +117,7 @@
       <!-- Evento Form -->
       <form id="evento-form" class="space-y-6 hidden">
         <div id="evento-fields-root"></div>
-        <div class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
+        <div class="flex items-center justify-between ui-panel ui-panel--row">
           <div class="flex items-center gap-3">
             <i class="fas fa-eye text-gray-400"></i>
             <div>
@@ -114,13 +126,13 @@
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <select id="event-visibility" class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:border-fuchsia-500/50 focus:outline-none">
+            <select id="event-visibility" class="ui-select ui-select--compact ui-select--focus-fuchsia-soft">
               <option value="public">🌍 Público (aparece en el feed)</option>
               <option value="unlisted">🔗 No listado (solo por link)</option>
             </select>
           </div>
         </div>
-        <button type="submit" class="w-full btn-primary py-4 rounded-2xl font-black text-lg shadow-xl shadow-magenta-500/10 hover:scale-[1.01] transition-transform">
+        <button type="submit" class="w-full btn-primary ui-btn ui-btn--primary-xl ui-btn--glow-magenta">
           <i class="fas fa-calendar-plus mr-2"></i>PUBLICAR EVENTO
         </button>
       </form>
@@ -129,20 +141,19 @@
   </main>
 
   <!-- Status Overlay -->
-  <div id="status-overlay" class="fixed inset-0 bg-black/90 backdrop-blur-md hidden items-center justify-center z-[10000] p-4">
-    <div class="text-center max-w-sm w-full">
+  <div id="status-overlay" class="hidden ui-modal ui-modal--status">
+    <div class="ui-modal__panel ui-modal__panel--status" role="dialog" aria-modal="true" aria-labelledby="status-title">
       <div id="status-icon" class="mb-6 flex justify-center">
         <div class="relative w-24 h-24">
           <div class="absolute inset-0 border-4 border-white/5 rounded-full"></div>
           <div id="status-spinner" class="absolute inset-0 border-4 border-t-cyan-500 rounded-full animate-spin"></div>
         </div>
       </div>
-      <h2 id="status-title" class="text-3xl font-black text-white mb-2 uppercase tracking-tighter">Subiendo...</h2>
+      <h2 id="status-title" class="ui-title ui-title--status mb-2">Subiendo...</h2>
       <p id="status-msg" class="text-gray-400">Procesando archivos y etiquetas...</p>
     </div>
   </div>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script src="js/tagging.js"></script>

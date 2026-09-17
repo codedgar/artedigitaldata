@@ -7,6 +7,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="app-header"></div>
@@ -20,19 +32,17 @@
 
     <div id="admin-panel" class="hidden">
       <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
-        <div>
-          <h1 class="text-3xl font-black text-white">
-            <i class="fas fa-shield-alt text-[var(--color-cyan)] mr-2"></i>Panel de Control
-          </h1>
-          <p class="text-gray-400 mt-1">Gestión global de la plataforma</p>
-        </div>
-        <div class="flex gap-2 bg-black/40 p-1 rounded-xl border border-white/5">
-          <button onclick="switchTab('users')" id="tab-users" class="tab-btn px-6 py-2 rounded-lg font-bold text-sm transition-all bg-cyan-500 text-black">Usuarios</button>
-          <button onclick="switchTab('posts')" id="tab-posts" class="tab-btn px-6 py-2 rounded-lg font-bold text-sm transition-all text-gray-400 hover:text-white">Posteos</button>
-          <button onclick="switchTab('recursos')" id="tab-recursos" class="tab-btn px-6 py-2 rounded-lg font-bold text-sm transition-all text-gray-400 hover:text-white">Recursos</button>
-          <button onclick="switchTab('eventos')" id="tab-eventos" class="tab-btn px-6 py-2 rounded-lg font-bold text-sm transition-all text-gray-400 hover:text-white">Eventos</button>
-          <button onclick="switchTab('oportunidades')" id="tab-oportunidades" class="tab-btn px-6 py-2 rounded-lg font-bold text-sm transition-all text-gray-400 hover:text-white">Oportunidades</button>
-          <button onclick="switchTab('autobot')" id="tab-autobot" class="tab-btn px-6 py-2 rounded-lg font-bold text-sm transition-all text-gray-400 hover:text-white flex items-center gap-1"><i class="fas fa-robot text-xs"></i><span id="tab-autobot-label">Autobot</span></button>
+        <div id="page-header"></div>
+        <script>document.getElementById('page-header').innerHTML = UI.PageHeader({ icon: 'fas fa-shield-alt', title: 'Panel de Control', subtitle: 'Gestión global de la plataforma', size: 'sm' });</script>
+        <div class="ui-tabs--pill">
+          <script>document.currentScript.outerHTML = UI.Tabs({ variant: 'pill', onSelect: 'switchTab', idPrefix: 'tab-', active: 'users', items: [
+            { key: 'users', label: 'Usuarios' },
+            { key: 'posts', label: 'Posteos' },
+            { key: 'recursos', label: 'Recursos' },
+            { key: 'eventos', label: 'Eventos' },
+            { key: 'oportunidades', label: 'Oportunidades' },
+            { key: 'autobot', label: 'Autobot', icon: 'fas fa-robot', labelId: 'tab-autobot-label', className: 'flex items-center gap-1' },
+          ] });</script>
           <a href="admin-tickets.html" class="px-6 py-2 rounded-lg font-bold text-sm transition-all text-magenta-400 hover:text-white hover:bg-magenta-500/20 flex items-center gap-2">
             <i class="fas fa-ticket-alt"></i>Entradas
           </a>
@@ -44,12 +54,12 @@
         <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
         <input type="text" id="admin-search" placeholder="Buscar por título, nombre o email..." 
                oninput="handleSearch()"
-               class="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors">
+               class="ui-input ui-input--dark ui-input--focus-cyan ui-input--animated pl-12">
       </div>
 
       <!-- Content Sections -->
       <div id="section-users" class="admin-section">
-        <div class="rounded-2xl border border-cyan-500/20 card-cyber overflow-hidden">
+        <div class="card-cyber ui-panel ui-panel--admin ui-panel--accent-cyan">
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead>
@@ -68,7 +78,7 @@
       </div>
 
       <div id="section-posts" class="admin-section hidden">
-        <div class="rounded-2xl border border-cyan-500/20 card-cyber overflow-hidden">
+        <div class="card-cyber ui-panel ui-panel--admin ui-panel--accent-cyan">
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead>
@@ -87,7 +97,7 @@
       </div>
 
       <div id="section-recursos" class="admin-section hidden">
-        <div class="rounded-2xl border border-cyan-500/20 card-cyber overflow-hidden">
+        <div class="card-cyber ui-panel ui-panel--admin ui-panel--accent-cyan">
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead>
@@ -106,7 +116,7 @@
       </div>
 
       <div id="section-eventos" class="admin-section hidden">
-        <div class="rounded-2xl border border-magenta-500/20 card-cyber overflow-hidden">
+        <div class="card-cyber ui-panel ui-panel--admin ui-panel--accent-magenta">
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead>
@@ -125,7 +135,7 @@
       </div>
 
       <div id="section-oportunidades" class="admin-section hidden">
-        <div class="rounded-2xl border border-emerald-500/20 card-cyber overflow-hidden">
+        <div class="card-cyber ui-panel ui-panel--admin ui-panel--accent-emerald">
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead>
@@ -147,12 +157,12 @@
   </main>
 
   <!-- Edit Modal -->
-  <div id="edit-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-start justify-center p-4 py-8 z-50 overflow-y-auto">
-    <div class="bg-[var(--bg-surface)] border border-white/10 rounded-3xl max-w-3xl w-full overflow-hidden p-8 my-auto relative">
-      <button onclick="closeEditModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white z-10 bg-black/50 w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-all">
+  <div id="edit-modal" class="hidden ui-modal ui-modal--sheet-admin">
+    <div class="ui-modal__panel ui-modal__panel--edit-admin" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button onclick="closeEditModal()" class="absolute top-4 right-4 z-10 ui-btn ui-btn--close" aria-label="Cerrar">
         <i class="fas fa-times"></i>
       </button>
-      <h2 id="modal-title" class="text-2xl font-bold text-white mb-6 sticky top-0 bg-[var(--bg-surface)] py-2 z-10">Editar Contenido</h2>
+      <h2 id="modal-title" class="ui-title ui-title--panel mb-6 sticky top-0 bg-[var(--bg-surface)] py-2 z-10">Editar Contenido</h2>
       <form id="edit-form" class="space-y-6">
         <input type="hidden" id="edit-id">
         <input type="hidden" id="edit-type">
@@ -160,28 +170,28 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-4">
             <div>
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Título</label>
-              <input type="text" id="edit-title" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-cyan-500 outline-none">
+              <label class="ui-label ui-label--caps">Título</label>
+              <input type="text" id="edit-title" required class="ui-input ui-input--dense ui-input--focus-cyan">
             </div>
 
             <div id="div-date" class="hidden">
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Fecha y Hora</label>
-              <input type="datetime-local" id="edit-date" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-cyan-500 outline-none">
+              <label class="ui-label ui-label--caps">Fecha y Hora</label>
+              <input type="datetime-local" id="edit-date" class="ui-input ui-input--dense ui-input--focus-cyan">
             </div>
 
             <div id="div-location" class="hidden">
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Ubicación</label>
-              <input type="text" id="edit-location" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-cyan-500 outline-none">
+              <label class="ui-label ui-label--caps">Ubicación</label>
+              <input type="text" id="edit-location" class="ui-input ui-input--dense ui-input--focus-cyan">
             </div>
 
             <div id="div-url" class="hidden">
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Enlace / URL</label>
-              <input type="url" id="edit-url" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-cyan-500 outline-none">
+              <label class="ui-label ui-label--caps">Enlace / URL</label>
+              <input type="url" id="edit-url" class="ui-input ui-input--dense ui-input--focus-cyan">
             </div>
 
             <div id="div-rec-type" class="hidden">
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Tipo de Recurso</label>
-              <select id="edit-rec-type" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-cyan-500 outline-none">
+              <label class="ui-label ui-label--caps">Tipo de Recurso</label>
+              <select id="edit-rec-type" class="ui-select ui-select--dense ui-select--focus-cyan">
                 <option value="software">Software</option>
                 <option value="github">GitHub / Código</option>
                 <option value="drive">Drive / Descarga</option>
@@ -192,13 +202,13 @@
             </div>
 
             <div id="div-tags" class="hidden">
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Etiquetas (coma)</label>
-              <input type="text" id="edit-tags" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-cyan-500 outline-none">
+              <label class="ui-label ui-label--caps">Etiquetas (coma)</label>
+              <input type="text" id="edit-tags" class="ui-input ui-input--dense ui-input--focus-cyan">
             </div>
 
             <div id="div-visibility">
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Visibilidad</label>
-              <select id="edit-visibility" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-cyan-500 outline-none">
+              <label class="ui-label ui-label--caps">Visibilidad</label>
+              <select id="edit-visibility" class="ui-select ui-select--dense ui-select--focus-cyan">
                 <option value="public">Público (Listado en el feed)</option>
                 <option value="unlisted">No Listado (Acceso solo con enlace directo)</option>
               </select>
@@ -207,13 +217,13 @@
 
           <div class="space-y-4">
             <div>
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Descripción</label>
-              <textarea id="edit-description" rows="5" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-cyan-500 outline-none resize-none"></textarea>
+              <label class="ui-label ui-label--caps">Descripción</label>
+              <textarea id="edit-description" rows="5" class="ui-textarea ui-textarea--dense ui-textarea--focus-cyan ui-textarea--fixed"></textarea>
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Imagen URL</label>
-              <input type="text" id="edit-imageUrl" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-cyan-500 outline-none mb-2">
+              <label class="ui-label ui-label--caps">Imagen URL</label>
+              <input type="text" id="edit-imageUrl" class="ui-input ui-input--dense ui-input--focus-cyan mb-2">
               <div class="flex items-center gap-3">
                 <label class="cursor-pointer bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg text-xs font-bold transition-all">
                   <i class="fas fa-upload mr-1"></i> Subir Archivo
@@ -256,7 +266,7 @@
     <div id="autobot-real-content" class="rounded-2xl border border-green-500/20 card-cyber p-8">
       <div class="flex items-center justify-between mb-8">
         <div>
-          <h2 class="text-2xl font-black text-white flex items-center gap-3">
+          <h2 class="ui-title ui-title--panel-strong flex items-center gap-3">
             <i class="fas fa-robot text-green-400"></i>
             AutoBot <span class="text-xs font-bold text-green-500 bg-green-500/10 px-3 py-1 rounded-xl uppercase tracking-widest">Automático</span>
           </h2>
@@ -280,16 +290,16 @@
 
       <!-- Status Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
-          <p class="text-[10px] uppercase tracking-widest font-black text-gray-500 mb-2">🤖 Bot User</p>
+        <div class="ui-panel ui-panel--stat-soft">
+          <p class="ui-eyebrow ui-eyebrow--micro mb-2">🤖 Bot User</p>
           <p id="autobot-user-status" class="text-lg font-bold text-white">Verificando...</p>
         </div>
-        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
-          <p class="text-[10px] uppercase tracking-widest font-black text-gray-500 mb-2">📝 Posts Automáticos</p>
+        <div class="ui-panel ui-panel--stat-soft">
+          <p class="ui-eyebrow ui-eyebrow--micro mb-2">📝 Posts Automáticos</p>
           <p id="autobot-posts-count" class="text-lg font-bold text-cyan-400">-</p>
         </div>
-        <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
-          <p class="text-[10px] uppercase tracking-widest font-black text-gray-500 mb-2">📦 Recursos Automáticos</p>
+        <div class="ui-panel ui-panel--stat-soft">
+          <p class="ui-eyebrow ui-eyebrow--micro mb-2">📦 Recursos Automáticos</p>
           <p id="autobot-recursos-count" class="text-lg font-bold text-orange-400">-</p>
         </div>
       </div>
@@ -297,16 +307,14 @@
       <!-- Last Activity -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h3 class="text-xs font-black uppercase tracking-widest text-gray-500 mb-4">Últimos Posts Automáticos</h3>
-          <div id="autobot-last-posts" class="space-y-2">
-            <p class="text-gray-600 italic text-sm">Cargando...</p>
-          </div>
+          <h3 class="ui-eyebrow ui-eyebrow--section mb-4">Últimos Posts Automáticos</h3>
+          <div id="autobot-last-posts" class="space-y-2"></div>
+          <script>document.getElementById('autobot-last-posts').innerHTML = UI.StatusText({ variant: 'caption', message: 'Cargando...' });</script>
         </div>
         <div>
-          <h3 class="text-xs font-black uppercase tracking-widest text-gray-500 mb-4">Últimos Recursos Automáticos</h3>
-          <div id="autobot-last-recursos" class="space-y-2">
-            <p class="text-gray-600 italic text-sm">Cargando...</p>
-          </div>
+          <h3 class="ui-eyebrow ui-eyebrow--section mb-4">Últimos Recursos Automáticos</h3>
+          <div id="autobot-last-recursos" class="space-y-2"></div>
+          <script>document.getElementById('autobot-last-recursos').innerHTML = UI.StatusText({ variant: 'caption', message: 'Cargando...' });</script>
         </div>
       </div>
 
@@ -315,7 +323,6 @@
     </div>
   </div>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script>
@@ -387,12 +394,7 @@
       document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
       document.getElementById(`section-${tab}`).classList.remove('hidden');
       
-      document.querySelectorAll('.tab-btn').forEach(b => {
-        b.classList.remove('bg-cyan-500', 'text-black');
-        b.classList.add('text-gray-400');
-      });
-      document.getElementById(`tab-${tab}`).classList.add('bg-cyan-500', 'text-black');
-      document.getElementById(`tab-${tab}`).classList.remove('text-gray-400');
+      UI.setActiveTab(document.querySelectorAll('.tab-btn'), document.getElementById(`tab-${tab}`), 'pill');
       
       renderTable();
     }
@@ -425,9 +427,9 @@
             <td class="px-6 py-4 text-xs text-gray-500">${new Date(p.createdAt).toLocaleDateString()}</td>
             <td class="px-6 py-4 text-gray-500">${p.likes?.length || 0} / ${p.comments?.length || 0}</td>
             <td class="px-6 py-4 flex gap-3">
-              <a href="${CONFIG.BASE}/post.html?id=${p._id}" target="_blank" class="text-cyan-400 hover:text-white"><i class="fas fa-external-link-alt"></i></a>
-              <button onclick="openEdit('posts', '${p._id}')" class="text-yellow-500 hover:text-yellow-400"><i class="fas fa-edit"></i></button>
-              <button onclick="deleteItem('posts', '${p._id}')" class="text-red-500 hover:text-red-400"><i class="fas fa-trash"></i></button>
+              <a href="${CONFIG.BASE}/post.html?id=${p._id}" target="_blank" class="ui-btn ui-btn--row-view"><i class="fas fa-external-link-alt"></i></a>
+              <button onclick="openEdit('posts', '${p._id}')" class="ui-btn ui-btn--row-edit"><i class="fas fa-edit"></i></button>
+              <button onclick="deleteItem('posts', '${p._id}')" class="ui-btn ui-btn--row-delete"><i class="fas fa-trash"></i></button>
             </td>
           </tr>
         `).join('');
@@ -440,9 +442,9 @@
             <td class="px-6 py-4 text-gray-400">${escapeHTML(r.author?.username || 'Anónimo')}</td>
             <td class="px-6 py-4 truncate max-w-[150px]"><a href="${sanitizeUrl(r.url)}" target="_blank" class="text-gray-500 hover:text-cyan-400">${escapeHTML(r.url)}</a></td>
             <td class="px-6 py-4 flex gap-3">
-              <a href="${CONFIG.BASE}/recurso.html?id=${r._id}" target="_blank" class="text-cyan-400 hover:text-white"><i class="fas fa-external-link-alt"></i></a>
-              <button onclick="openEdit('recursos', '${r._id}')" class="text-yellow-500 hover:text-yellow-400"><i class="fas fa-edit"></i></button>
-              <button onclick="deleteItem('recursos', '${r._id}')" class="text-red-500 hover:text-red-400"><i class="fas fa-trash"></i></button>
+              <a href="${CONFIG.BASE}/recurso.html?id=${r._id}" target="_blank" class="ui-btn ui-btn--row-view"><i class="fas fa-external-link-alt"></i></a>
+              <button onclick="openEdit('recursos', '${r._id}')" class="ui-btn ui-btn--row-edit"><i class="fas fa-edit"></i></button>
+              <button onclick="deleteItem('recursos', '${r._id}')" class="ui-btn ui-btn--row-delete"><i class="fas fa-trash"></i></button>
             </td>
           </tr>
         `).join('');
@@ -455,10 +457,10 @@
             <td class="px-6 py-4 text-xs text-magenta-400">${new Date(e.date).toLocaleString()}</td>
             <td class="px-6 py-4 text-gray-500">${escapeHTML(e.location || 'Virtual')}</td>
             <td class="px-6 py-4 flex gap-3">
-              <a href="${CONFIG.BASE}/evento.html?id=${e._id}" target="_blank" class="text-cyan-400 hover:text-white"><i class="fas fa-external-link-alt"></i></a>
+              <a href="${CONFIG.BASE}/evento.html?id=${e._id}" target="_blank" class="ui-btn ui-btn--row-view"><i class="fas fa-external-link-alt"></i></a>
               ${e.ticketConfig?.enabled ? `<a href="${CONFIG.BASE}/event-tickets.html?event=${e._id}" target="_blank" class="text-green-400 hover:text-green-300" title="Administrar entradas"><i class="fas fa-ticket-alt"></i></a>` : ''}
-              <button onclick="openEdit('eventos', '${e._id}')" class="text-yellow-500 hover:text-yellow-400"><i class="fas fa-edit"></i></button>
-              <button onclick="deleteItem('eventos', '${e._id}')" class="text-red-500 hover:text-red-400"><i class="fas fa-trash"></i></button>
+              <button onclick="openEdit('eventos', '${e._id}')" class="ui-btn ui-btn--row-edit"><i class="fas fa-edit"></i></button>
+              <button onclick="deleteItem('eventos', '${e._id}')" class="ui-btn ui-btn--row-delete"><i class="fas fa-trash"></i></button>
             </td>
           </tr>
         `).join('');
@@ -485,9 +487,9 @@
               </a>
             </td>
             <td class="px-6 py-4 flex items-center gap-3">
-              <a href="${CONFIG.BASE}/oportunidad.html?id=${o._id}" target="_blank" class="text-cyan-400 hover:text-white" title="Ver"><i class="fas fa-external-link-alt"></i></a>
-              <a href="${CONFIG.BASE}/crear-oportunidad.html?id=${o._id}" class="text-yellow-500 hover:text-yellow-400" title="Editar"><i class="fas fa-edit"></i></a>
-              <button onclick="deleteItem('oportunidades', '${o._id}')" class="text-red-500 hover:text-red-400" title="Eliminar"><i class="fas fa-trash"></i></button>
+              <a href="${CONFIG.BASE}/oportunidad.html?id=${o._id}" target="_blank" class="ui-btn ui-btn--row-view" title="Ver"><i class="fas fa-external-link-alt"></i></a>
+              <a href="${CONFIG.BASE}/crear-oportunidad.html?id=${o._id}" class="ui-btn ui-btn--row-edit" title="Editar"><i class="fas fa-edit"></i></a>
+              <button onclick="deleteItem('oportunidades', '${o._id}')" class="ui-btn ui-btn--row-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
             </td>
           </tr>
         `;
@@ -651,7 +653,7 @@
             + '</div>'
           ).join('');
         } else {
-          postsContainer.innerHTML = '<p class="text-gray-600 italic text-sm">Aún no hay posts automáticos.</p>';
+          postsContainer.innerHTML = UI.StatusText({ variant: 'caption', message: 'Aún no hay posts automáticos.' });
         }
 
         const recursosContainer = document.getElementById('autobot-last-recursos');
@@ -663,7 +665,7 @@
             + '</div>'
           ).join('');
         } else {
-          recursosContainer.innerHTML = '<p class="text-gray-600 italic text-sm">Aún no hay recursos automáticos.</p>';
+          recursosContainer.innerHTML = UI.StatusText({ variant: 'caption', message: 'Aún no hay recursos automáticos.' });
         }
       } catch (err) {
         console.error('Error al cargar estado del autobot:', err);
@@ -678,7 +680,7 @@
 
       const resultDiv = document.getElementById('autobot-run-result');
       resultDiv.classList.remove('hidden');
-      resultDiv.innerHTML = '<p class="text-white"><i class="fas fa-spinner fa-spin mr-2"></i>Buscando contenido fresco...</p>';
+      resultDiv.innerHTML = UI.StatusText({ variant: 'result-loading', message: 'Buscando contenido fresco...' });
 
       try {
         const res = await apiRequest('/admin/autobot/run', { method: 'POST' });
@@ -700,7 +702,7 @@
         
         await refreshAutobotStatus();
       } catch (err) {
-        resultDiv.innerHTML = '<div class="text-red-400"><i class="fas fa-exclamation-triangle mr-2"></i>Error: ' + err.message + '</div>';
+        resultDiv.innerHTML = UI.StatusText({ variant: 'result-error', message: 'Error: ' + err.message });
       } finally {
         btn.disabled = false;
         btn.innerHTML = original;

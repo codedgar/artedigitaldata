@@ -25,35 +25,35 @@ function renderHeader() {
 
         <!-- Desktop Nav -->
         <nav class="hidden lg:flex items-center gap-0.5 shrink-0 flex-nowrap">
-          <a href="${CONFIG.BASE}/" class="nav-link flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-black text-gray-400 hover:text-[var(--color-cyan)] hover:bg-white/5 transition-all whitespace-nowrap">
+          <a href="${CONFIG.BASE}/" class="nav-link flex items-center gap-1.5 ui-btn ui-btn--nav ui-btn--accent-cyan">
             <i class="fas fa-home text-[10px]"></i> INICIO
           </a>
-          <a href="${CONFIG.BASE}/quienessomos.html" class="nav-link flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-black text-gray-400 hover:text-[var(--color-cyan)] hover:bg-white/5 transition-all whitespace-nowrap">
+          <a href="${CONFIG.BASE}/quienessomos.html" class="nav-link flex items-center gap-1.5 ui-btn ui-btn--nav ui-btn--accent-cyan">
             <i class="fas fa-info-circle text-[10px]"></i> QUIENES SOMOS
           </a>
-          <a href="${CONFIG.BASE}/obras.html" class="nav-link flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-black text-gray-400 hover:text-[var(--color-cyan)] hover:bg-white/5 transition-all whitespace-nowrap">
+          <a href="${CONFIG.BASE}/obras.html" class="nav-link flex items-center gap-1.5 ui-btn ui-btn--nav ui-btn--accent-cyan">
             <i class="fas fa-palette text-[10px]"></i> OBRAS
           </a>
-          <a href="${CONFIG.BASE}/recursos.html" class="nav-link flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-black text-gray-400 hover:text-[var(--color-cyan)] hover:bg-white/5 transition-all whitespace-nowrap">
+          <a href="${CONFIG.BASE}/recursos.html" class="nav-link flex items-center gap-1.5 ui-btn ui-btn--nav ui-btn--accent-cyan">
             <i class="fas fa-box-open text-[10px]"></i> RECURSOS
           </a>
-          <a href="${CONFIG.BASE}/oportunidades.html" class="nav-link flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-black text-gray-400 hover:text-[var(--color-emerald)] hover:bg-white/5 transition-all whitespace-nowrap">
+          <a href="${CONFIG.BASE}/oportunidades.html" class="nav-link flex items-center gap-1.5 ui-btn ui-btn--nav ui-btn--accent-emerald">
             <i class="fas fa-briefcase text-[10px]"></i> CHANCES
           </a>
-          <a href="${CONFIG.BASE}/search.html" class="nav-link flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-black text-gray-400 hover:text-[var(--color-cyan)] hover:bg-white/5 transition-all whitespace-nowrap">
+          <a href="${CONFIG.BASE}/search.html" class="nav-link flex items-center gap-1.5 ui-btn ui-btn--nav ui-btn--accent-cyan">
             <i class="fas fa-search text-[10px]"></i> BUSCAR
           </a>
-          <a href="${CONFIG.BASE}/calendario.html" class="nav-link flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-black text-gray-400 hover:text-[var(--color-cyan)] hover:bg-white/5 transition-all whitespace-nowrap">
+          <a href="${CONFIG.BASE}/calendario.html" class="nav-link flex items-center gap-1.5 ui-btn ui-btn--nav ui-btn--accent-cyan">
             <i class="fas fa-calendar-alt text-[10px]"></i> CALENDARIO
           </a>
-          <a href="${CONFIG.BASE}/artistas.html" class="nav-link flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-black text-gray-400 hover:text-[var(--color-magenta)] hover:bg-white/5 transition-all whitespace-nowrap">
+          <a href="${CONFIG.BASE}/artistas.html" class="nav-link flex items-center gap-1.5 ui-btn ui-btn--nav ui-btn--accent-magenta">
             <i class="fas fa-users text-[10px]"></i> ARTISTAS
           </a>
-          <a href="${CONFIG.BASE}/visualeffects.html" class="nav-link flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-black text-gray-400 hover:text-[var(--color-cyan)] hover:bg-white/5 transition-all whitespace-nowrap" title="Efecto de Partículas y Letras">
+          <a href="${CONFIG.BASE}/visualeffects.html" class="nav-link flex items-center gap-1.5 ui-btn ui-btn--nav ui-btn--accent-cyan" title="Efecto de Partículas y Letras">
             <i class="fas fa-magic text-[10px]"></i> EFFECT
           </a>
           ${loggedIn ? `
-          <a href="${CONFIG.BASE}/chat.html" class="nav-link flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-black text-gray-400 hover:text-[var(--color-magenta)] hover:bg-white/5 transition-all whitespace-nowrap">
+          <a href="${CONFIG.BASE}/chat.html" class="nav-link flex items-center gap-1.5 ui-btn ui-btn--nav ui-btn--accent-magenta">
             <i class="fas fa-comments text-[10px]"></i> CHAT
           </a>
           ` : ''}
@@ -104,19 +104,19 @@ function renderHeader() {
       <!-- Mobile Menu -->
       <div id="mobile-menu" class="md:hidden hidden pb-4 border-t border-white/10 mt-2 pt-3">
         <div class="flex flex-col gap-1">
-          <a href="${CONFIG.BASE}/" class="px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:text-[var(--color-cyan)] hover:bg-white/5">
+          <a href="${CONFIG.BASE}/" class="ui-btn ui-btn--menu ui-btn--accent-cyan">
             <i class="fas fa-home mr-2"></i> INICIO
           </a>
-          <a href="${CONFIG.BASE}/quienessomos.html" class="px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:text-[var(--color-cyan)] hover:bg-white/5">
+          <a href="${CONFIG.BASE}/quienessomos.html" class="ui-btn ui-btn--menu ui-btn--accent-cyan">
             <i class="fas fa-info-circle mr-2"></i> QUIENES SOMOS
           </a>
-          <a href="${CONFIG.BASE}/obras.html" class="px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:text-[var(--color-cyan)] hover:bg-white/5">
+          <a href="${CONFIG.BASE}/obras.html" class="ui-btn ui-btn--menu ui-btn--accent-cyan">
             <i class="fas fa-palette mr-2"></i> OBRAS
           </a>
-          <a href="${CONFIG.BASE}/recursos.html" class="px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:text-[var(--color-cyan)] hover:bg-white/5">
+          <a href="${CONFIG.BASE}/recursos.html" class="ui-btn ui-btn--menu ui-btn--accent-cyan">
             <i class="fas fa-box-open mr-2"></i> RECURSOS
           </a>
-          <a href="${CONFIG.BASE}/oportunidades.html" class="px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:text-[var(--color-emerald)] hover:bg-white/5">
+          <a href="${CONFIG.BASE}/oportunidades.html" class="ui-btn ui-btn--menu ui-btn--accent-emerald">
             <i class="fas fa-briefcase mr-2"></i> CHANCES
           </a>
           ${loggedIn ? `
@@ -124,23 +124,23 @@ function renderHeader() {
             <i class="fas fa-plus-circle mr-2"></i> CREAR
           </a>
           ` : ''}
-          <a href="${CONFIG.BASE}/search.html" class="px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:text-[var(--color-cyan)] hover:bg-white/5">
+          <a href="${CONFIG.BASE}/search.html" class="ui-btn ui-btn--menu ui-btn--accent-cyan">
             <i class="fas fa-search mr-2"></i> BUSCAR
           </a>
-          <a href="${CONFIG.BASE}/calendario.html" class="px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:text-[var(--color-cyan)] hover:bg-white/5">
+          <a href="${CONFIG.BASE}/calendario.html" class="ui-btn ui-btn--menu ui-btn--accent-cyan">
             <i class="fas fa-calendar-alt mr-2"></i> CALENDARIO
           </a>
-          <a href="${CONFIG.BASE}/artistas.html" class="px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:text-[var(--color-magenta)] hover:bg-white/5">
+          <a href="${CONFIG.BASE}/artistas.html" class="ui-btn ui-btn--menu ui-btn--accent-magenta">
             <i class="fas fa-users mr-2"></i> ARTISTAS
           </a>
-          <a href="${CONFIG.BASE}/visualeffects.html" class="px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:text-[var(--color-cyan)] hover:bg-white/5">
+          <a href="${CONFIG.BASE}/visualeffects.html" class="ui-btn ui-btn--menu ui-btn--accent-cyan">
             <i class="fas fa-magic mr-2"></i> EFFECT
           </a>
           ${loggedIn ? `
-          <a href="${CONFIG.BASE}/chat.html" class="px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:text-[var(--color-magenta)] hover:bg-white/5">
+          <a href="${CONFIG.BASE}/chat.html" class="ui-btn ui-btn--menu ui-btn--accent-magenta">
             <i class="fas fa-comments mr-2"></i> CHAT
           </a>
-          <a href="${CONFIG.BASE}/profile.html?user=${encodeURIComponent(user?.username || '')}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:text-[var(--color-cyan)] hover:bg-white/5">
+          <a href="${CONFIG.BASE}/profile.html?user=${encodeURIComponent(user?.username || '')}" class="flex items-center gap-3 ui-btn ui-btn--menu ui-btn--accent-cyan">
             ${user?.avatar ? `
               <img src="${sanitizeUrl(user.avatar)}" alt="${escapeHTML(user.username)}" class="w-8 h-8 rounded-full object-cover border border-cyan-500/30">
             ` : `
@@ -178,10 +178,10 @@ function renderHeader() {
   </header>
 
   <!-- Global Donation Modal -->
-  <div id="donation-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/90 px-4 backdrop-blur-md">
-    <div class="w-full max-w-md rounded-[2.5rem] border border-yellow-500/30 card-cyber bg-[#0d0d12] overflow-hidden shadow-[0_0_50px_rgba(234,179,8,0.1)]">
+  <div id="donation-modal" class="hidden flex ui-modal ui-modal--donation">
+    <div class="card-cyber ui-modal__panel ui-modal__panel--donation" role="dialog" aria-modal="true">
       <div class="p-8 text-center relative">
-        <button onclick="hideDonationModal()" class="absolute top-6 right-6 text-gray-500 hover:text-white transition-all">
+        <button onclick="hideDonationModal()" aria-label="Cerrar" class="absolute top-6 right-6 text-gray-500 hover:text-white transition-all">
           <i class="fas fa-times text-xl"></i>
         </button>
         <div class="w-20 h-20 bg-yellow-500/10 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-yellow-500/20">
@@ -228,7 +228,7 @@ function renderHeader() {
             </div>
             <div class="text-left flex-1">
               <div class="text-sm font-bold text-white">PayPal</div>
-              <div class="text-[10px] text-gray-500 uppercase tracking-widest font-black">Próximamente</div>
+              <div class="ui-eyebrow ui-eyebrow--micro">Próximamente</div>
             </div>
           </div>
 
@@ -239,7 +239,7 @@ function renderHeader() {
             </div>
             <div class="text-left flex-1">
               <div class="text-sm font-bold text-white">Patreon</div>
-              <div class="text-[10px] text-gray-500 uppercase tracking-widest font-black">Próximamente</div>
+              <div class="ui-eyebrow ui-eyebrow--micro">Próximamente</div>
             </div>
           </div>
         </div>

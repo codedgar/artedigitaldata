@@ -1,0 +1,107 @@
+/* Campos de formulario: inputs, selects, textareas, labels. Ver docs/componentes.md.
+
+   Un campo se arma con bloque + variante + acento de foco (opcional):
+     <input class="ui-input ui-input--dark ui-input--focus-cyan ui-input--animated">
+     <select class="ui-select ui-select--compact ui-select--focus-emerald-soft">
+     <textarea class="ui-textarea ui-textarea--comment ui-textarea--focus-cyan">
+
+   Las variantes son iguales para los tres elementos, por eso se declaran
+   juntas. `magenta` no existe en la paleta de Tailwind: los campos que usaban
+   `focus:border-magenta-500` nunca tuvieron color de foco, así que no llevan
+   acento (sumarle uno cambiaría el render). */
+@layer components {
+  /* Etiquetas */
+  .ui-label { @apply block; }
+  .ui-label--caps,
+  .ui-label--video { @apply text-xs font-bold text-gray-500 uppercase mb-2; }
+  /* Va después de --caps: pisa su color con la misma especificidad. */
+  .ui-label--video { @apply text-red-400; }
+  .ui-label--field { @apply text-sm font-bold text-gray-300 mb-2; }
+  .ui-label--account { @apply text-sm font-medium text-gray-400 mb-2; }
+  .ui-label--compact { @apply text-[10px] font-bold text-gray-500 uppercase mb-1; }
+  .ui-label--eyebrow { @apply text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-3 ml-1; }
+  .ui-label--signup { @apply text-sm font-semibold text-gray-300 mb-2; }
+
+  /* Texto de ayuda debajo de un campo */
+  .ui-hint { @apply text-[10px] text-gray-500 mt-1; }
+  .ui-hint--caps { @apply text-[9px] text-gray-600 uppercase tracking-wider; }
+
+  /* Campos */
+  .ui-input,
+  .ui-select,
+  .ui-textarea { @apply bg-white/5 border border-white/10; }
+
+  .ui-input--dark,
+  .ui-select--dark,
+  .ui-textarea--dark,
+  .ui-input--soft,
+  .ui-textarea--soft,
+  .ui-input--soft-muted { @apply w-full rounded-xl px-4 py-3 text-white focus:outline-none; }
+  .ui-input--soft,
+  .ui-textarea--soft { @apply placeholder-gray-500 transition-colors; }
+  .ui-input--soft-muted { @apply placeholder-gray-600 transition-colors; }
+
+  /* Selects de barra de filtros: ancho según contenido. */
+  .ui-select--filter { @apply rounded-xl px-4 py-3 text-white focus:outline-none; }
+
+  /* Formularios densos de edición (panel de admin). Usa `outline-none` sin
+     `focus:`, a diferencia del resto. */
+  .ui-input--dense,
+  .ui-select--dense,
+  .ui-textarea--dense { @apply w-full rounded-xl px-4 py-2 text-white outline-none; }
+
+  .ui-input--compact,
+  .ui-select--compact { @apply px-3 py-2 rounded-lg text-white text-sm focus:outline-none; }
+
+  .ui-textarea--comment { @apply w-full rounded-2xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-all resize-none h-24; }
+
+  .ui-input--file { @apply w-full rounded-xl px-4 py-3 text-gray-400 file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:cursor-pointer; }
+  .ui-input--file-cyan { @apply file:bg-cyan-500/20 file:text-cyan-400; }
+  .ui-input--file-orange { @apply file:bg-orange-500/20 file:text-orange-400; }
+
+  /* Modificadores: tamaño fijo, transición y color de borde al enfocar. */
+  .ui-textarea--fixed { @apply resize-none; }
+
+  .ui-input--animated,
+  .ui-select--animated,
+  .ui-textarea--animated { @apply transition-colors; }
+
+  .ui-input--focus-cyan,
+  .ui-select--focus-cyan,
+  .ui-textarea--focus-cyan { @apply focus:border-cyan-500; }
+  .ui-input--focus-orange,
+  .ui-select--focus-orange,
+  .ui-textarea--focus-orange { @apply focus:border-orange-500; }
+  .ui-input--focus-red,
+  .ui-select--focus-red,
+  .ui-textarea--focus-red { @apply focus:border-red-500; }
+  .ui-input--focus-fuchsia,
+  .ui-select--focus-fuchsia,
+  .ui-textarea--focus-fuchsia { @apply focus:border-fuchsia-500; }
+  .ui-input--focus-yellow,
+  .ui-select--focus-yellow,
+  .ui-textarea--focus-yellow { @apply focus:border-yellow-500; }
+  .ui-input--focus-brand,
+  .ui-select--focus-brand,
+  .ui-textarea--focus-brand { @apply focus:border-[var(--color-cyan)]; }
+  .ui-input--focus-cyan-soft,
+  .ui-select--focus-cyan-soft,
+  .ui-textarea--focus-cyan-soft { @apply focus:border-cyan-500/50; }
+  .ui-input--focus-orange-soft,
+  .ui-select--focus-orange-soft,
+  .ui-textarea--focus-orange-soft { @apply focus:border-orange-500/50; }
+  .ui-input--focus-fuchsia-soft,
+  .ui-select--focus-fuchsia-soft,
+  .ui-textarea--focus-fuchsia-soft { @apply focus:border-fuchsia-500/50; }
+  .ui-input--focus-emerald-soft,
+  .ui-select--focus-emerald-soft,
+  .ui-textarea--focus-emerald-soft { @apply focus:border-emerald-500/50; }
+
+  /* Casillas y opciones */
+  .ui-checkbox { @apply rounded border-white/20 bg-white/5; }
+  .ui-checkbox--sm { @apply w-4 h-4 text-cyan-500 focus:ring-cyan-500/50; }
+  .ui-checkbox--md { @apply w-5 h-5 focus:ring-offset-0; }
+  .ui-radio { @apply w-4 h-4 bg-white/5 border-white/10; }
+  .ui-choice { @apply flex items-center gap-2 cursor-pointer; }
+  .ui-choice--pill { @apply text-sm text-white/80 bg-white/5 border border-white/10 rounded-xl px-3 py-2; }
+}

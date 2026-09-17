@@ -8,29 +8,38 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="https://sdk.mercadopago.com/js/v2"></script>
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="app-header"></div>
 
   <main class="pt-24 pb-12 max-w-2xl mx-auto px-4">
     <!-- Loading -->
-    <div id="loading" class="py-20 text-center">
-      <i class="fas fa-spinner fa-spin text-4xl text-magenta-500 mb-4"></i>
-      <p class="text-gray-500">Cargando información del evento...</p>
-    </div>
+    <script>document.currentScript.outerHTML = UI.PageLoader({ id: 'loading', message: 'Cargando información del evento...' });</script>
 
     <!-- Error -->
     <div id="error" class="hidden py-20 text-center">
       <i class="fas fa-exclamation-triangle text-6xl text-red-500 mb-6"></i>
-      <h2 class="text-2xl font-bold text-white mb-2">Error</h2>
+      <h2 class="ui-title ui-title--panel mb-2">Error</h2>
       <p id="error-msg" class="text-gray-500 mb-8">No se pudo cargar el evento.</p>
-      <a href="calendario.html" class="btn-primary px-8 py-3 rounded-xl">Volver al Calendario</a>
+      <a href="calendario.html" class="btn-primary ui-btn ui-btn--primary-lg">Volver al Calendario</a>
     </div>
 
     <!-- Content -->
     <div id="content" class="hidden">
       <!-- Event Summary -->
-      <div class="rounded-3xl overflow-hidden border border-white/10 card-cyber bg-black/40 mb-6">
+      <div class="card-cyber mb-6 ui-panel ui-panel--detail">
         <div id="event-image" class="aspect-video w-full bg-magenta-500/5 flex items-center justify-center">
           <!-- Image injected here -->
         </div>
@@ -52,8 +61,8 @@
       </div>
 
       <!-- Purchase Form -->
-      <div class="rounded-3xl border border-white/10 card-cyber bg-black/40 p-8">
-        <h2 class="text-xl font-black text-white mb-6 flex items-center gap-3">
+      <div class="card-cyber ui-panel ui-panel--detail-form">
+        <h2 class="ui-title ui-title--section-strong mb-6 flex items-center gap-3">
           <i class="fas fa-ticket-alt text-magenta-500"></i>
           <span id="form-title">Comprar Entrada</span>
         </h2>
@@ -69,19 +78,19 @@
         <div id="buyer-info-section" class="hidden rounded-2xl bg-white/5 border border-white/10 p-6 mb-6 space-y-4">
           <h3 class="text-sm font-black text-white uppercase tracking-widest">Datos de compra</h3>
           <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Nombre</label>
+            <label class="ui-label ui-label--caps">Nombre</label>
             <input type="text" id="buyer-name" placeholder="Ej: Juan Pérez"
-              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none">
+              class="ui-input ui-input--dark">
           </div>
           <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Correo electrónico</label>
+            <label class="ui-label ui-label--caps">Correo electrónico</label>
             <input type="email" id="buyer-email" placeholder="ejemplo@mail.com"
-              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none">
+              class="ui-input ui-input--dark">
           </div>
           <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Teléfono (opcional)</label>
+            <label class="ui-label ui-label--caps">Teléfono (opcional)</label>
             <input type="tel" id="buyer-phone" placeholder="(011) 15 1234-5678"
-              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none">
+              class="ui-input ui-input--dark">
           </div>
           <p class="text-[10px] text-gray-400">No necesitas estar registrado para comprar entradas. Solo necesitamos un email para enviártela.</p>
         </div>
@@ -89,10 +98,10 @@
         <form id="purchase-form" class="space-y-6">
           <!-- Contribution amount for contribution events -->
           <div id="contribution-section" class="hidden">
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Monto de contribución (ARS)</label>
+            <label class="ui-label ui-label--caps">Monto de contribución (ARS)</label>
             <input type="number" id="contribution-amount" min="0" placeholder="Ingresá el monto"
-              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none transition-colors">
-            <p class="text-[10px] text-gray-500 mt-1">Este es un evento con bono contribución. El monto es a tu elección.</p>
+              class="ui-input ui-input--dark ui-input--animated">
+            <p class="ui-hint">Este es un evento con bono contribución. El monto es a tu elección.</p>
           </div>
 
           <div class="border-t border-white/10 pt-6">
@@ -106,7 +115,7 @@
             </div>
 
             <div id="manual-payment-result" class="hidden rounded-3xl border border-yellow-500/20 bg-yellow-500/10 p-6 mt-6 text-sm text-yellow-100 space-y-4">
-              <h3 class="text-lg font-black text-white">Instrucciones de pago</h3>
+              <h3 class="ui-title ui-title--card-strong">Instrucciones de pago</h3>
               <p id="manual-payment-text" class="leading-relaxed"></p>
               <div id="manual-link-container" class="hidden">
                 <p class="font-bold text-white">Link de MercadoPago:</p>
@@ -119,7 +128,7 @@
               <p class="text-[12px] text-gray-300">Una vez realizada la transferencia, el administrador del evento te enviará la entrada.</p>
             </div>
 
-            <button type="submit" id="submit-btn" class="w-full btn-primary py-4 rounded-2xl font-black text-lg hover:scale-[1.01] transition-transform">
+            <button type="submit" id="submit-btn" class="w-full btn-primary ui-btn ui-btn--primary-xl">
               <i class="fas fa-lock mr-2"></i>
               <span id="btn-text">PROCEDER AL PAGO</span>
             </button>
@@ -127,15 +136,15 @@
         </form>
 
         <!-- Status Overlay -->
-        <div id="status-overlay" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md items-center justify-center z-[10000] p-4">
-          <div class="text-center max-w-sm w-full">
+        <div id="status-overlay" class="hidden ui-modal ui-modal--status">
+          <div class="ui-modal__panel ui-modal__panel--status" role="dialog" aria-modal="true" aria-labelledby="status-title">
             <div class="mb-6 flex justify-center">
               <div class="relative w-24 h-24">
                 <div class="absolute inset-0 border-4 border-white/5 rounded-full"></div>
                 <div id="status-spinner" class="absolute inset-0 border-4 border-t-magenta-500 rounded-full animate-spin"></div>
               </div>
             </div>
-            <h2 id="status-title" class="text-3xl font-black text-white mb-2 uppercase tracking-tighter">Procesando...</h2>
+            <h2 id="status-title" class="ui-title ui-title--status mb-2">Procesando...</h2>
             <p id="status-msg" class="text-gray-400">Generando tu entrada...</p>
           </div>
         </div>
@@ -143,8 +152,8 @@
     </div>
 
     <!-- Free Ticket Confirmation Modal -->
-    <div id="free-ticket-modal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md items-center justify-center z-[10001] p-4">
-      <div class="w-full max-w-md rounded-3xl border border-white/10 bg-[#0d0d12] p-8 text-center relative overflow-hidden">
+    <div id="free-ticket-modal" class="hidden ui-modal ui-modal--confirm">
+      <div class="ui-modal__panel ui-modal__panel--notice" role="dialog" aria-modal="true">
         <!-- Decorative rat icon -->
         <div class="absolute -top-4 -right-4 w-24 h-24 opacity-10">
           <svg viewBox="0 0 100 100" fill="currentColor" class="w-full h-full text-yellow-400">
@@ -202,7 +211,7 @@
           </div>
         </div>
 
-        <h3 class="text-xl font-black text-white mb-4">
+        <h3 class="ui-title ui-title--section-strong mb-4">
           <i class="fas fa-exclamation-triangle text-yellow-400 mr-2"></i>
           ¿Estás seguro?
         </h3>
@@ -225,9 +234,9 @@
     </div>
 
     <!-- Login Required Modal -->
-    <div id="login-required-modal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md items-center justify-center z-[10002] p-4">
-      <div class="w-full max-w-md rounded-3xl border border-white/10 bg-[#0d0d12] p-8 text-center relative overflow-hidden">
-        <button onclick="closeLoginRequiredModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-500 hover:text-white transition-all">
+    <div id="login-required-modal" class="hidden ui-modal ui-modal--alert">
+      <div class="ui-modal__panel ui-modal__panel--notice" role="dialog" aria-modal="true">
+        <button onclick="closeLoginRequiredModal()" class="absolute top-4 right-4 ui-btn ui-btn--close-sm" aria-label="Cerrar">
           <i class="fas fa-times"></i>
         </button>
         <div class="mb-6 flex justify-center">
@@ -235,7 +244,7 @@
             <i class="fas fa-user-lock text-4xl text-magenta-400"></i>
           </div>
         </div>
-        <h3 class="text-xl font-black text-white mb-4">
+        <h3 class="ui-title ui-title--section-strong mb-4">
           <i class="fas fa-exclamation-triangle text-yellow-400 mr-2"></i>
           Inicio de sesión requerido
         </h3>
@@ -256,9 +265,9 @@
     </div>
 
     <!-- Error Modal (reemplaza los alert) -->
-    <div id="error-modal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md items-center justify-center z-[10002] p-4">
-      <div class="w-full max-w-md rounded-3xl border border-white/10 bg-[#0d0d12] p-8 text-center relative overflow-hidden">
-        <button onclick="closeErrorModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-500 hover:text-white transition-all">
+    <div id="error-modal" class="hidden ui-modal ui-modal--alert">
+      <div class="ui-modal__panel ui-modal__panel--notice" role="dialog" aria-modal="true">
+        <button onclick="closeErrorModal()" class="absolute top-4 right-4 ui-btn ui-btn--close-sm" aria-label="Cerrar">
           <i class="fas fa-times"></i>
         </button>
         <div class="mb-6 flex justify-center">
@@ -266,7 +275,7 @@
             <i class="fas fa-exclamation-circle text-4xl text-red-400"></i>
           </div>
         </div>
-        <h3 class="text-xl font-black text-white mb-4">Error</h3>
+        <h3 class="ui-title ui-title--section-strong mb-4">Error</h3>
         <p id="error-modal-msg" class="text-gray-300 mb-6 leading-relaxed"></p>
         <button onclick="closeErrorModal()" class="w-full px-6 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-bold hover:bg-white/20 transition-all">
           <i class="fas fa-check mr-2"></i>
@@ -276,7 +285,6 @@
     </div>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script>

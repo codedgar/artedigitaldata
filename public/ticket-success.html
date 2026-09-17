@@ -7,16 +7,25 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="app-header"></div>
 
   <main class="pt-24 pb-12 max-w-2xl mx-auto px-4">
     <!-- Loading -->
-    <div id="loading" class="py-20 text-center">
-      <i class="fas fa-spinner fa-spin text-4xl text-magenta-500 mb-4"></i>
-      <p class="text-gray-500">Cargando tu entrada...</p>
-    </div>
+    <script>document.currentScript.outerHTML = UI.PageLoader({ id: 'loading', message: 'Cargando tu entrada...' });</script>
 
     <!-- Success Content -->
     <div id="content" class="hidden">
@@ -24,12 +33,12 @@
         <div class="w-24 h-24 mx-auto bg-green-500/20 rounded-full flex items-center justify-center mb-4">
           <i class="fas fa-check text-5xl text-green-500"></i>
         </div>
-        <h1 class="text-3xl font-black text-white mb-2">¡LISTO!</h1>
+        <h1 class="ui-title ui-title--page-sm mb-2">¡LISTO!</h1>
         <p id="success-message" class="text-gray-400">Tu entrada ha sido confirmada.</p>
       </div>
 
       <!-- Ticket Card -->
-      <div class="rounded-3xl border border-white/10 card-cyber bg-black/40 overflow-hidden">
+      <div class="card-cyber ui-panel ui-panel--detail">
         <div class="bg-gradient-to-r from-magenta-500/20 to-fuchsia-500/20 p-6 border-b border-white/10">
           <div class="flex justify-between items-start">
             <div>
@@ -46,14 +55,14 @@
         <div class="p-8">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Fecha</p>
+              <p class="ui-eyebrow ui-eyebrow--stat mb-2">Fecha</p>
               <p id="event-date" class="text-white font-medium flex items-center gap-2">
                 <i class="fas fa-calendar text-magenta-500"></i>
                 <span><!-- Date --></span>
               </p>
             </div>
             <div>
-              <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Ubicación</p>
+              <p class="ui-eyebrow ui-eyebrow--stat mb-2">Ubicación</p>
               <p id="event-location" class="text-white font-medium flex items-center gap-2">
                 <i class="fas fa-map-marker-alt text-cyan-500"></i>
                 <span><!-- Location --></span>
@@ -82,7 +91,7 @@
 
           <!-- Admin Actions -->
           <div id="admin-actions" class="hidden border-t border-white/10 mt-6 pt-6">
-            <p class="text-xs text-gray-500 uppercase tracking-wider mb-3">Acciones Administrador</p>
+            <p class="ui-eyebrow ui-eyebrow--stat mb-3">Acciones Administrador</p>
             <div class="flex flex-wrap gap-3">
               <a id="manage-tickets-link" href="#" class="px-4 py-2 rounded-lg bg-fuchsia-500/20 text-fuchsia-400 border border-fuchsia-500/30 hover:bg-fuchsia-500/30 transition-all text-sm font-bold flex items-center gap-2">
                 <i class="fas fa-ticket-alt"></i>
@@ -135,13 +144,12 @@
     <!-- Error State -->
     <div id="error" class="hidden py-20 text-center">
       <i class="fas fa-exclamation-triangle text-6xl text-red-500 mb-6"></i>
-      <h2 class="text-2xl font-bold text-white mb-2">Entrada no encontrada</h2>
+      <h2 class="ui-title ui-title--panel mb-2">Entrada no encontrada</h2>
       <p class="text-gray-500 mb-8">El código de entrada no existe o ha sido eliminado.</p>
-      <a href="calendario.html" class="btn-primary px-8 py-3 rounded-xl">Volver al Calendario</a>
+      <a href="calendario.html" class="btn-primary ui-btn ui-btn--primary-lg">Volver al Calendario</a>
     </div>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
@@ -219,13 +227,13 @@
       const locationEl = document.getElementById('event-location');
       if (ev.location && ev.location.startsWith('http')) {
         // It's already a URL
-        locationEl.innerHTML = `<a href="${sanitizeUrl(ev.location)}" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/30 hover:bg-blue-500/20 transition-all text-xs font-bold">
+        locationEl.innerHTML = `<a href="${sanitizeUrl(ev.location)}" target="_blank" class="inline-flex items-center gap-2 ui-btn ui-btn--map">
           <i class="fas fa-map-marker-alt"></i>Ver Ubicación
         </a>`;
       } else if (ev.location) {
         // Create Google Maps search URL
         const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev.location)}`;
-        locationEl.innerHTML = `<a href="${sanitizeUrl(mapsUrl)}" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/30 hover:bg-blue-500/20 transition-all text-xs font-bold truncate max-w-[200px] md:max-w-xs">
+        locationEl.innerHTML = `<a href="${sanitizeUrl(mapsUrl)}" target="_blank" class="inline-flex items-center gap-2 truncate max-w-[200px] md:max-w-xs ui-btn ui-btn--map">
           <i class="fas fa-map-marker-alt"></i>${escapeHTML(ev.location)}
         </a>`;
       } else {
@@ -257,7 +265,7 @@
         qrImg.src = ticket.qrData;
         qrImg.onerror = () => {
           qrImg.style.display = 'none';
-          qrImg.parentElement.innerHTML += '<p class="text-red-400 text-sm">Error cargando QR</p>';
+          qrImg.parentElement.innerHTML += UI.StatusText({ variant: 'error-caption', message: 'Error cargando QR' });
         };
       } else {
         qrImg.style.display = 'none';

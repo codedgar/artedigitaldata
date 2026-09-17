@@ -9,23 +9,32 @@
   <!-- QR Scanner Library -->
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="app-header"></div>
 
   <main class="pt-20 pb-12 max-w-7xl mx-auto px-4">
     <!-- Loading -->
-    <div id="loading" class="py-20 text-center">
-      <i class="fas fa-spinner fa-spin text-4xl text-magenta-500 mb-4"></i>
-      <p class="text-gray-500">Cargando...</p>
-    </div>
+    <script>document.currentScript.outerHTML = UI.PageLoader({ id: 'loading', message: 'Cargando...' });</script>
 
     <!-- Access Denied -->
     <div id="access-denied" class="hidden py-20 text-center">
       <i class="fas fa-lock text-6xl text-red-500 mb-6"></i>
-      <h2 class="text-2xl font-bold text-white mb-2">Acceso Denegado</h2>
+      <h2 class="ui-title ui-title--panel mb-2">Acceso Denegado</h2>
       <p class="text-gray-500 mb-8">Solo el creador del evento puede administrar las entradas.</p>
-      <a href="calendario.html" class="btn-primary px-8 py-3 rounded-xl">Volver al Calendario</a>
+      <a href="calendario.html" class="btn-primary ui-btn ui-btn--primary-lg">Volver al Calendario</a>
     </div>
 
     <!-- Content -->
@@ -37,7 +46,7 @@
             <a href="evento.html" id="back-link" class="text-gray-400 hover:text-white transition-colors">
               <i class="fas fa-arrow-left"></i>
             </a>
-            <h1 class="text-3xl font-black text-white">Administrar Entradas</h1>
+            <h1 class="ui-title ui-title--page-sm">Administrar Entradas</h1>
           </div>
           <div class="flex items-center gap-3">
             <p id="event-name" class="text-magenta-400 font-bold"></p>
@@ -51,7 +60,7 @@
             <i class="fas fa-qrcode"></i>
             Escanear QR
           </button>
-          <button onclick="loadTickets()" class="px-6 py-3 rounded-xl border border-white/10 text-white font-bold hover:bg-white/5 transition-all">
+          <button onclick="loadTickets()" class="ui-btn ui-btn--outline">
             <i class="fas fa-sync-alt"></i>
           </button>
         </div>
@@ -59,10 +68,10 @@
 
       <!-- Stats -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-        <div class="rounded-2xl border border-white/10 bg-black/40 p-6">
+        <div class="ui-panel ui-panel--stat">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs text-gray-500 uppercase tracking-wider">Total Entradas</p>
+              <p class="ui-eyebrow ui-eyebrow--stat">Total Entradas</p>
               <p id="stat-total" class="text-3xl font-black text-white">0</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-magenta-500/20 flex items-center justify-center">
@@ -70,10 +79,10 @@
             </div>
           </div>
         </div>
-        <div class="rounded-2xl border border-white/10 bg-black/40 p-6">
+        <div class="ui-panel ui-panel--stat">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs text-gray-500 uppercase tracking-wider">Vendidas/Pagadas</p>
+              <p class="ui-eyebrow ui-eyebrow--stat">Vendidas/Pagadas</p>
               <p id="stat-completed" class="text-3xl font-black text-green-400">0</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
@@ -81,10 +90,10 @@
             </div>
           </div>
         </div>
-        <div class="rounded-2xl border border-white/10 bg-black/40 p-6">
+        <div class="ui-panel ui-panel--stat">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs text-gray-500 uppercase tracking-wider">Canjeadas</p>
+              <p class="ui-eyebrow ui-eyebrow--stat">Canjeadas</p>
               <p id="stat-redeemed" class="text-3xl font-black text-cyan-400">0</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
@@ -92,10 +101,10 @@
             </div>
           </div>
         </div>
-        <div class="rounded-2xl border border-white/10 bg-black/40 p-6">
+        <div class="ui-panel ui-panel--stat">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs text-gray-500 uppercase tracking-wider">Pendientes</p>
+              <p class="ui-eyebrow ui-eyebrow--stat">Pendientes</p>
               <p id="stat-pending" class="text-3xl font-black text-yellow-400">0</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center">
@@ -103,10 +112,10 @@
             </div>
           </div>
         </div>
-        <div class="rounded-2xl border border-white/10 bg-black/40 p-6">
+        <div class="ui-panel ui-panel--stat">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-xs text-gray-500 uppercase tracking-wider">Disponibles</p>
+              <p class="ui-eyebrow ui-eyebrow--stat">Disponibles</p>
               <p id="stat-available" class="text-3xl font-black text-white">0</p>
               <p id="stat-limit" class="text-xs text-gray-500 mt-1">Límite: 0</p>
             </div>
@@ -121,7 +130,7 @@
       <div id="door-users-section" class="hidden mb-6 rounded-2xl border border-white/10 bg-black/40 p-6">
         <div class="flex items-center justify-between mb-4">
           <div>
-            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+            <h3 class="ui-title ui-title--card flex items-center gap-2">
               <i class="fas fa-door-open text-cyan-500"></i>
               Usuarios de Puerta
             </h3>
@@ -170,9 +179,9 @@
           <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
           <input type="text" id="search-input" placeholder="Buscar por código, nombre o email..." 
             oninput="filterTickets()"
-            class="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white focus:border-magenta-500 focus:outline-none transition-colors">
+            class="ui-input ui-input--dark ui-input--animated pl-12">
         </div>
-        <select id="filter-status" onchange="filterTickets()" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-magenta-500 focus:outline-none">
+        <select id="filter-status" onchange="filterTickets()" class="ui-select ui-select--filter">
           <option value="all">Todos los estados</option>
           <option value="pending">Pendientes</option>
           <option value="completed">Pagadas</option>
@@ -181,7 +190,7 @@
       </div>
 
       <!-- Tickets Table -->
-      <div class="rounded-2xl border border-white/10 bg-black/40 overflow-hidden">
+      <div class="ui-panel ui-panel--table">
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead>
@@ -199,23 +208,20 @@
             </tbody>
           </table>
         </div>
-        <div id="no-tickets" class="hidden py-12 text-center text-gray-500">
-          <i class="fas fa-ticket-alt text-4xl mb-4 opacity-30"></i>
-          <p>No hay entradas todavía</p>
-        </div>
+        <script>document.currentScript.outerHTML = UI.EmptyState({ id: 'no-tickets', icon: 'fas fa-ticket-alt', message: 'No hay entradas todavía', accent: 'faded', size: 'md', layout: 'block', className: 'hidden' });</script>
       </div>
     </div>
   </main>
 
   <!-- QR Scanner Modal -->
-  <div id="scanner-modal" class="hidden fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center p-4">
-    <div class="w-full max-w-lg">
+  <div id="scanner-modal" class="hidden flex ui-modal ui-modal--scanner">
+    <div class="ui-modal__panel ui-modal__panel--scanner" role="dialog" aria-modal="true">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+        <h3 class="ui-title ui-title--section flex items-center gap-2">
           <i class="fas fa-qrcode text-green-500"></i>
           Escanear Entrada
         </h3>
-        <button onclick="hideScanner()" class="text-gray-400 hover:text-white">
+        <button onclick="hideScanner()" class="ui-btn ui-btn--dismiss" aria-label="Cerrar">
           <i class="fas fa-times text-xl"></i>
         </button>
       </div>
@@ -225,15 +231,15 @@
       <div class="mt-4 flex gap-2">
         <input type="text" id="manual-code" placeholder="O ingresá el código manualmente..." 
           class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-green-500 focus:outline-none uppercase">
-        <button onclick="redeemManual()" class="px-6 py-3 rounded-xl bg-green-500 text-black font-bold hover:bg-green-400 transition-all">
+        <button onclick="redeemManual()" class="ui-btn ui-btn--success">
           Canjear
         </button>
       </div>
     </div>
 
     <!-- Scan Result -->
-    <div id="scan-result" class="hidden fixed inset-0 z-[101] bg-black/90 flex items-center justify-center p-4">
-      <div class="w-full max-w-sm rounded-3xl border border-white/10 bg-[#0d0d12] p-8 text-center">
+    <div id="scan-result" class="hidden flex ui-modal ui-modal--dialog-stacked">
+      <div class="ui-modal__panel ui-modal__panel--result" role="dialog" aria-modal="true" aria-labelledby="result-title">
         <div id="result-icon" class="w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4">
           <!-- Icon -->
         </div>
@@ -242,7 +248,7 @@
         <div id="result-details" class="mb-6 p-4 rounded-xl bg-white/5 text-left hidden">
           <!-- Details -->
         </div>
-        <button onclick="closeScanResult()" class="w-full btn-primary py-3 rounded-xl font-bold">
+        <button onclick="closeScanResult()" class="w-full btn-primary ui-btn ui-btn--primary-bold">
           CONTINUAR
         </button>
       </div>
@@ -250,14 +256,14 @@
   </div>
 
   <!-- Manual Ticket Modal -->
-  <div id="manual-ticket-modal" class="hidden fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4">
-    <div class="w-full max-w-md rounded-3xl border border-white/10 bg-[#0d0d12] p-8">
+  <div id="manual-ticket-modal" class="hidden flex ui-modal ui-modal--dialog">
+    <div class="ui-modal__panel ui-modal__panel--form" role="dialog" aria-modal="true">
       <div class="flex items-center justify-between mb-6">
-        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+        <h3 class="ui-title ui-title--section flex items-center gap-2">
           <i class="fas fa-ticket-alt text-fuchsia-500"></i>
           Enviar Entrada Manual
         </h3>
-        <button onclick="closeManualTicketModal()" class="text-gray-400 hover:text-white">
+        <button onclick="closeManualTicketModal()" class="ui-btn ui-btn--dismiss" aria-label="Cerrar">
           <i class="fas fa-times text-xl"></i>
         </button>
       </div>
@@ -265,13 +271,13 @@
       <form id="manual-ticket-form" onsubmit="issueManualTicket(event)" class="space-y-4">
         <!-- User Search -->
         <div class="relative">
-          <label class="block text-xs font-bold text-gray-500 uppercase mb-2">
+          <label class="ui-label ui-label--caps">
             <i class="fas fa-user text-fuchsia-500 mr-1"></i>Buscar Usuario (Opcional)
           </label>
           <div class="relative">
             <input type="text" id="user-search-input" placeholder="Escribí el nombre o @usuario..."
               oninput="searchUsers(this.value)"
-              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pl-10 text-white focus:border-fuchsia-500 focus:outline-none transition-colors">
+              class="ui-input ui-input--dark ui-input--focus-fuchsia ui-input--animated pl-10">
             <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
             <button type="button" id="clear-user-btn" onclick="clearSelectedUser()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-400">
               <i class="fas fa-times"></i>
@@ -301,19 +307,19 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Nombre completo *</label>
+          <label class="ui-label ui-label--caps">Nombre completo *</label>
           <input type="text" id="manual-name" required placeholder="Nombre del asistente"
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-fuchsia-500 focus:outline-none transition-colors">
+            class="ui-input ui-input--dark ui-input--focus-fuchsia ui-input--animated">
         </div>
         <div>
-          <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Email *</label>
+          <label class="ui-label ui-label--caps">Email *</label>
           <input type="email" id="manual-email" required placeholder="email@ejemplo.com"
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-fuchsia-500 focus:outline-none transition-colors">
+            class="ui-input ui-input--dark ui-input--focus-fuchsia ui-input--animated">
         </div>
         <div>
-          <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Teléfono</label>
+          <label class="ui-label ui-label--caps">Teléfono</label>
           <input type="tel" id="manual-phone" placeholder="+54 11..."
-            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-fuchsia-500 focus:outline-none transition-colors">
+            class="ui-input ui-input--dark ui-input--focus-fuchsia ui-input--animated">
         </div>
         <div class="pt-4">
           <button type="submit" class="w-full btn-primary py-4 rounded-xl font-bold">
@@ -326,14 +332,14 @@
   </div>
 
   <!-- Send Emails Modal -->
-  <div id="send-emails-modal" class="hidden fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4">
-    <div class="w-full max-w-md rounded-3xl border border-white/10 bg-[#0d0d12] p-8">
+  <div id="send-emails-modal" class="hidden flex ui-modal ui-modal--dialog">
+    <div class="ui-modal__panel ui-modal__panel--form" role="dialog" aria-modal="true">
       <div id="send-emails-confirm" class="">
         <div class="text-center mb-6">
           <div class="w-16 h-16 mx-auto rounded-full bg-cyan-500/20 flex items-center justify-center mb-4">
             <i class="fas fa-envelope text-3xl text-cyan-400"></i>
           </div>
-          <h3 class="text-xl font-bold text-white">Mandar Entrada por Mail</h3>
+          <h3 class="ui-title ui-title--section">Mandar Entrada por Mail</h3>
           <p class="text-gray-400 text-sm mt-2">Se enviará un email con su entrada (código QR y datos del evento) a <strong class="text-white" id="send-emails-count">0</strong> compradores con email registrado.</p>
         </div>
         <div class="rounded-xl bg-white/5 border border-white/10 p-4 mb-6">
@@ -372,7 +378,6 @@
     </div>
   </div>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script>
@@ -484,15 +489,11 @@
       } else {
         resultsDiv.innerHTML = matches.map(user => {
           const displayName = escapeHTML(user.displayName || user.username);
-          const initial = escapeHTML((user.displayName || user.username || '?')[0].toUpperCase());
-          const avatar = sanitizeUrl(user.avatar);
-          const avatarHtml = avatar
-            ? `<img src="${avatar}" class="w-8 h-8 rounded-full object-cover" alt="${displayName}">`
-            : `<div class="w-8 h-8 rounded-full bg-fuchsia-500/20 flex items-center justify-center text-fuchsia-400 text-xs font-bold">${initial}</div>`;
+          const avatarHtml = UI.Avatar({ name: user.displayName || user.username, src: user.avatar, alt: user.displayName || user.username, variant: 'owner', size: 'lg' });
           const emailPart = user.email ? ` · ${escapeHTML(user.email)}` : '';
           return `
             <button type="button" onclick="selectUser('${user._id}')"
-              class="w-full px-4 py-3 text-left hover:bg-white/5 transition-colors flex items-center gap-3 border-b border-white/5 last:border-0">
+              class="w-full flex items-center gap-3 ui-btn ui-btn--option">
               ${avatarHtml}
               <div class="flex-1 min-w-0">
                 <p class="text-sm text-white font-medium truncate">${displayName}</p>
@@ -701,11 +702,11 @@
                     <i class="fas fa-door-open mr-1"></i>Canjear
                   </button>
                 ` : ''}
-                <button onclick="viewTicket('${t._id}')" class="px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 transition-all text-xs">
+                <button onclick="viewTicket('${t._id}')" class="ui-btn ui-btn--row-subtle">
                   <i class="fas fa-eye"></i>
                 </button>
                 ${canDelete ? `
-                  <button onclick="deleteTicket('${t._id}')" class="px-3 py-1 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all text-xs">
+                  <button onclick="deleteTicket('${t._id}')" class="ui-btn ui-btn--row-delete-soft">
                     <i class="fas fa-trash"></i>
                   </button>
                 ` : ''}
@@ -1031,18 +1032,14 @@
     function renderDoorUsers(doorUsers) {
       const container = document.getElementById('door-users-list');
       if (!doorUsers || doorUsers.length === 0) {
-        container.innerHTML = '<p class="text-gray-500 text-sm italic">No hay usuarios de puerta asignados</p>';
+        container.innerHTML = UI.StatusText({ variant: 'caption-soft', message: 'No hay usuarios de puerta asignados' });
         return;
       }
 
       container.innerHTML = doorUsers.map(user => {
         const rawName = user.displayName || user.username || '?';
         const displayName = escapeHTML(rawName);
-        const initial = escapeHTML(rawName[0].toUpperCase());
-        const avatarUrl = sanitizeUrl(user.avatar);
-        const avatar = user.avatar
-          ? `<img src="${avatarUrl}" class="w-6 h-6 rounded-full object-cover" alt="${displayName}">`
-          : `<div class="w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-xs font-bold">${initial}</div>`;
+        const avatar = UI.Avatar({ name: rawName, src: user.avatar, alt: rawName, variant: 'door', size: 'sm' });
 
         return `
           <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
@@ -1081,13 +1078,9 @@
         resultsDiv.innerHTML = matches.map(user => {
           const rawName = user.displayName || user.username;
           const displayName = escapeHTML(rawName);
-          const initial = escapeHTML((rawName || '?')[0].toUpperCase());
           const username = escapeHTML(user.username);
           const email = escapeHTML(user.email);
-          const avatarUrl = sanitizeUrl(user.avatar);
-          const avatar = user.avatar
-            ? `<img src="${avatarUrl}" class="w-8 h-8 rounded-full object-cover" alt="${displayName}">`
-            : `<div class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-xs font-bold">${initial}</div>`;
+          const avatar = UI.Avatar({ name: rawName, src: user.avatar, alt: rawName, variant: 'door', size: 'lg' });
 
           // Check if user is already a door user
           const currentDoorUsers = currentEvent?.doorUsers || [];
@@ -1108,7 +1101,7 @@
 
           return `
             <button type="button" onclick="addDoorUser('${user._id}')"
-              class="w-full px-4 py-3 text-left hover:bg-white/5 transition-colors flex items-center gap-3 border-b border-white/5 last:border-0">
+              class="w-full flex items-center gap-3 ui-btn ui-btn--option">
               ${avatar}
               <div class="flex-1 min-w-0">
                 <p class="text-sm text-white font-medium truncate">${displayName}</p>

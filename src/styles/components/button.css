@@ -1,0 +1,91 @@
+/* Botones: primitivas `ui-btn*`. Ver docs/componentes.md.
+
+   Uso: `ui-btn` + una variante, y las utilidades de ubicación (w-full, flex-1,
+   absolute top-4 right-4, mt-4, flex items-center gap-2…) quedan en el
+   elemento.
+
+     <button class="ui-btn ui-btn--outline">Actualizar</button>
+     <button class="absolute top-4 right-4 z-10 ui-btn ui-btn--close">…</button>
+     <button class="w-full btn-primary ui-btn ui-btn--primary-block">Entrar</button>
+
+   Fase 1: cada variante reproduce exacto un juego de clases que se repetía,
+   así que hay variantes casi iguales a propósito. `ui-btn` todavía no aplica
+   nada porque ninguna declaración es común a todas; queda como gancho para
+   la fase 2.
+
+   Clases que el JS de una página agrega o quita (filtros, tabs) NO van en la
+   primitiva: siguen como utilidades en el elemento. Si estuvieran acá, las
+   utilidades sueltas les ganarían o el toggle dejaría de tener efecto. */
+@layer components {
+  /* ── Primario (se usan junto a la clase legacy `btn-primary`, que pone el
+        degradado y el color) ── */
+  .ui-btn--primary-sm { @apply px-6 py-2 rounded-xl text-sm transition-all hover:scale-105; }
+  .ui-btn--primary-lg { @apply px-8 py-3 rounded-xl; }
+  .ui-btn--primary-block { @apply py-3 rounded-xl transition-all hover:scale-[1.02]; }
+  .ui-btn--primary-bold { @apply py-3 rounded-xl font-bold; }
+  .ui-btn--primary-xl { @apply py-4 rounded-2xl font-black text-lg hover:scale-[1.01] transition-transform; }
+  /* Sombra de color para `primary-xl` según el tipo de contenido. `magenta`
+     no existe en la paleta de Tailwind: `shadow-magenta-500/10` nunca generó
+     CSS, así que sólo queda la sombra base. */
+  .ui-btn--glow-cyan { @apply shadow-xl shadow-cyan-500/10; }
+  .ui-btn--glow-orange { @apply shadow-xl shadow-orange-500/10; }
+  .ui-btn--glow-magenta { @apply shadow-xl; }
+
+  /* ── Secundarios ── */
+  .ui-btn--outline { @apply px-6 py-3 rounded-xl border border-white/10 text-white font-bold hover:bg-white/5 transition-all; }
+  .ui-btn--secondary-caps { @apply px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 font-bold text-sm uppercase tracking-widest hover:bg-white/10 transition-all; }
+  .ui-btn--success { @apply px-6 py-3 rounded-xl bg-green-500 text-black font-bold hover:bg-green-400 transition-all; }
+  .ui-btn--video { @apply px-4 py-2 bg-red-600/10 text-red-500 rounded-xl border border-red-500/20 text-sm font-black uppercase tracking-widest hover:bg-red-600/20 transition-all; }
+  .ui-btn--map { @apply px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/30 hover:bg-blue-500/20 transition-all text-xs font-bold; }
+  .ui-btn--ticket-cta { @apply p-4 rounded-2xl bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 bg-[length:200%_100%] text-white hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(234,179,8,0.4)] hover:shadow-[0_0_30px_rgba(234,179,8,0.6)]; }
+  .ui-btn--type-card { @apply p-6 rounded-3xl border border-white/5 bg-black/40 text-center; }
+
+  /* ── Paginación ── */
+  .ui-btn--pager { @apply px-4 py-2 rounded-xl border border-white/10 text-white hover:bg-white/5 transition-all disabled:opacity-50; }
+  .ui-btn--pager-caps { @apply px-5 py-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-yellow-500/30 transition-all font-black text-sm uppercase tracking-widest disabled:opacity-30 disabled:cursor-not-allowed; }
+  .ui-btn--icon-nav { @apply w-10 h-10 rounded-xl hover:bg-white/10 text-white transition-all; }
+
+  /* ── Sólo ícono ── */
+  .ui-btn--close { @apply text-gray-400 hover:text-white bg-black/50 w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-all; }
+  .ui-btn--close-sm { @apply w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-500 hover:text-white transition-all; }
+  .ui-btn--dismiss { @apply text-gray-400 hover:text-white; }
+  .ui-btn--back { @apply w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-emerald-500/50 transition-all; }
+  .ui-btn--icon-remove { @apply w-8 h-8 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 flex items-center justify-center; }
+  .ui-btn--chip-remove { @apply text-gray-500 hover:text-red-400 transition-colors; }
+  .ui-btn--icon-delete { @apply text-gray-500 hover:text-red-500 transition-colors p-1; }
+  /* El color de hover sale del tipo de contenido. `magenta` no existe en la
+     paleta de Tailwind, así que ese botón nunca tuvo color de hover. */
+  .ui-btn--icon-edit { @apply text-gray-500 transition-colors p-1; }
+  .ui-btn--icon-edit-cyan { @apply hover:text-cyan-400; }
+  .ui-btn--icon-edit-orange { @apply hover:text-orange-400; }
+  .ui-btn--comment-delete { @apply text-gray-600 hover:text-red-500 transition-colors text-xs; }
+  .ui-btn--link { @apply text-cyan-400 hover:underline; }
+
+  /* ── Acciones en filas de tablas ── */
+  .ui-btn--row-view { @apply text-cyan-400 hover:text-white; }
+  .ui-btn--row-edit { @apply text-yellow-500 hover:text-yellow-400; }
+  .ui-btn--row-delete { @apply text-red-500 hover:text-red-400; }
+  .ui-btn--row-delete-soft { @apply px-3 py-1 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all text-xs; }
+  .ui-btn--row-subtle { @apply px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 transition-all text-xs; }
+  .ui-btn--option { @apply px-4 py-3 text-left hover:bg-white/5 transition-colors border-b border-white/5 last:border-0; }
+
+  /* ── Herramientas del recorte de imagen (edit-logic.js). El borde de hover
+        depende del tipo de contenido y se arma por interpolación, así que
+        queda en el elemento. ── */
+  .ui-btn--tool-icon { @apply w-9 h-9 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-all flex items-center justify-center; }
+  .ui-btn--tool-text { @apply px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-all text-[10px] font-bold uppercase; }
+
+  /* ── Filtros y tabs. Fondo, color de texto y color de borde los cambia el
+        JS de la página y quedan en el elemento. ── */
+  .ui-btn--filter { @apply px-4 py-2 rounded-lg text-sm font-medium border hover:bg-white/10 transition-all; }
+  .ui-btn--tab-underline { @apply px-6 py-4 text-sm font-bold whitespace-nowrap transition-all; }
+  .ui-btn--tab-pill { @apply px-6 py-2 rounded-lg font-bold text-sm transition-all; }
+
+  /* ── Navegación del header (header.js) ── */
+  .ui-btn--nav { @apply px-2.5 py-1.5 rounded-lg text-[11px] font-black text-gray-400 hover:bg-white/5 transition-all whitespace-nowrap; }
+  .ui-btn--menu { @apply px-4 py-3 rounded-lg text-sm font-bold text-gray-300 hover:bg-white/5; }
+  /* Color de texto al hover de `nav` y `menu`, según la sección. */
+  .ui-btn--accent-cyan { @apply hover:text-[var(--color-cyan)]; }
+  .ui-btn--accent-magenta { @apply hover:text-[var(--color-magenta)]; }
+  .ui-btn--accent-emerald { @apply hover:text-[var(--color-emerald)]; }
+}

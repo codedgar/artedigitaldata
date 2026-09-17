@@ -52,11 +52,7 @@ async function loadUserNotifications() {
     updateNotifBadge(notifications);
   } catch (err) {
     if (container) {
-      container.innerHTML = `
-        <div class="text-center text-gray-500 py-10">
-          <i class="fas fa-exclamation-circle text-3xl text-red-400/50 mb-3"></i>
-          <p>Error al cargar notificaciones</p>
-        </div>`;
+      container.innerHTML = UI.EmptyState({ icon: 'fas fa-exclamation-circle', message: 'Error al cargar notificaciones', accent: 'danger', size: 'sm', iconSize: 'sm', layout: 'block' });
     }
   }
 }
@@ -100,20 +96,14 @@ function renderNotifications(notifications) {
   if (!container) return;
 
   if (!notifications.length) {
-    container.innerHTML = `
-      <div class="text-center text-gray-500 py-16 bg-white/5 rounded-3xl border border-dashed border-white/10">
-        <i class="fas fa-bell-slash text-4xl text-gray-600 mb-3"></i>
-        <p>No tenés notificaciones todavía</p>
-      </div>`;
+    container.innerHTML = UI.EmptyState({ icon: 'fas fa-bell-slash', message: 'No tenés notificaciones todavía', accent: 'neutral', size: 'sm', surface: 'dashed', layout: 'block' });
     return;
   }
 
   container.innerHTML = notifications.map(n => {
     const meta = getNotifMeta(n);
     const link = getNotifLink(n);
-    const actorAvatar = n.actorAvatar
-      ? `<img src="${n.actorAvatar}" class="w-10 h-10 rounded-full object-cover" alt="">`
-      : `<div class="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 text-gray-400 text-sm font-bold">${(n.actorName || '?')[0].toUpperCase()}</div>`;
+    const actorAvatar = UI.Avatar({ name: n.actorName, src: n.actorAvatar, alt: '', variant: 'actor', size: '2xl' });
     const timeAgo = formatTimeAgo(n.createdAt);
     const unreadClass = n.read ? '' : 'border-l-2 border-yellow-400 bg-yellow-400/5';
 

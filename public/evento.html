@@ -7,6 +7,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="p5-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></div>
@@ -14,7 +26,7 @@
 
   <main class="relative z-10 pt-24 pb-12 max-w-4xl mx-auto px-4">
     <div id="event-content" class="hidden">
-      <div class="rounded-3xl overflow-hidden border border-white/10 card-cyber bg-black/40">
+      <div class="card-cyber ui-panel ui-panel--detail">
         <div id="event-image-container" class="aspect-video w-full overflow-hidden bg-magenta-500/5 flex items-center justify-center">
           <!-- Image will be injected here -->
         </div>
@@ -43,7 +55,7 @@
             <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/5">
               <i class="fas fa-clock text-magenta-500 mt-1"></i>
               <div>
-                <h4 class="text-xs font-bold text-gray-500 uppercase">Hora</h4>
+                <h4 class="ui-eyebrow ui-eyebrow--field">Hora</h4>
                 <p id="event-time" class="text-white font-medium"></p>
               </div>
             </div>
@@ -56,7 +68,7 @@
             <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/5">
               <i class="fas fa-map-marker-alt text-cyan-500 mt-1"></i>
               <div>
-                <h4 class="text-xs font-bold text-gray-500 uppercase">Ubicación</h4>
+                <h4 class="ui-eyebrow ui-eyebrow--field">Ubicación</h4>
                 <p id="event-location" class="text-white font-medium"></p>
               </div>
             </div>
@@ -67,7 +79,7 @@
           </div>
 
           <div class="prose prose-invert max-w-none mb-12">
-            <h3 class="text-xl font-bold text-white mb-4 border-l-4 border-magenta-500 pl-4">Descripción</h3>
+            <h3 class="ui-title ui-title--section mb-4 border-l-4 border-magenta-500 pl-4">Descripción</h3>
             <p id="event-description" class="text-gray-300 leading-relaxed whitespace-pre-line"></p>
           </div>
 
@@ -89,7 +101,7 @@
 
           <!-- Comments Section -->
           <div class="border-t border-white/10 pt-8">
-            <h3 class="text-xl font-bold text-white mb-6">
+            <h3 class="ui-title ui-title--section mb-6">
               <i class="fas fa-comments text-cyan-400 mr-2"></i>Comentarios (<span id="comment-count">0</span>)
             </h3>
             
@@ -106,21 +118,17 @@
     </div>
 
     <!-- Loading State -->
-    <div id="loading" class="py-20 text-center">
-      <i class="fas fa-spinner fa-spin text-4xl text-magenta-500 mb-4"></i>
-      <p class="text-gray-500">Sincronizando datos del evento...</p>
-    </div>
+    <script>document.currentScript.outerHTML = UI.PageLoader({ id: 'loading', message: 'Sincronizando datos del evento...' });</script>
 
     <!-- Error State -->
     <div id="error" class="hidden py-20 text-center">
       <i class="fas fa-exclamation-triangle text-6xl text-red-500 mb-6"></i>
-      <h2 class="text-2xl font-bold text-white mb-2">Evento no encontrado</h2>
+      <h2 class="ui-title ui-title--panel mb-2">Evento no encontrado</h2>
       <p class="text-gray-500 mb-8">El evento que buscas no existe o fue eliminado.</p>
-      <a href="calendario.html" class="btn-primary px-8 py-3 rounded-xl">Volver al Calendario</a>
+      <a href="calendario.html" class="btn-primary ui-btn ui-btn--primary-lg">Volver al Calendario</a>
     </div>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script src="js/tagging.js"></script>
@@ -196,7 +204,7 @@
       creator.href = `profile.html?user=${ev.creator?.username}`;
 
       const avatarCont = document.getElementById('creator-avatar');
-      avatarCont.innerHTML = ev.creator?.avatar ? `<img src="${sanitizeUrl(ev.creator.avatar)}" class="w-full h-full object-cover">` : escapeHTML((ev.creator?.username || '?')[0].toUpperCase());
+      avatarCont.innerHTML = UI.AvatarContent({ name: ev.creator?.username, src: ev.creator?.avatar });
 
       // Edit Button and Ticket Management
       if (isCreator) {
@@ -250,14 +258,14 @@
         if (youtubeId) {
           imgContainer.setAttribute('onmouseenter', `playVideo(this, '${youtubeId}')`);
           imgContainer.setAttribute('onmouseleave', 'stopVideo(this)');
-          imgContainer.innerHTML += `<div class="video-overlay absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none bg-black"><iframe class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+          imgContainer.innerHTML += UI.VideoOverlay();
         }
       } else {
         imgContainer.innerHTML = `<i class="fas fa-calendar-alt text-6xl text-magenta-500/20"></i>`;
         if (youtubeId) {
           imgContainer.setAttribute('onmouseenter', `playVideo(this, '${youtubeId}')`);
           imgContainer.setAttribute('onmouseleave', 'stopVideo(this)');
-          imgContainer.innerHTML += `<div class="video-overlay absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none bg-black"><iframe class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+          imgContainer.innerHTML += UI.VideoOverlay();
         }
       }
 
@@ -271,7 +279,7 @@
             document.getElementById('event-description').after(badge);
         }
         badge.innerHTML = `
-          <a href="${sanitizeUrl(ev.youtube_video)}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-red-600/10 text-red-500 rounded-xl border border-red-500/20 text-sm font-black uppercase tracking-widest hover:bg-red-600/20 transition-all">
+          <a href="${sanitizeUrl(ev.youtube_video)}" target="_blank" class="inline-flex items-center gap-2 ui-btn ui-btn--video">
             <i class="fab fa-youtube text-lg"></i> Ver Streaming / Video
           </a>
         `;
@@ -298,9 +306,7 @@
         participantsSection.classList.remove('hidden');
         participantsList.innerHTML = ev.participants.map(p => `
           <a href="profile.html?user=${encodeURIComponent(p.username)}" class="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500 transition-all group">
-            <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 font-black group-hover:bg-cyan-500 group-hover:text-black transition-all">
-              ${escapeHTML((p.username || '?')[0].toUpperCase())}
-            </div>
+            ${UI.Avatar({ name: p.username, variant: 'participant', size: '2xl' })}
             <span class="text-sm font-bold text-gray-300 group-hover:text-white">${escapeHTML(p.username)}</span>
           </a>
         `).join('');
@@ -333,9 +339,9 @@
               </div>
               <div class="flex-1">
                 <textarea id="comment-text" required placeholder="Haz una pregunta o deja un mensaje sobre el evento..." 
-                  class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none transition-all resize-none h-24"></textarea>
+                  class="ui-textarea ui-textarea--comment ui-textarea--focus-cyan"></textarea>
                 <div class="flex justify-end mt-2">
-                  <button type="submit" class="btn-primary px-6 py-2 rounded-xl text-sm transition-all hover:scale-105">
+                  <button type="submit" class="btn-primary ui-btn ui-btn--primary-sm">
                     Enviar Mensaje
                   </button>
                 </div>
@@ -346,7 +352,7 @@
       } else {
         formContainer.innerHTML = `
           <div class="bg-white/5 border border-white/5 rounded-2xl p-6 text-center">
-            <p class="text-gray-500 text-sm">Debes <button onclick="showLogin()" class="text-cyan-400 hover:underline">iniciar sesión</button> para dejar mensajes.</p>
+            <p class="text-gray-500 text-sm">Debes <button onclick="showLogin()" class="ui-btn ui-btn--link">iniciar sesión</button> para dejar mensajes.</p>
           </div>`;
       }
 
@@ -355,13 +361,7 @@
         const isCommentOwner = isLoggedIn() && (getUserId() === c.user?._id || isAdmin());
         return `
         <div class="flex gap-4 scroll-mt-24">
-          <div class="w-10 h-10 rounded-full overflow-hidden shrink-0 border border-white/10">
-            ${c.user?.avatar ? `<img src="${sanitizeUrl(c.user.avatar)}" class="w-full h-full object-cover">` : `
-              <div class="w-full h-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
-                <i class="fas fa-user-astronaut text-xs"></i>
-              </div>
-            `}
-          </div>
+          ${UI.Avatar({ src: c.user?.avatar, icon: 'fas fa-user-astronaut', variant: 'commenter', size: '2xl' })}
           <div class="flex-1">
             <div class="bg-white/5 rounded-2xl px-4 py-3 border border-white/5">
               <div class="flex justify-between items-center mb-1">
@@ -369,7 +369,7 @@
                 <div class="flex items-center gap-2">
                   <span class="text-[10px] text-gray-500">${new Date(c.createdAt).toLocaleDateString()}</span>
                   ${isCommentOwner ? `
-                    <button onclick="deleteComment('${c._id}')" class="text-gray-600 hover:text-red-500 transition-colors text-xs" title="Borrar mensaje">
+                    <button onclick="deleteComment('${c._id}')" class="ui-btn ui-btn--comment-delete" title="Borrar mensaje">
                       <i class="fas fa-trash"></i>
                     </button>
                   ` : ''}
@@ -379,7 +379,7 @@
             </div>
           </div>
         </div>
-      `;}).reverse().join('') || `<div class="text-center py-10 text-gray-600 italic">No hay mensajes aún.</div>`;
+      `;}).reverse().join('') || UI.StatusText({ variant: 'comments', message: 'No hay mensajes aún.' });
     }
 
     async function deleteComment(commentId) {
@@ -463,7 +463,7 @@
             // Available - Botón más llamativo con glow y animación
             ticketActions.classList.remove('hidden');
             ticketActions.innerHTML = `
-              <a href="ticket-purchase.html?event=${ev._id}" class="group relative flex items-center justify-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 bg-[length:200%_100%] text-white hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(234,179,8,0.4)] hover:shadow-[0_0_30px_rgba(234,179,8,0.6)] h-full w-full overflow-hidden animate-gradient">
+              <a href="ticket-purchase.html?event=${ev._id}" class="group relative flex items-center justify-center gap-3 h-full w-full overflow-hidden animate-gradient ui-btn ui-btn--ticket-cta">
                 <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer"></span>
                 <i class="fas fa-ticket-alt text-xl group-hover:animate-bounce"></i>
                 <span class="relative">
@@ -476,7 +476,7 @@
           // If can't get stats, show button anyway
           ticketActions.classList.remove('hidden');
           ticketActions.innerHTML = `
-            <a href="ticket-purchase.html?event=${ev._id}" class="group relative flex items-center justify-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 bg-[length:200%_100%] text-white hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(234,179,8,0.4)] hover:shadow-[0_0_30px_rgba(234,179,8,0.6)] h-full w-full overflow-hidden animate-gradient">
+            <a href="ticket-purchase.html?event=${ev._id}" class="group relative flex items-center justify-center gap-3 h-full w-full overflow-hidden animate-gradient ui-btn ui-btn--ticket-cta">
               <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer"></span>
               <i class="fas fa-ticket-alt text-xl group-hover:animate-bounce"></i>
               <span class="relative">
@@ -579,14 +579,7 @@
   </script>
 
   <!-- Global Edit Modal -->
-  <div id="global-edit-modal" class="hidden fixed inset-0 z-[100] flex items-start justify-center bg-black/80 px-4 py-8 backdrop-blur-md overflow-y-auto">
-    <div class="w-full max-w-3xl rounded-3xl border border-white/10 card-cyber bg-[#0d0d12] p-8 relative my-auto">
-      <button onclick="closeGlobalEdit()" class="absolute top-4 right-4 text-gray-400 hover:text-white z-10 bg-black/50 w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-all">
-        <i class="fas fa-times"></i>
-      </button>
-      <div id="edit-modal-content" class="max-h-[70vh] overflow-y-auto pr-2 scrollbar-hide"></div>
-    </div>
-  </div>
+  <script>document.currentScript.outerHTML = UI.EditModal();</script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
   <script src="js/ascii-shader-bg.js"></script>

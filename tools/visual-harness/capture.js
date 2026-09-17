@@ -6,7 +6,8 @@ const path = require('path');
 const { chromium } = require('playwright');
 const { start } = require('./server');
 const netcache = require('./netcache');
-const PAGES = require('./pages');
+const lock = require('./lock');
+const PAGES = require('./pages').selected();
 
 // Cualquier fecha sirve mientras sea la misma en las dos corridas.
 const FIXED_DATE = '2026-08-17T15:00:00.000Z';
@@ -111,6 +112,16 @@ async function freeze(page) {
     }
     // El caret de los inputs parpadea y ensucia el diff.
     if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+    // El fondo ASCII (ascii-shader-bg.js) y las letras de p5-effect.js (montadas en
+    // #p5-canvas o, si la página no lo trae, en #p5-global-canvas) se
+    // mueven con física y azar: dos capturas del mismo código nunca coincidían
+    // en las 15 páginas que lo usan. Es decorativo y fijo detrás del contenido,
+    // así que se oculta sin afectar el layout (visibility, no display).
+    // Con una hoja `!important` y no con estilo inline en el contenedor: p5
+    // marca su <canvas> hijo con `visibility: visible` y le ganaba al padre.
+    const hide = document.createElement('style');
+    hide.textContent = '#p5-canvas, #p5-global-canvas, .p5Canvas, #ascii-bg-canvas { visibility: hidden !important; }';
+    document.head.appendChild(hide);
   });
 }
 
@@ -119,6 +130,7 @@ async function main() {
   const record = process.argv.includes('--record');
   if (!label) throw new Error('Falta el label: node capture.js <before|after> [--record]');
 
+  await lock.acquire(`capture ${label}`);
   const outDir = path.resolve(__dirname, 'snapshots', label);
   fs.rmSync(outDir, { recursive: true, force: true });
   fs.mkdirSync(outDir, { recursive: true });

@@ -1,3 +1,11 @@
+/* Entrada del build de Tailwind (npm run build:css).
+   Los @import van primero: postcss-import los resuelve antes que Tailwind, y
+   cada archivo de components/ declara `@layer components`, así que su CSS
+   termina en la posición de `@tailwind components` sin importar dónde se
+   importe. */
+@import "./tokens.css";
+@import "./components/index.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

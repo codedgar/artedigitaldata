@@ -8,6 +8,18 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/calendario.css">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="p5-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></div>
@@ -16,14 +28,14 @@
   <main class="relative z-10 pt-24 pb-12 max-w-7xl mx-auto px-4">
     <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
       <div>
-        <h1 class="text-3xl font-black text-white flex items-center gap-3">
+        <h1 class="ui-title ui-title--page-sm flex items-center gap-3">
           <i class="fas fa-calendar-alt text-cyan-400"></i> Calendario Comunidad
         </h1>
       </div>
       <div class="flex items-center gap-4 bg-black/40 p-2 rounded-2xl border border-white/10">
-        <button onclick="prevMonth()" class="w-10 h-10 rounded-xl hover:bg-white/10 text-white transition-all"><i class="fas fa-chevron-left"></i></button>
+        <button onclick="prevMonth()" class="ui-btn ui-btn--icon-nav"><i class="fas fa-chevron-left"></i></button>
         <span id="current-month-year" class="text-lg font-bold text-[var(--color-cyan)] min-w-[150px] text-center">Marzo 2026</span>
-        <button onclick="nextMonth()" class="w-10 h-10 rounded-xl hover:bg-white/10 text-white transition-all"><i class="fas fa-chevron-right"></i></button>
+        <button onclick="nextMonth()" class="ui-btn ui-btn--icon-nav"><i class="fas fa-chevron-right"></i></button>
       </div>
       <a href="create.html" class="btn-primary px-6 py-2 rounded-xl text-sm"><i class="fas fa-plus mr-2"></i>Nuevo Evento</a>
     </div>
@@ -31,13 +43,13 @@
     <!-- Calendar Grid -->
     <div class="rounded-3xl overflow-hidden shadow-2xl shadow-cyan-500/5">
       <div class="grid grid-cols-7 bg-black/40 border-x border-t border-white/10">
-        <div class="text-center py-4 text-xs font-bold uppercase tracking-widest text-gray-500">Dom</div>
-        <div class="text-center py-4 text-xs font-bold uppercase tracking-widest text-gray-500">Lun</div>
-        <div class="text-center py-4 text-xs font-bold uppercase tracking-widest text-gray-500">Mar</div>
-        <div class="text-center py-4 text-xs font-bold uppercase tracking-widest text-gray-500">Mié</div>
-        <div class="text-center py-4 text-xs font-bold uppercase tracking-widest text-gray-500">Jue</div>
-        <div class="text-center py-4 text-xs font-bold uppercase tracking-widest text-gray-500">Vie</div>
-        <div class="text-center py-4 text-xs font-bold uppercase tracking-widest text-gray-500">Sáb</div>
+        <div class="text-center py-4 ui-eyebrow ui-eyebrow--field-wide">Dom</div>
+        <div class="text-center py-4 ui-eyebrow ui-eyebrow--field-wide">Lun</div>
+        <div class="text-center py-4 ui-eyebrow ui-eyebrow--field-wide">Mar</div>
+        <div class="text-center py-4 ui-eyebrow ui-eyebrow--field-wide">Mié</div>
+        <div class="text-center py-4 ui-eyebrow ui-eyebrow--field-wide">Jue</div>
+        <div class="text-center py-4 ui-eyebrow ui-eyebrow--field-wide">Vie</div>
+        <div class="text-center py-4 ui-eyebrow ui-eyebrow--field-wide">Sáb</div>
       </div>
       <div id="calendar-body" class="calendar-grid border border-white/10">
         <!-- JS will populate this -->
@@ -45,7 +57,6 @@
     </div>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>

@@ -1,0 +1,12 @@
+/* Tokens de diseño: la única fuente de colores, tipografía, radios y sombras.
+   Los componentes y las páginas leen estas variables; no repetir los valores.
+   Movidos desde css/style.css sin cambios. */
+:root {
+  --bg-base: #0D0D12;
+  --bg-surface: #1A1A2E;
+  --color-cyan: #00F5FF;
+  --color-magenta: #FF00E0;
+  --color-text: #E5E5E5;
+  --color-text-dim: #94A3B8;
+  --gradient-neon: linear-gradient(135deg, var(--color-cyan), var(--color-magenta));
+}

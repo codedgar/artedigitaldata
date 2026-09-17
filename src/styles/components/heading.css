@@ -1,0 +1,56 @@
+/* Tipografía: encabezados de página, títulos de sección, eyebrows. Ver docs/componentes.md.
+ *
+ *   <h2 class="ui-title ui-title--section mb-6 flex items-center gap-2">…</h2>
+ *   <h1 class="ui-title ui-title--hero gradient-text mb-2">Chances</h1>
+ *   <p class="ui-eyebrow ui-eyebrow--stat">Total Entradas</p>
+ *
+ * Las primitivas sólo llevan tipografía (tamaño, peso, color, mayúsculas,
+ * tracking). Margen, flex, truncado y hover quedan como utilidades en el
+ * elemento: no pisan ninguna propiedad de la primitiva, así que el render es
+ * el mismo que con las utilidades sueltas.
+ *
+ * `ui-title` y `ui-eyebrow` no tienen estilos propios: marcan la familia y
+ * siempre van con exactamente una variante.
+ *
+ * Fase 1: cada variante reproduce una combinación que ya existía. Las que sólo
+ * difieren en el peso (`--section` / `--section-strong`) se unifican en fase 2.
+ */
+@layer components {
+  /* Títulos de portada; siempre junto a `gradient-text` (style.css), que da
+     el color. */
+  .ui-title--hero { @apply text-4xl md:text-5xl font-black; }
+  .ui-title--hero-lg { @apply text-4xl md:text-6xl font-black; }
+
+  /* Título principal de una página. */
+  .ui-title--page-lg { @apply text-3xl md:text-5xl font-black text-white; }
+  .ui-title--page { @apply text-3xl md:text-4xl font-black text-white; }
+  .ui-title--page-sm { @apply text-3xl font-black text-white; }
+  .ui-title--page-xs { @apply text-2xl md:text-3xl font-black text-white; }
+
+  /* Overlay de "Subiendo… / Procesando…". */
+  .ui-title--status { @apply text-3xl font-black text-white uppercase tracking-tighter; }
+
+  /* Título de un panel o bloque (login, acceso denegado, modal). */
+  .ui-title--panel { @apply text-2xl font-bold text-white; }
+  .ui-title--panel-strong { @apply text-2xl font-black text-white; }
+
+  /* Título de sección dentro de una página. */
+  .ui-title--section { @apply text-xl font-bold text-white; }
+  .ui-title--section-strong { @apply text-xl font-black text-white; }
+  .ui-title--subsection { @apply text-sm font-bold text-gray-300; }
+
+  /* Título de tarjeta u opción. */
+  .ui-title--card { @apply text-lg font-bold text-white; }
+  .ui-title--card-strong { @apply text-lg font-black text-white; }
+  .ui-title--card-sm { @apply text-sm font-bold text-white; }
+  .ui-title--tile { @apply text-sm md:text-lg font-black text-white uppercase tracking-tight; }
+  .ui-title--tile-sm { @apply text-sm font-black text-white uppercase tracking-tight; }
+
+  /* Eyebrows: texto chico en mayúsculas sobre un dato o una sección. Los
+     `<label>` de formularios no van acá (familia form). */
+  .ui-eyebrow--stat { @apply text-xs text-gray-500 uppercase tracking-wider; }
+  .ui-eyebrow--section { @apply text-xs font-black text-gray-500 uppercase tracking-widest; }
+  .ui-eyebrow--field { @apply text-xs font-bold text-gray-500 uppercase; }
+  .ui-eyebrow--field-wide { @apply text-xs font-bold text-gray-500 uppercase tracking-widest; }
+  .ui-eyebrow--micro { @apply text-[10px] font-black text-gray-500 uppercase tracking-widest; }
+}

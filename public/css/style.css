@@ -1,12 +1,4 @@
-:root {
-  --bg-base: #0D0D12;
-  --bg-surface: #1A1A2E;
-  --color-cyan: #00F5FF;
-  --color-magenta: #FF00E0;
-  --color-text: #E5E5E5;
-  --color-text-dim: #94A3B8;
-  --gradient-neon: linear-gradient(135deg, var(--color-cyan), var(--color-magenta));
-}
+/* Los tokens (:root) viven en src/styles/tokens.css y salen en css/tailwind.css. */
 
 html, body {
   -webkit-user-select: none;

@@ -8,6 +8,18 @@
   <link rel="stylesheet" href="css/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/tailwind.css">
+  <script src="js/config.js"></script>
+  <script src="js/ui/core.js"></script>
+  <script src="js/ui/avatar.js"></script>
+  <script src="js/ui/badge.js"></script>
+  <script src="js/ui/button.js"></script>
+  <script src="js/ui/card.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/heading.js"></script>
+  <script src="js/ui/media.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/state.js"></script>
+  <script src="js/ui/tabs.js"></script>
 </head>
 <body class="min-h-screen">
   <div id="p5-global-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></div>
@@ -22,7 +34,7 @@
           ?
         </div>
         <div class="flex-1 text-center md:text-left">
-          <h1 id="profile-username" class="text-2xl md:text-3xl font-black text-white">Cargando...</h1>
+          <h1 id="profile-username" class="ui-title ui-title--page-xs">Cargando...</h1>
           <p id="profile-bio" class="text-gray-400 mt-2"></p>
           <p id="profile-meta" class="text-sm text-gray-500 mt-2"></p>
           <div id="profile-socials" class="flex flex-wrap gap-2 mt-4"></div>
@@ -49,7 +61,7 @@
       <div id="edit-form" class="hidden mt-6 pt-6 border-t border-white/10">
         <form id="profile-edit-form" class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+            <label class="ui-label ui-label--account">Email</label>
             <div class="relative">
               <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
               <input type="text" id="edit-email-display" readonly
@@ -59,18 +71,18 @@
             <p class="text-[11px] text-gray-600 mt-1">El email no es editable desde aquí.</p>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-400 mb-2">Nombre a Mostrar</label>
+            <label class="ui-label ui-label--account">Nombre a Mostrar</label>
             <input type="text" id="edit-display-name" placeholder="Tu nombre artístico o real"
-              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-[var(--color-cyan)] focus:outline-none transition-colors">
+              class="ui-input ui-input--soft ui-input--focus-brand">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-400 mb-2">Bio</label>
+            <label class="ui-label ui-label--account">Bio</label>
             <textarea id="edit-bio" rows="3"
-              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-orange-500 focus:outline-none transition-colors resize-none"
+              class="ui-textarea ui-textarea--soft ui-textarea--focus-orange ui-textarea--fixed"
               placeholder="Contá sobre vos..."></textarea>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-400 mb-2">Avatar (URL o subir imagen)</label>
+            <label class="ui-label ui-label--account">Avatar (URL o subir imagen)</label>
             <div class="flex gap-3">
               <input type="text" id="edit-avatar-url" placeholder="URL de imagen"
                 class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-[var(--color-cyan)] focus:outline-none transition-colors">
@@ -80,7 +92,7 @@
           </div>
           
           <div class="pt-6 border-t border-white/10 mt-6">
-            <h3 class="text-xs font-black text-gray-500 uppercase mb-4 tracking-widest">Conectar Redes Sociales</h3>
+            <h3 class="ui-eyebrow ui-eyebrow--section mb-4">Conectar Redes Sociales</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="relative group">
                 <i class="fab fa-instagram absolute left-4 top-1/2 -translate-y-1/2 text-pink-500 group-focus-within:scale-110 transition-transform"></i>
@@ -133,100 +145,60 @@
     </div>
 
     <!-- Tabs -->
-    <div class="flex border-b border-white/10 mb-8 overflow-x-auto scrollbar-hide">
-      <button onclick="switchTab('posts')" id="tab-posts" class="tab-btn active px-6 py-4 text-sm font-bold text-[var(--color-cyan)] border-b-2 border-primary-500 whitespace-nowrap transition-all">
-        <i class="fas fa-palette mr-2"></i>OBRAS
-      </button>
-      <button onclick="switchTab('recursos')" id="tab-recursos" class="tab-btn px-6 py-4 text-sm font-bold text-gray-500 hover:text-white whitespace-nowrap transition-all">
-        <i class="fas fa-box-open mr-2"></i>RECURSOS
-      </button>
-      <button onclick="switchTab('concursos')" id="tab-concursos" class="tab-btn px-6 py-4 text-sm font-bold text-gray-500 hover:text-white whitespace-nowrap transition-all">
-        <i class="fas fa-trophy mr-2 text-yellow-500"></i>MIS IMAGENES
-      </button>
-      <button onclick="switchTab('eventos')" id="tab-eventos" class="tab-btn px-6 py-4 text-sm font-bold text-gray-500 hover:text-white whitespace-nowrap transition-all">
-        <i class="fas fa-calendar-alt mr-2"></i>EVENTOS
-      </button>
-      <button onclick="switchTab('oportunidades')" id="tab-oportunidades" class="tab-btn px-6 py-4 text-sm font-bold text-gray-500 hover:text-white whitespace-nowrap transition-all">
-        <i class="fas fa-briefcase mr-2"></i>CHANCES
-      </button>
-      <button onclick="switchTab('favs')" id="tab-favs" class="tab-btn px-6 py-4 text-sm font-bold text-gray-500 hover:text-white whitespace-nowrap transition-all">
-        <i class="fas fa-heart mr-2 text-red-500"></i>TUS FAV
-      </button>
-      <button onclick="switchTab('tickets')" id="tab-tickets" class="tab-btn px-6 py-4 text-sm font-bold text-gray-500 hover:text-white whitespace-nowrap transition-all">
-        <i class="fas fa-ticket-alt mr-2 text-fuchsia-500"></i>ENTRADAS
-      </button>
-      <button onclick="switchTab('visualeffects')" id="tab-visualeffects" class="tab-btn px-6 py-4 text-sm font-bold text-gray-500 hover:text-white whitespace-nowrap transition-all">
-        <i class="fas fa-wand-magic-sparkles mr-2 text-cyan-400"></i>VISUAL EFFECTS
-      </button>
-      <button onclick="switchTab('notificaciones')" id="tab-notificaciones" class="tab-btn hidden px-6 py-4 text-sm font-bold text-gray-500 hover:text-white whitespace-nowrap transition-all">
-        <i class="fas fa-bell mr-2 text-yellow-400"></i>NOTIFICACIONES
-        <span id="notif-badge" class="hidden ml-1 px-1.5 py-0.5 rounded-full bg-red-500 text-white text-[10px] font-black"></span>
-      </button>
+    <div class="ui-tabs--underline mb-8 overflow-x-auto scrollbar-hide">
+      <script>document.currentScript.outerHTML = UI.Tabs({ variant: 'underline', onSelect: 'switchTab', idPrefix: 'tab-', active: 'posts', items: [
+        { key: 'posts', icon: 'fas fa-palette', label: 'OBRAS' },
+        { key: 'recursos', icon: 'fas fa-box-open', label: 'RECURSOS' },
+        { key: 'concursos', icon: 'fas fa-trophy', iconAccent: 'yellow', label: 'MIS IMAGENES' },
+        { key: 'eventos', icon: 'fas fa-calendar-alt', label: 'EVENTOS' },
+        { key: 'oportunidades', icon: 'fas fa-briefcase', label: 'CHANCES' },
+        { key: 'favs', icon: 'fas fa-heart', iconAccent: 'red', label: 'TUS FAV' },
+        { key: 'tickets', icon: 'fas fa-ticket-alt', iconAccent: 'fuchsia', label: 'ENTRADAS' },
+        { key: 'visualeffects', icon: 'fas fa-wand-magic-sparkles', iconAccent: 'cyan', label: 'VISUAL EFFECTS' },
+        { key: 'notificaciones', icon: 'fas fa-bell', iconAccent: 'yellow-soft', label: 'NOTIFICACIONES', badgeId: 'notif-badge', hidden: true },
+      ] });</script>
     </div>
 
     <!-- Content Sections -->
     <div id="section-posts" class="content-section">
-      <div id="user-posts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="col-span-full text-center text-gray-500 py-10">
-          <i class="fas fa-spinner fa-spin text-2xl text-orange-400 mb-3"></i>
-          <p>Cargando obras...</p>
-        </div>
-      </div>
+      <div id="user-posts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <script>document.getElementById('user-posts').innerHTML = UI.LoadingState({ message: 'Cargando obras...', accent: 'orange', size: 'md' });</script>
     </div>
 
     <div id="section-recursos" class="content-section hidden">
-      <div id="user-recursos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="col-span-full text-center text-gray-500 py-10">
-          <p>Cargando recursos...</p>
-        </div>
-      </div>
+      <div id="user-recursos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <script>document.getElementById('user-recursos').innerHTML = UI.LoadingText({ message: 'Cargando recursos...' });</script>
     </div>
 
     <div id="section-concursos" class="content-section hidden">
-      <div id="user-concursos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="col-span-full text-center text-gray-500 py-10">
-          <p>Cargando tus imágenes del concurso...</p>
-        </div>
-      </div>
+      <div id="user-concursos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <script>document.getElementById('user-concursos').innerHTML = UI.LoadingText({ message: 'Cargando tus imágenes del concurso...' });</script>
     </div>
 
     <div id="section-eventos" class="content-section hidden">
-      <div id="user-eventos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="col-span-full text-center text-gray-500 py-10">
-          <p>Cargando eventos...</p>
-        </div>
-      </div>
+      <div id="user-eventos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <script>document.getElementById('user-eventos').innerHTML = UI.LoadingText({ message: 'Cargando eventos...' });</script>
     </div>
 
     <div id="section-oportunidades" class="content-section hidden">
-      <div id="user-oportunidades" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="col-span-full text-center text-gray-500 py-10">
-          <p>Cargando oportunidades...</p>
-        </div>
-      </div>
+      <div id="user-oportunidades" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <script>document.getElementById('user-oportunidades').innerHTML = UI.LoadingText({ message: 'Cargando oportunidades...' });</script>
     </div>
 
     <div id="section-favs" class="content-section hidden">
-      <div id="user-favs" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="col-span-full text-center text-gray-500 py-10">
-          <p>Cargando favoritos...</p>
-        </div>
-      </div>
+      <div id="user-favs" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <script>document.getElementById('user-favs').innerHTML = UI.LoadingText({ message: 'Cargando favoritos...' });</script>
     </div>
 
     <div id="section-tickets" class="content-section hidden">
-      <div id="user-tickets" class="space-y-4">
-        <div class="text-center text-gray-500 py-10">
-          <i class="fas fa-spinner fa-spin text-2xl text-fuchsia-400 mb-3"></i>
-          <p>Cargando entradas...</p>
-        </div>
-      </div>
+      <div id="user-tickets" class="space-y-4"></div>
+      <script>document.getElementById('user-tickets').innerHTML = UI.LoadingState({ message: 'Cargando entradas...', accent: 'fuchsia', size: 'md', layout: 'block' });</script>
     </div>
 
     <div id="section-visualeffects" class="content-section hidden">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 class="text-xl font-bold text-white flex items-center gap-2">
+          <h3 class="ui-title ui-title--section flex items-center gap-2">
             <i class="fas fa-wand-magic-sparkles text-cyan-400"></i> Mis Efectos Visuales
           </h3>
           <p class="text-xs text-gray-400 mt-1">Proyectos guardados del Flyer Mode</p>
@@ -235,33 +207,24 @@
           <i class="fas fa-plus"></i> Crear Nuevo Efecto
         </a>
       </div>
-      <div id="user-visualeffects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="col-span-full text-center text-gray-500 py-10">
-          <i class="fas fa-spinner fa-spin text-2xl text-cyan-400 mb-3"></i>
-          <p>Cargando efectos visuales...</p>
-        </div>
-      </div>
+      <div id="user-visualeffects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <script>document.getElementById('user-visualeffects').innerHTML = UI.LoadingState({ message: 'Cargando efectos visuales...', size: 'md' });</script>
     </div>
 
     <div id="section-notificaciones" class="content-section hidden">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-lg font-black text-white flex items-center gap-2">
+        <h2 class="ui-title ui-title--card-strong flex items-center gap-2">
           <i class="fas fa-bell text-yellow-400"></i> Notificaciones
         </h2>
         <button id="mark-all-read-btn" onclick="markAllNotificationsRead()" class="px-4 py-2 rounded-xl border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 text-xs font-bold transition-all">
           <i class="fas fa-check-double mr-1"></i>Marcar todas como leídas
         </button>
       </div>
-      <div id="user-notifications" class="space-y-3">
-        <div class="text-center text-gray-500 py-10">
-          <i class="fas fa-spinner fa-spin text-2xl text-yellow-400 mb-3"></i>
-          <p>Cargando notificaciones...</p>
-        </div>
-      </div>
+      <div id="user-notifications" class="space-y-3"></div>
+      <script>document.getElementById('user-notifications').innerHTML = UI.LoadingState({ message: 'Cargando notificaciones...', accent: 'yellow', size: 'md', layout: 'block' });</script>
     </div>
   </main>
 
-  <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
@@ -560,12 +523,7 @@
     }
 
     function switchTab(tab) {
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active', 'text-[var(--color-cyan)]', 'border-primary-500');
-        btn.classList.add('text-gray-500');
-      });
-      document.getElementById('tab-' + tab).classList.add('active', 'text-[var(--color-cyan)]', 'border-primary-500');
-      document.getElementById('tab-' + tab).classList.remove('text-gray-500');
+      UI.setActiveTab(document.querySelectorAll('.tab-btn'), document.getElementById('tab-' + tab), 'underline');
       document.querySelectorAll('.content-section').forEach(sec => sec.classList.add('hidden'));
       document.getElementById('section-' + tab).classList.remove('hidden');
     }
@@ -573,109 +531,33 @@
     function renderUserPosts(posts) {
       const container = document.getElementById('user-posts');
       if (!posts.length) {
-        container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10"><i class="fas fa-image text-4xl text-fuchsia-400/30 mb-3"></i><p>Este artista aún no tiene obras publicadas</p></div>`;
+        container.innerHTML = UI.EmptyState({ icon: 'fas fa-image', message: 'Este artista aún no tiene obras publicadas', accent: 'fuchsia', size: 'sm' });
         return;
       }
-      container.innerHTML = posts.map(p => {
-        const youtubeId = extractYouTubeId(p);
-        return `
-          <div class="rounded-2xl overflow-hidden border border-cyan-500/10 card-cyber transition-all duration-300 group">
-            <div class="relative aspect-video overflow-hidden">
-              <div class="block w-full h-full relative cursor-pointer"
-                 ${youtubeId ? `onmouseenter="playVideo(this, '${youtubeId}')" onmouseleave="stopVideo(this)"` : ''}
-                 onclick="window.location.href='post?id=${p._id}'">
-                ${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">` : `<div class="w-full h-full bg-white/5 flex items-center justify-center"><i class="fas fa-palette text-3xl text-gray-700"></i></div>`}
-                ${youtubeId ? `<div class="video-overlay absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none bg-black"><iframe class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>` : ''}
-              </div>
-            </div>
-            <div class="p-4">
-              <div class="flex items-start justify-between gap-2 mb-1">
-                <a href="post?id=${p._id}" target="_blank" class="block hover:text-[var(--color-cyan)] transition-colors flex-1">
-                  <h3 class="font-bold text-white line-clamp-1">${p.title}</h3>
-                </a>
-                ${(isLoggedIn() && (isOwner || isAdmin())) ? `
-                  <div class="flex gap-1">
-                    <button onclick="openEditPost('${p._id}')" class="text-gray-500 hover:text-cyan-400 transition-colors p-1" title="Editar"><i class="fas fa-edit text-xs"></i></button>
-                    <button onclick="deletePost('${p._id}')" class="text-gray-500 hover:text-red-500 transition-colors p-1" title="Eliminar"><i class="fas fa-trash-alt text-xs"></i></button>
-                  </div>
-                ` : ''}
-              </div>
-              <p class="text-gray-400 text-sm line-clamp-2">${p.description || ''}</p>
-              <div class="flex items-center gap-3 mt-3 text-xs text-gray-500">
-                <span><i class="fas fa-heart text-fuchsia-400 mr-1"></i>${p.likes?.length || 0}</span>
-                <a href="post?id=${p._id}" target="_blank" class="hover:text-cyan-400"><i class="fas fa-comment mr-1"></i>${p.comments?.length || 0}</a>
-                <span>${new Date(p.createdAt).toLocaleDateString('es-AR')}</span>
-              </div>
-            </div>
-          </div>`;
-      }).join('');
+      const canEdit = isLoggedIn() && (isOwner || isAdmin());
+      container.innerHTML = posts.map(p => UI.PostCard({ post: p, variant: 'profile', youtubeId: extractYouTubeId(p), canEdit })).join('');
     }
 
     function renderUserConcursos(contestPosts) {
       const container = document.getElementById('user-concursos');
       if (!contestPosts.length) {
-        container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-16 bg-white/5 rounded-3xl border border-dashed border-white/10">
-          <i class="fas fa-trophy text-4xl text-yellow-500/20 mb-3"></i>
-          <p>Aún no participaste en ningún concurso</p>
-          <a href="concurso" class="text-yellow-500 hover:text-yellow-400 text-sm font-bold block mt-2">¡Participar ahora!</a>
-        </div>`;
+        container.innerHTML = UI.EmptyState({
+          icon: 'fas fa-trophy', message: 'Aún no participaste en ningún concurso', accent: 'yellow', size: 'sm', surface: 'dashed',
+          action: UI.html`<a href="concurso" class="text-yellow-500 hover:text-yellow-400 text-sm font-bold block mt-2">¡Participar ahora!</a>`,
+        });
         return;
       }
-      container.innerHTML = contestPosts.map(p => {
-        return `
-          <div class="rounded-2xl overflow-hidden border border-yellow-500/20 card-cyber group relative">
-            <div class="absolute top-3 left-3 z-10">
-              <span class="px-2 py-1 rounded-lg bg-yellow-500 text-black text-[9px] font-black uppercase tracking-widest shadow-lg">
-                ${p.contestMonth || 'CONCURSO'}
-              </span>
-            </div>
-            <div class="relative aspect-square overflow-hidden cursor-pointer" onclick="window.location.href='post?id=${p._id}'">
-              <img src="${p.imageUrl}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
-                <h4 class="text-white font-bold truncate">${p.title}</h4>
-                <div class="flex items-center gap-2 text-xs text-yellow-500 font-bold">
-                  <i class="fas fa-heart"></i> ${p.likes?.length || 0} VOTOS
-                </div>
-              </div>
-            </div>
-          </div>`;
-      }).join('');
+      container.innerHTML = contestPosts.map(p => UI.PostCard({ post: p, variant: 'contest' })).join('');
     }
 
     function renderUserRecursos(recursos) {
       const container = document.getElementById('user-recursos');
       if (!recursos.length) {
-        container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10"><i class="fas fa-box-open text-4xl text-orange-400/30 mb-3"></i><p>Este usuario aún no tiene recursos compartidos</p></div>`;
+        container.innerHTML = UI.EmptyState({ icon: 'fas fa-box-open', message: 'Este usuario aún no tiene recursos compartidos', accent: 'orange', size: 'sm' });
         return;
       }
-      container.innerHTML = recursos.map(r => {
-        const youtubeId = extractYouTubeId(r);
-        return `
-          <div class="rounded-2xl p-5 border border-orange-500/10 card-cyber transition-all duration-300 group">
-             <div class="relative aspect-video w-full overflow-hidden rounded-xl mb-4">
-               <div class="block w-full h-full relative cursor-pointer"
-                  ${youtubeId ? `onmouseenter="playVideo(this, '${youtubeId}')" onmouseleave="stopVideo(this)"` : ''}
-                  onclick="window.location.href='recurso?id=${r._id}'">
-                 ${r.imageUrl ? `<img src="${r.imageUrl}" alt="${r.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">` : `<div class="w-full h-full bg-white/5 flex items-center justify-center"><i class="fas fa-box-open text-3xl text-gray-700 opacity-30"></i></div>`}
-                 ${youtubeId ? `<div class="video-overlay absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none bg-black"><iframe class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>` : ''}
-               </div>
-             </div>
-            <div class="flex items-start justify-between gap-2 mb-2">
-              <a href="recurso?id=${r._id}" target="_blank" class="block hover:text-orange-400 transition-colors flex-1">
-                <h3 class="font-bold text-white line-clamp-1">${r.title}</h3>
-              </a>
-              ${(isLoggedIn() && (isOwner || isAdmin())) ? `
-                <div class="flex gap-1">
-                  <button onclick="openEditRecurso('${r._id}')" class="text-gray-500 hover:text-orange-400 transition-colors p-1" title="Editar"><i class="fas fa-edit text-xs"></i></button>
-                  <button onclick="deleteRecurso('${r._id}')" class="text-gray-500 hover:text-red-500 transition-colors p-1" title="Eliminar"><i class="fas fa-trash-alt text-xs"></i></button>
-                </div>
-              ` : ''}
-            </div>
-            <p class="text-xs text-gray-400 line-clamp-2 mb-3">${r.description || ''}</p>
-            <div class="flex items-center gap-2 mb-3"><span class="px-2 py-0.5 rounded text-[10px] bg-orange-500/10 text-orange-400 uppercase font-bold">${r.type}</span></div>
-            <div class="flex items-center justify-between text-[10px] text-gray-500 pt-3 border-t border-white/5"><span><i class="fas fa-comment mr-1"></i>${r.comments?.length || 0}</span><span>${new Date(r.createdAt).toLocaleDateString()}</span></div>
-          </div>`;
-      }).join('');
+      const canEdit = isLoggedIn() && (isOwner || isAdmin());
+      container.innerHTML = recursos.map(r => UI.RecursoCard({ recurso: r, variant: 'profile', youtubeId: extractYouTubeId(r), canEdit })).join('');
     }
 
     function renderUserEventos(eventos, doorEvents) {
@@ -687,55 +569,26 @@
       const hasDoorEvents = doorEvents && doorEvents.length > 0;
       const hasOwnEvents = eventos && eventos.length > 0;
       if (!hasOwnEvents && !hasDoorEvents) {
-        container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10"><i class="fas fa-calendar-times text-4xl text-magenta-400/30 mb-3"></i><p>Este usuario no tiene eventos registrados</p></div>`;
+        container.innerHTML = UI.EmptyState({ icon: 'fas fa-calendar-times', message: 'Este usuario no tiene eventos registrados', accent: 'magenta', size: 'sm' });
         return;
       }
       let html = '';
       if (hasOwnEvents) {
-        if (hasDoorEvents) html += `<div class="col-span-full mb-2"><h3 class="text-xs font-black text-gray-500 uppercase tracking-widest flex items-center gap-2"><i class="fas fa-calendar-alt text-magenta-500"></i>Mis Eventos</h3></div>`;
+        if (hasDoorEvents) html += `<div class="col-span-full mb-2"><h3 class="ui-eyebrow ui-eyebrow--section flex items-center gap-2"><i class="fas fa-calendar-alt text-magenta-500"></i>Mis Eventos</h3></div>`;
         html += eventos.map(ev => renderEventoCardInline(ev, false)).join('');
       }
       if (hasDoorEvents) {
-        html += `<div class="col-span-full mt-6 mb-2"><h3 class="text-xs font-black text-gray-500 uppercase tracking-widest flex items-center gap-2"><i class="fas fa-door-open text-cyan-500"></i>Control de Acceso / Puerta</h3><p class="text-xs text-gray-600 mt-1">Eventos donde podés escanear y canjear entradas</p></div>`;
+        html += `<div class="col-span-full mt-6 mb-2"><h3 class="ui-eyebrow ui-eyebrow--section flex items-center gap-2"><i class="fas fa-door-open text-cyan-500"></i>Control de Acceso / Puerta</h3><p class="text-xs text-gray-600 mt-1">Eventos donde podés escanear y canjear entradas</p></div>`;
         html += doorEvents.map(ev => renderEventoCardInline(ev, true)).join('');
       }
       container.innerHTML = html;
     }
 
     function renderEventoCardInline(ev, isDoorEvent) {
-      const youtubeId = extractYouTubeId(ev);
-      const borderColor = isDoorEvent ? 'border-cyan-500/20 hover:border-cyan-500/40' : 'border-magenta-500/10 hover:border-magenta-500/30';
-      const dateColor = isDoorEvent ? 'bg-cyan-500/20 text-cyan-400' : 'bg-magenta-500/20 text-magenta-400';
-      return `
-        <div class="rounded-2xl p-5 border ${borderColor} bg-white/5 transition-all flex flex-col h-full group">
-          <div class="relative aspect-video w-full overflow-hidden rounded-xl mb-4">
-             <div class="block w-full h-full relative cursor-pointer"
-                ${youtubeId ? `onmouseenter="playVideo(this, '${youtubeId}')" onmouseleave="stopVideo(this)"` : ''}
-                onclick="window.location.href='evento?id=${ev._id}'">
-               ${ev.imageUrl ? `<img src="${ev.imageUrl}" alt="${ev.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">` : `<div class="w-full h-full bg-magenta-500/10 flex items-center justify-center"><i class="fas fa-calendar-alt text-3xl text-magenta-500/30"></i></div>`}
-               ${youtubeId ? `<div class="video-overlay absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none bg-black"><iframe class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>` : ''}
-             </div>
-          </div>
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-lg ${dateColor} flex flex-col items-center justify-center font-bold shrink-0">
-               <span class="text-[10px] leading-none uppercase">${new Date(ev.date).toLocaleDateString('es-AR', { month: 'short' })}</span>
-               <span class="text-sm leading-none">${new Date(ev.date).getDate()}</span>
-            </div>
-            <div class="flex-1 min-w-0">
-              <a href="evento?id=${ev._id}" target="_blank"><h3 class="font-bold text-white group-hover:text-magenta-400 transition-colors truncate">${ev.title}</h3></a>
-              <p class="text-[10px] text-gray-500 truncate"><i class="fas fa-map-marker-alt mr-1"></i>${ev.location || 'Online'}</p>
-            </div>
-            <div class="flex gap-1 shrink-0">
-              ${isDoorEvent ? `<a href="event-tickets?event=${ev._id}" class="px-2 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all text-xs font-bold flex items-center gap-1"><i class="fas fa-door-open"></i><span>Puerta</span></a>` : ''}
-              ${(!isDoorEvent && isLoggedIn() && (isOwner || isAdmin())) ? `
-                ${ev.ticketConfig?.enabled ? `<a href="event-tickets?event=${ev._id}" class="text-green-400 hover:text-green-300 transition-colors p-1"><i class="fas fa-ticket-alt text-xs"></i></a>` : ''}
-                <button onclick="openEditEvento('${ev._id}')" class="text-gray-500 hover:text-magenta-400 transition-colors p-1"><i class="fas fa-edit text-xs"></i></button>
-                <button onclick="deleteEvento('${ev._id}')" class="text-gray-500 hover:text-red-500 transition-colors p-1"><i class="fas fa-trash-alt text-xs"></i></button>
-              ` : ''}
-            </div>
-          </div>
-          <p class="text-xs text-gray-400 line-clamp-2">${ev.description || ''}</p>
-        </div>`;
+      return UI.EventoCard({
+        evento: ev, variant: 'profile', youtubeId: extractYouTubeId(ev), isDoorEvent,
+        canEdit: isLoggedIn() && (isOwner || isAdmin()),
+      });
     }
 
     function renderUserFavorites(favs) {
@@ -746,120 +599,42 @@
           ...favs.eventos.map(e => ({ ...e, type: 'evento' }))
       ].sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
       if (!allFavs.length) {
-        container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-16 bg-white/5 rounded-3xl border border-dashed border-white/10"><i class="fas fa-heart-broken text-4xl text-gray-600 mb-3"></i><p>Aún no hay favoritos guardados</p></div>`;
+        container.innerHTML = UI.EmptyState({ icon: 'fas fa-heart-broken', message: 'Aún no hay favoritos guardados', accent: 'neutral', size: 'sm', surface: 'dashed' });
         return;
       }
-      container.innerHTML = allFavs.map(item => {
-        const isPost = item.type === 'post';
-        const isRecurso = item.type === 'recurso';
-        const link = isPost ? `post?id=${item._id}` : (isRecurso ? `recurso?id=${item._id}` : `evento?id=${item._id}`);
-        const color = isPost ? 'cyan' : (isRecurso ? 'orange' : 'magenta');
-        const icon = isPost ? 'palette' : (isRecurso ? 'box-open' : 'calendar-alt');
-        const youtubeId = extractYouTubeId(item);
-        return `
-          <div class="rounded-2xl overflow-hidden border border-${color}-500/10 card-cyber group">
-            <div class="block aspect-video bg-white/5 relative overflow-hidden cursor-pointer"
-               ${youtubeId ? `onmouseenter="playVideo(this, '${youtubeId}')" onmouseleave="stopVideo(this)"` : ''}
-               onclick="window.open('${link}', '_blank')">
-               ${item.imageUrl ? `<img src="${item.imageUrl}" class="w-full h-full object-cover transition-transform group-hover:scale-110">` : `<div class="w-full h-full flex items-center justify-center text-gray-700"><i class="fas fa-${icon} text-3xl"></i></div>`}
-               ${youtubeId ? `<div class="video-overlay absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none bg-black"><iframe class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>` : ''}
-               <div class="absolute top-3 left-3 z-10"><span class="px-2 py-0.5 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-bold text-${color}-400 uppercase tracking-widest">${item.type}</span></div>
-            </div>
-            <div class="p-4"><a href="${link}" target="_blank" class="block"><h3 class="font-bold text-white group-hover:text-${color}-400 transition-colors truncate mb-1">${item.title}</h3></a><p class="text-[10px] text-gray-500 flex items-center gap-2"><i class="fas fa-user-circle"></i> @${(item.author || item.creator)?.username || 'anónimo'}</p></div>
-          </div>`;
-      }).join('');
+      container.innerHTML = allFavs.map(item => UI.FavoriteCard({ item, youtubeId: extractYouTubeId(item) })).join('');
     }
 
     function renderUserOportunidades(oportunidades) {
       const container = document.getElementById('user-oportunidades');
       if (!container) return;
       if (!oportunidades.length) {
-        container.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10"><i class="fas fa-briefcase text-4xl text-emerald-400/30 mb-3"></i><p>Este usuario aún no tiene oportunidades publicadas</p></div>`;
+        container.innerHTML = UI.EmptyState({ icon: 'fas fa-briefcase', message: 'Este usuario aún no tiene oportunidades publicadas', accent: 'emerald', size: 'sm' });
         return;
       }
       const tipoLabels = { convocatoria_obra: 'Convocatoria de Obra', oportunidad_laboral: 'Oportunidad Laboral', colaboracion: 'Colaboración' };
       const tipoIcons = { convocatoria_obra: 'fas fa-palette', oportunidad_laboral: 'fas fa-briefcase', colaboracion: 'fas fa-handshake' };
-      container.innerHTML = oportunidades.map(opo => {
-        const label = tipoLabels[opo.tipo] || 'Oportunidad';
-        const icon = tipoIcons[opo.tipo] || 'fas fa-briefcase';
-        return `
-          <div class="rounded-2xl p-5 border border-emerald-500/10 card-cyber transition-all duration-300 group">
-             <div class="relative aspect-video w-full overflow-hidden rounded-xl mb-4">
-               <div class="block w-full h-full relative cursor-pointer" onclick="window.location.href='oportunidad.html?id=${opo._id}'">
-                 ${opo.imagenUrl ? `<img src="${opo.imagenUrl}" alt="${opo.titulo}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">` : `<div class="w-full h-full bg-emerald-500/10 flex items-center justify-center"><i class="${icon} text-3xl text-emerald-500/30"></i></div>`}
-               </div>
-             </div>
-            <div class="flex items-start justify-between gap-2 mb-2">
-              <a href="oportunidad.html?id=${opo._id}" target="_blank" class="block hover:text-emerald-400 transition-colors flex-1">
-                <h3 class="font-bold text-white line-clamp-1">${opo.titulo}</h3>
-              </a>
-              ${(isLoggedIn() && (isOwner || isAdmin())) ? `
-                <div class="flex gap-1">
-                  <a href="crear-oportunidad.html?id=${opo._id}" class="text-gray-500 hover:text-emerald-400 transition-colors p-1" title="Editar"><i class="fas fa-edit text-xs"></i></a>
-                  <button onclick="deleteOportunidad('${opo._id}')" class="text-gray-500 hover:text-red-500 transition-colors p-1" title="Eliminar"><i class="fas fa-trash-alt text-xs"></i></button>
-                </div>
-              ` : ''}
-            </div>
-            <div class="flex items-center gap-2 mb-3">
-              <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 uppercase font-bold"><i class="${icon} mr-1"></i>${label}</span>
-              <span class="text-[10px] text-gray-500">${opo.inscripciones?.length || 0} inscriptos</span>
-            </div>
-            <p class="text-xs text-gray-400 line-clamp-2 mb-3">${opo.descripcion || ''}</p>
-            <div class="flex items-center justify-between text-[10px] text-gray-500 pt-3 border-t border-white/5">
-              <span>${new Date(opo.createdAt).toLocaleDateString()}</span>
-              <a href="postulantes.html?id=${opo._id}" target="_blank" class="text-emerald-400 hover:text-emerald-300 font-bold">Ver postulantes <i class="fas fa-arrow-right ml-1"></i></a>
-            </div>
-          </div>`;
-      }).join('');
+      const canEdit = isLoggedIn() && (isOwner || isAdmin());
+      container.innerHTML = oportunidades.map(opo => UI.OportunidadCard({
+        oportunidad: opo, variant: 'profile', canEdit,
+        typeLabel: tipoLabels[opo.tipo] || 'Oportunidad', typeIcon: tipoIcons[opo.tipo] || 'fas fa-briefcase',
+      })).join('');
     }
 
     function renderUserVisualEffects(effects) {
       const container = document.getElementById('user-visualeffects');
       if (!container) return;
       if (!effects || !effects.length) {
-        container.innerHTML = `
-          <div class="col-span-full text-center text-gray-500 py-10">
-            <i class="fas fa-wand-magic-sparkles text-4xl text-cyan-400/30 mb-3"></i>
-            <p>No hay efectos visuales guardados aún.</p>
-            <a href="visualeffects.html" class="inline-block mt-3 px-4 py-2 bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded-lg text-xs font-bold hover:bg-cyan-500/30 transition-all">
+        container.innerHTML = UI.EmptyState({
+          icon: 'fas fa-wand-magic-sparkles', message: 'No hay efectos visuales guardados aún.', size: 'sm',
+          action: UI.html`<a href="visualeffects.html" class="inline-block mt-3 px-4 py-2 bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded-lg text-xs font-bold hover:bg-cyan-500/30 transition-all">
               <i class="fas fa-plus mr-1"></i> Crear primer efecto
-            </a>
-          </div>`;
+            </a>`,
+        });
         return;
       }
-      container.innerHTML = effects.map(fx => {
-        const wordsList = (fx.flyerWords || []).map(w => w.text || w.word).filter(Boolean);
-        const sampleWords = wordsList.slice(0, 5).join(', ') + (wordsList.length > 5 ? '...' : '');
-        const dateStr = new Date(fx.createdAt).toLocaleDateString();
-        return `
-          <div class="rounded-2xl p-5 border border-cyan-500/10 card-cyber transition-all duration-300 group flex flex-col justify-between">
-            <div>
-              <div class="flex items-start justify-between gap-2 mb-2">
-                <h3 class="font-bold text-white text-lg line-clamp-1 group-hover:text-cyan-400 transition-colors">${fx.title || 'Proyecto Flyer'}</h3>
-                ${(isLoggedIn() && (isOwner || isAdmin())) ? `
-                  <button onclick="deleteVisualEffect('${fx._id}')" class="text-gray-500 hover:text-red-500 transition-colors p-1" title="Eliminar"><i class="fas fa-trash-alt text-xs"></i></button>
-                ` : ''}
-              </div>
-              <div class="flex items-center gap-2 mb-3">
-                <span class="px-2 py-0.5 rounded text-[10px] bg-cyan-500/10 text-cyan-400 uppercase font-bold">
-                  <i class="fas fa-layer-group mr-1"></i>${wordsList.length} ${wordsList.length === 1 ? 'capa' : 'capas'}
-                </span>
-                <span class="text-[10px] text-gray-500">${dateStr}</span>
-              </div>
-              <p class="text-xs text-gray-400 line-clamp-2 mb-4">
-                <span class="text-cyan-400 font-semibold">Palabras:</span> ${sampleWords || 'Sin palabras'}
-              </p>
-            </div>
-            <div class="flex gap-2 mt-2">
-              <a href="visualeffects.html?id=${fx._id}" class="flex-1 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 border border-cyan-500/40 rounded-xl text-center font-bold text-xs transition-all flex items-center justify-center gap-1.5">
-                <i class="fas fa-edit"></i> Abrir Editor
-              </a>
-              <a href="outputeffect.html?id=${fx._id}" target="_blank" class="flex-1 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl text-center font-bold text-xs shadow-md transition-all flex items-center justify-center gap-1.5">
-                <i class="fas fa-play"></i> Ver Output
-              </a>
-            </div>
-          </div>`;
-      }).join('');
+      const canEdit = isLoggedIn() && (isOwner || isAdmin());
+      container.innerHTML = effects.map(fx => UI.VisualEffectCard({ effect: fx, canEdit })).join('');
     }
 
     async function deleteVisualEffect(id) {
@@ -949,109 +724,9 @@
         return;
       }
 
-      container.innerHTML = tickets.map(t => {
-        const ev = t.event;
-        // Si el evento fue eliminado, mostrar ticket huérfano
-        if (!ev) {
-          return `
-            <div class=\"rounded-2xl border border-white/10 bg-black/40 overflow-hidden hover:border-red-500/30 transition-all opacity-60\">
-              <div class=\"flex flex-col md:flex-row\">
-                <div class=\"md:w-48 h-32 md:h-auto shrink-0 relative bg-gray-900 flex items-center justify-center\">
-                  <i class=\"fas fa-calendar-times text-3xl text-gray-600\"></i>
-                </div>
-                <div class=\"flex-1 p-5\">
-                  <p class=\"text-lg font-bold text-gray-500\">Evento eliminado</p>
-                  <p class=\"text-sm text-gray-600 mt-1\">Código: ${t.code}</p>
-                  <div class=\"flex gap-3 mt-4 pt-4 border-t border-white/5\">
-                    <span class=\"px-3 py-1.5 rounded-lg bg-gray-500/10 text-gray-500 border border-gray-500/20 text-xs font-bold\">
-                      <i class=\"fas fa-ban mr-1\"></i>No disponible
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `;
-        }
-        const isRedeemed = t.redeemed;
-        const isPending = t.paymentStatus === 'pending';
-        const isFree = t.paymentStatus === 'free' || t.paymentStatus === 'completed';
-
-        let statusBadge, statusClass, statusIcon;
-        if (isRedeemed) {
-          statusBadge = 'Canjeada';
-          statusClass = 'bg-gray-500/20 text-gray-400 border-gray-500/30';
-          statusIcon = 'fa-check-double';
-        } else if (isPending) {
-          statusBadge = 'Pago Pendiente';
-          statusClass = 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
-          statusIcon = 'fa-clock';
-        } else {
-          statusBadge = 'Válida';
-          statusClass = 'bg-green-500/20 text-green-400 border-green-500/30';
-          statusIcon = 'fa-check';
-        }
-
-        return `
-          <div class="rounded-2xl border border-white/10 bg-black/40 overflow-hidden hover:border-fuchsia-500/30 transition-all">
-            <div class="flex flex-col md:flex-row">
-              <!-- Event Image -->
-              <div class="md:w-48 h-32 md:h-auto shrink-0 relative">
-                ${ev.imageUrl ?
-                  `<img src="${ev.imageUrl}" alt="${ev.title}" class="w-full h-full object-cover">` :
-                  `<div class="w-full h-full bg-fuchsia-500/10 flex items-center justify-center"><i class="fas fa-calendar-alt text-3xl text-fuchsia-500/30"></i></div>`
-                }
-                <div class="absolute top-2 left-2">
-                  <span class="px-2 py-1 rounded-lg ${statusClass} text-xs font-bold border">
-                    <i class="fas ${statusIcon} mr-1"></i>${statusBadge}
-                  </span>
-                </div>
-              </div>
-
-              <!-- Ticket Info -->
-              <div class="flex-1 p-5">
-                <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                  <div>
-                    <a href="evento?id=${ev._id || ev.id}" class="text-lg font-bold text-white hover:text-fuchsia-400 transition-colors">
-                      ${ev.title}
-                    </a>
-                    <p class="text-sm text-gray-500 mt-1">
-                      <i class="fas fa-calendar mr-1"></i>
-                      ${new Date(ev.date).toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                    </p>
-                    ${ev.location ? `
-                      <a href="${getGoogleMapsUrl(ev.location)}" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/30 hover:bg-blue-500/20 transition-all text-xs font-bold mt-2">
-                        <i class="fas fa-map-marker-alt"></i>Ver en Google Maps
-                      </a>
-                    ` : '<p class="text-sm text-gray-500"><i class="fas fa-map-marker-alt mr-1"></i>Online</p>'}
-                  </div>
-
-                  <!-- QR Code -->
-                  <div class="flex items-center gap-4">
-                    <div class="text-center">
-                      <div class="inline-block p-2 bg-white rounded-lg mb-2">
-                        <img src="${t.qrData}" alt="QR" class="w-16 h-16">
-                      </div>
-                      <p class="text-xs font-mono text-fuchsia-400">${t.code}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Actions -->
-                <div class="flex gap-3 mt-4 pt-4 border-t border-white/10">
-                  <a href="ticket-success?ticket=${t.code}" class="flex-1 px-4 py-2 rounded-xl bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/30 hover:bg-fuchsia-500/20 transition-all text-sm font-bold text-center">
-                    <i class="fas fa-eye mr-1"></i>Ver Entrada
-                  </a>
-                  ${!isRedeemed && isFree ? `
-                    <button onclick="downloadTicketQR('${t.code}')" class="px-4 py-2 rounded-xl bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 transition-all text-sm">
-                      <i class="fas fa-download"></i>
-                    </button>
-                  ` : ''}
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
+      container.innerHTML = tickets.map(t => UI.TicketCard({
+        ticket: t, mapsUrl: t.event?.location && getGoogleMapsUrl(t.event.location),
+      })).join('');
     }
 
     // Download ticket QR
@@ -1076,13 +751,6 @@
   </script>
 
   <!-- Global Edit Modal -->
-  <div id="global-edit-modal" class="hidden fixed inset-0 z-[100] flex items-start justify-center bg-black/80 px-4 py-8 backdrop-blur-md overflow-y-auto">
-    <div class="w-full max-w-3xl rounded-3xl border border-white/10 card-cyber bg-[#0d0d12] p-8 relative my-auto">
-      <button onclick="closeGlobalEdit()" class="absolute top-4 right-4 text-gray-400 hover:text-white z-10 bg-black/50 w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-all">
-        <i class="fas fa-times"></i>
-      </button>
-      <div id="edit-modal-content" class="max-h-[70vh] overflow-y-auto pr-2 scrollbar-hide"></div>
-    </div>
-  </div>
+  <script>document.currentScript.outerHTML = UI.EditModal();</script>
 </body>
 </html>
