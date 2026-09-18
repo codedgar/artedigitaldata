@@ -27,7 +27,10 @@ function api(route) {
   return JSON.parse(fs.readFileSync(path.join(NETCACHE, `${key}.body`), 'utf8'));
 }
 
-const oldSource = (file) => execFileSync('git', ['show', `${BEFORE_REF}:public/${file}`], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+// `ref` por caso: lo migrado antes del merge con main se compara contra
+// 75d8386, pero lo que main cambió después (las tarjetas de secuencias) tiene
+// que compararse contra main, que es el render que hay que conservar.
+const oldSource = (file, ref = BEFORE_REF) => execFileSync('git', ['show', `${ref}:public/${file}`], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
 const newSource = (file) => fs.readFileSync(path.join(ROOT, 'public', file), 'utf8');
 
 // Recorta `function nombre(...) { ... }` contando llaves. Alcanza para estas
@@ -72,8 +75,8 @@ const SESSIONS = {
 //   host     id del contenedor que buscan esas funciones
 //   setup    código previo (variables globales de la página, stubs de fetch)
 //   call     la llamada
-function pageRender({ file, fns, host, setup = '', call, session = 'visitor' }, side) {
-  const src = side === 'before' ? oldSource(file) : newSource(file);
+function pageRender({ file, fns, host, setup = '', call, session = 'visitor', beforeRef }, side) {
+  const src = side === 'before' ? oldSource(file, beforeRef) : newSource(file);
   const s = SESSIONS[session];
   return `async () => {
     const isLoggedIn = () => ${s.loggedIn};

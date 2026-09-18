@@ -125,7 +125,7 @@ const pinned = [
 
 const profileCase = (name, session, fns, call, extra = {}) => pageCase({
   name, session, file: 'profile.html', fns, host: extra.host, setup: PROFILE_SETUP, call,
-  wrapper: extra.wrapper || grid, scripts, viewport: tall, hover: extra.hover,
+  wrapper: extra.wrapper || grid, scripts, viewport: tall, hover: extra.hover, beforeRef: extra.beforeRef,
 });
 
 module.exports = [
@@ -197,8 +197,10 @@ module.exports = [
   profileCase('favorite-hover', 'visitor', ['renderUserFavorites'], `renderUserFavorites(${json(favorites)})`, { host: 'user-favs', hover: '.group:nth-child(2)' }),
   ...['visitor', 'owner'].map((s) => profileCase(`oportunidad-profile-${s}`, s, ['renderUserOportunidades'], `renderUserOportunidades(${json(oportunidades)})`, { host: 'user-oportunidades' })),
   profileCase('oportunidad-profile-hover', 'visitor', ['renderUserOportunidades'], `renderUserOportunidades(${json(oportunidades)})`, { host: 'user-oportunidades', hover: '.group' }),
-  ...['visitor', 'admin'].map((s) => profileCase(`visual-effect-${s}`, s, ['renderUserVisualEffects'], `renderUserVisualEffects(${json(effects)})`, { host: 'user-visualeffects' })),
-  profileCase('visual-effect-hover', 'visitor', ['renderUserVisualEffects'], `renderUserVisualEffects(${json(effects)})`, { host: 'user-visualeffects', hover: '.group' }),
+  // main renombró las secuencias y le sumó el badge Front y el link ?outputeffect=:
+  // la referencia de estas tres es main, no el commit previo a la migración.
+  ...['visitor', 'admin'].map((s) => profileCase(`visual-effect-${s}`, s, ['renderUserVisualEffects'], `renderUserVisualEffects(${json(effects)})`, { host: 'user-visualeffects', beforeRef: 'main' })),
+  profileCase('visual-effect-hover', 'visitor', ['renderUserVisualEffects'], `renderUserVisualEffects(${json(effects)})`, { host: 'user-visualeffects', hover: '.group', beforeRef: 'main' }),
   profileCase('ticket', 'owner', ['renderUserTickets'], `renderUserTickets(${json(tickets)})`, { host: 'user-tickets', wrapper: stack }),
 
   // js/index.js — feed

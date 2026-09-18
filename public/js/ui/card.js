@@ -733,7 +733,7 @@
           <div class="ui-card ui-card--padded ui-card--edge-cyan card-cyber group flex flex-col justify-between">
             <div>
               <div class="flex items-start justify-between gap-2 mb-2">
-                <h3 class="ui-title ui-title--card line-clamp-1 group-hover:text-cyan-400 transition-colors">${fx.title || 'Proyecto Flyer'}</h3>
+                <h3 class="ui-title ui-title--card line-clamp-1 group-hover:text-cyan-400 transition-colors">${fx.title || 'Secuencia Flyer'}</h3>
                 ${canEdit && html`
                   <button onclick="deleteVisualEffect('${fx._id}')" class="ui-btn ui-btn--icon-delete" title="Eliminar"><i class="fas fa-trash-alt text-xs"></i></button>
                 `}
@@ -743,6 +743,7 @@
                   <i class="fas fa-layer-group mr-1"></i>${wordsList.length} ${wordsList.length === 1 ? 'capa' : 'capas'}
                 </span>
                 <span class="text-[10px] text-gray-500">${new Date(fx.createdAt).toLocaleDateString()}</span>
+                ${fx.isDefaultFront && html`<span class="px-2 py-0.5 rounded text-[9px] bg-yellow-500/20 text-yellow-400 border border-yellow-500/40 uppercase font-extrabold"><i class="fas fa-thumbtack mr-1"></i>Front</span>`}
               </div>
               <p class="text-xs text-gray-400 line-clamp-2 mb-4">
                 <span class="text-cyan-400 font-semibold">Palabras:</span> ${sampleWords || 'Sin palabras'}
@@ -752,7 +753,7 @@
               <a href="visualeffects.html?id=${fx._id}" class="flex-1 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 border border-cyan-500/40 rounded-xl text-center font-bold text-xs transition-all flex items-center justify-center gap-1.5">
                 <i class="fas fa-edit"></i> Abrir Editor
               </a>
-              <a href="outputeffect.html?id=${fx._id}" target="_blank" class="flex-1 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl text-center font-bold text-xs shadow-md transition-all flex items-center justify-center gap-1.5">
+              <a href="outputeffect.html?outputeffect=${fx._id}" target="_blank" class="flex-1 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl text-center font-bold text-xs shadow-md transition-all flex items-center justify-center gap-1.5">
                 <i class="fas fa-play"></i> Ver Output
               </a>
             </div>

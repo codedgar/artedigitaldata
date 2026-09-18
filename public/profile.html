@@ -147,14 +147,14 @@
     <!-- Tabs -->
     <div class="ui-tabs--underline mb-8 overflow-x-auto scrollbar-hide">
       <script>document.currentScript.outerHTML = UI.Tabs({ variant: 'underline', onSelect: 'switchTab', idPrefix: 'tab-', active: 'posts', items: [
-        { key: 'posts', icon: 'fas fa-palette', label: 'OBRAS' },
-        { key: 'recursos', icon: 'fas fa-box-open', label: 'RECURSOS' },
-        { key: 'concursos', icon: 'fas fa-trophy', iconAccent: 'yellow', label: 'MIS IMAGENES' },
-        { key: 'eventos', icon: 'fas fa-calendar-alt', label: 'EVENTOS' },
-        { key: 'oportunidades', icon: 'fas fa-briefcase', label: 'CHANCES' },
-        { key: 'favs', icon: 'fas fa-heart', iconAccent: 'red', label: 'TUS FAV' },
-        { key: 'tickets', icon: 'fas fa-ticket-alt', iconAccent: 'fuchsia', label: 'ENTRADAS' },
-        { key: 'visualeffects', icon: 'fas fa-wand-magic-sparkles', iconAccent: 'cyan', label: 'VISUAL EFFECTS' },
+        { key: 'posts', icon: 'fas fa-palette', label: 'OBRAS', badgeId: 'badge-posts', badgeTone: 'cyan' },
+        { key: 'recursos', icon: 'fas fa-box-open', label: 'RECURSOS', badgeId: 'badge-recursos', badgeTone: 'orange' },
+        { key: 'concursos', icon: 'fas fa-trophy', iconAccent: 'yellow', label: 'MIS IMAGENES', badgeId: 'badge-concursos', badgeTone: 'yellow' },
+        { key: 'eventos', icon: 'fas fa-calendar-alt', label: 'EVENTOS', badgeId: 'badge-eventos', badgeTone: 'blue' },
+        { key: 'oportunidades', icon: 'fas fa-briefcase', label: 'CHANCES', badgeId: 'badge-oportunidades', badgeTone: 'emerald' },
+        { key: 'favs', icon: 'fas fa-heart', iconAccent: 'red', label: 'TUS FAV', badgeId: 'badge-favs', badgeTone: 'red' },
+        { key: 'tickets', icon: 'fas fa-ticket-alt', iconAccent: 'fuchsia', label: 'ENTRADAS', badgeId: 'badge-tickets', badgeTone: 'fuchsia' },
+        { key: 'visualeffects', icon: 'fas fa-wand-magic-sparkles', iconAccent: 'cyan', label: 'SECUENCIAS', badgeId: 'badge-visualeffects', badgeTone: 'cyan-soft' },
         { key: 'notificaciones', icon: 'fas fa-bell', iconAccent: 'yellow-soft', label: 'NOTIFICACIONES', badgeId: 'notif-badge', hidden: true },
       ] });</script>
     </div>
@@ -199,16 +199,16 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h3 class="ui-title ui-title--section flex items-center gap-2">
-            <i class="fas fa-wand-magic-sparkles text-cyan-400"></i> Mis Efectos Visuales
+            <i class="fas fa-wand-magic-sparkles text-cyan-400"></i> Mis Secuencias Guardadas
           </h3>
-          <p class="text-xs text-gray-400 mt-1">Proyectos guardados del Flyer Mode</p>
+          <p class="text-xs text-gray-400 mt-1">Secuencias creadas desde Flyer Mode / Visual Effects</p>
         </div>
         <a href="visualeffects.html" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-xl font-bold text-sm shadow-lg flex items-center justify-center gap-2 transition-all">
-          <i class="fas fa-plus"></i> Crear Nuevo Efecto
+          <i class="fas fa-plus"></i> Crear Nueva Secuencia
         </a>
       </div>
       <div id="user-visualeffects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-      <script>document.getElementById('user-visualeffects').innerHTML = UI.LoadingState({ message: 'Cargando efectos visuales...', size: 'md' });</script>
+      <script>document.getElementById('user-visualeffects').innerHTML = UI.LoadingState({ message: 'Cargando secuencias...', size: 'md' });</script>
     </div>
 
     <div id="section-notificaciones" class="content-section hidden">
@@ -401,6 +401,41 @@
         try { renderUserOportunidades(oportunidades); } catch(e) { console.error('Error in renderUserOportunidades:', e); }
         try { renderUserVisualEffects(visualeffects); } catch(e) { console.error('Error in renderUserVisualEffects:', e); }
         try { renderUserFavorites(favorites); } catch(e) { console.error('Error in renderUserFavorites:', e); }
+
+        // Actualizar badges con conteos de cada pestaña
+        const setBadge = (id, count) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.textContent = count;
+            if (count > 0) {
+              el.classList.remove('hidden');
+              el.style.display = 'inline-block';
+            } else {
+              el.classList.add('hidden');
+              el.style.display = 'none';
+            }
+          }
+        };
+        const activePostsCount = posts.filter(p => !p.isContest).length;
+        const contestPostsCount = posts.filter(p => p.isContest).length;
+        const totalFavsCount = (favorites.posts?.length || 0) + (favorites.recursos?.length || 0) + (favorites.eventos?.length || 0) + (favorites.oportunidades?.length || 0);
+
+        setBadge('badge-posts', activePostsCount);
+        setBadge('badge-recursos', recursos.length);
+        setBadge('badge-concursos', contestPostsCount);
+        setBadge('badge-eventos', eventos.length);
+        setBadge('badge-oportunidades', oportunidades.length);
+        setBadge('badge-favs', totalFavsCount);
+        setBadge('badge-visualeffects', visualeffects.length);
+
+        // Si se especificó un tab por parámetro en URL (ej: ?tab=secuencias o ?tab=visualeffects), activarlo
+        const tabParam = params.get('tab');
+        if (tabParam) {
+          const normalized = (tabParam === 'secuencias' || tabParam === 'visualeffect' || tabParam === 'efectos') ? 'visualeffects' : tabParam;
+          if (document.getElementById('tab-' + normalized)) {
+            switchTab(normalized);
+          }
+        }
 
         // XP level bar (shown for everyone)
         try { renderXPLevel(profile, posts, recursos, eventos); } catch(e) { console.error('Error in renderXPLevel:', e); }
@@ -626,9 +661,9 @@
       if (!container) return;
       if (!effects || !effects.length) {
         container.innerHTML = UI.EmptyState({
-          icon: 'fas fa-wand-magic-sparkles', message: 'No hay efectos visuales guardados aún.', size: 'sm',
+          icon: 'fas fa-wand-magic-sparkles', message: 'No hay secuencias guardadas aún.', size: 'sm',
           action: UI.html`<a href="visualeffects.html" class="inline-block mt-3 px-4 py-2 bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded-lg text-xs font-bold hover:bg-cyan-500/30 transition-all">
-              <i class="fas fa-plus mr-1"></i> Crear primer efecto
+              <i class="fas fa-plus mr-1"></i> Crear primera secuencia
             </a>`,
         });
         return;
@@ -638,18 +673,14 @@
     }
 
     async function deleteVisualEffect(id) {
-      if (!confirm('¿Seguro que querés eliminar este proyecto de efecto visual?')) return;
-      const token = localStorage.getItem('token');
+      if (!confirm('¿Seguro que querés eliminar esta secuencia visual?')) return;
       try {
-        const res = await fetch(`/api/visualeffects/${id}`, {
-          method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (res.ok) {
-          loadProfile();
+        const res = await apiRequest(`/visualeffects/${id}`, { method: 'DELETE' });
+        if (res?.ok) {
+          await loadProfile();
         } else {
-          const err = await res.json();
-          alert(err.error || 'Error al eliminar');
+          const err = await res?.json().catch(() => ({}));
+          alert(err?.error || 'Error al eliminar');
         }
       } catch (err) {
         console.error(err);

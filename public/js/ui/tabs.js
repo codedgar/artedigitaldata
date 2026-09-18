@@ -63,6 +63,20 @@
     },
   };
 
+  // Contador al lado del label. `notif` es la píldora roja de notificaciones;
+  // el resto son los contadores por tab, cada uno con el color de su sección.
+  const BADGE_TONE = {
+    notif: 'ml-1 px-1.5 py-0.5 rounded-full bg-red-500 text-white text-[10px] font-black',
+    cyan: 'ml-1.5 px-2 py-0.5 rounded-full bg-cyan-500/20 text-[var(--color-cyan)] text-xs font-bold',
+    orange: 'ml-1.5 px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 text-xs font-bold',
+    yellow: 'ml-1.5 px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 text-xs font-bold',
+    blue: 'ml-1.5 px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold',
+    emerald: 'ml-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold',
+    red: 'ml-1.5 px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 text-xs font-bold',
+    fuchsia: 'ml-1.5 px-2 py-0.5 rounded-full bg-fuchsia-500/20 text-fuchsia-400 text-xs font-bold',
+    'cyan-soft': 'ml-1.5 px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 text-xs font-bold',
+  };
+
   const ICON_ACCENT = {
     yellow: 'text-yellow-500',
     'yellow-soft': 'text-yellow-400',
@@ -82,7 +96,7 @@
 
   // Ítems de una barra de tabs o filtros (sin el contenedor, que queda en el
   // HTML con `ui-tabs--*` o sus utilidades).
-  //   items: [{ key, label, icon, iconAccent, labelId, badgeId, accent, hidden, className }]
+  //   items: [{ key, label, icon, iconAccent, labelId, badgeId, badgeTone, accent, hidden, className }]
   //   onSelect: nombre de la función global que recibe la key (`switchTab`).
   //   idPrefix: si está, cada botón lleva id `${idPrefix}${key}`.
   // `key` e `idPrefix` son constantes de la página, nunca texto de usuario:
@@ -95,7 +109,7 @@
       const icon = it.icon && html`<i class="${cx(it.icon, v.iconGap, ICON_ACCENT[it.iconAccent])}"></i>`;
       const label = it.labelId ? html`<span id="${it.labelId}">${it.label}</span>` : it.label;
       // El espacio antes del contador es parte del render cuando se muestra.
-      const badge = it.badgeId && html` <span id="${it.badgeId}" class="hidden ml-1 px-1.5 py-0.5 rounded-full bg-red-500 text-white text-[10px] font-black"></span>`;
+      const badge = it.badgeId && html` <span id="${it.badgeId}" class="${cx('hidden', BADGE_TONE[it.badgeTone || 'notif'])}"></span>`;
       return html`<button onclick="${onSelect}('${it.key}')"${idPrefix && html` id="${idPrefix}${it.key}"`} class="${cls}">${icon}${label}${badge}</button>`;
     })}`;
   }
