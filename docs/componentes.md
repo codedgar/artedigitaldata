@@ -409,11 +409,6 @@ harness.
 Fase 1 no cambia comportamiento; quedan anotados para arreglarlos aparte.
 Todos verificados contra el código (2026-09-17), no sólo reportados.
 
-- **Seguridad — id de YouTube en handlers inline:** `extractYouTubeId`
-  (header.js) acepta `'`, `<` y `>` en el id (`[^"&?\/\s]{11}`), y ese id termina
-  dentro de `onmouseenter="playVideo(this, '…')"`. Escapar HTML no protege el
-  contexto JS: una URL armada a propósito en la descripción de un post podría
-  ejecutar código al pasar el mouse. Arreglo: validar `^[A-Za-z0-9_-]{11}$`.
 - **eventos.html:** los participantes llegan como IDs crudos sin `username`,
   `p.username[0]` tira excepción y la lista de eventos muestra "Error cargando
   eventos" con datos de producción.

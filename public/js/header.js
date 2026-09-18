@@ -281,18 +281,23 @@ function hideDonationModal() {
 }
 
 function extractYouTubeId(item) {
+  // El id sale de una descripción cargada por el usuario y termina dentro de un
+  // atributo `onmouseenter`, donde escapar HTML no protege: se valida contra la
+  // forma real de un id de YouTube antes de devolverlo.
+  const validId = (id) => (/^[A-Za-z0-9_-]{11}$/.test(id) ? id : null);
+
   if (!item) return null;
   if (typeof item === 'string') {
     const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
     const match = item.match(regex);
-    return match ? match[1] : null;
+    return match ? validId(match[1]) : null;
   }
   const searchStrings = [item.youtube_video, item.title, item.titulo, item.description, item.descripcion, item.url, item.location];
   const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
   for (const str of searchStrings) {
     if (str && typeof str === 'string') {
       const match = str.match(regex);
-      if (match) return match[1];
+      if (match && validId(match[1])) return match[1];
     }
   }
   return null;
